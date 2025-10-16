@@ -1,4 +1,4 @@
-/*no-space
+/*
 * Font and Base Styles (Unchanged)
 */
 body {
@@ -233,5 +233,70 @@ small.visible {
     50%, 100% {
         opacity: 1;
         z-index: 5;
+    }
+}
+
+/*Tablet and smaller */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        min-height: 600px;
+    }
+    
+    form {
+        padding: 0 30px;
+    }
+    
+    .overlay-panel h1 {
+        font-size: 20px;
+    }
+    
+    .overlay-panel p {
+        font-size: 12px;
+    }
+}
+
+/*Mobile - Stack layout */
+@media (max-width: 600px) {
+    .container {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+    
+    /*Stack forms vertically */
+    .form-container {
+        position: relative;
+        width: 100% !important;
+        height: auto;
+    }
+    
+    .sign-in-container,
+    .sign-up-container {
+        position: relative;
+        width: 100%;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+    
+    /*Hide overlay on mobile */
+    .overlay-container {
+        display: none;
+    }
+    
+    /*Show toggle buttons instead */
+    .mobile-toggle {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    form {
+        padding: 30px 20px;
+    }
+    
+    button {
+        padding: 14px 50px;
+        font-size: 14px;
     }
 }
