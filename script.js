@@ -42,13 +42,3 @@ signUpForm.addEventListener('submit', (e) => {
     alert('Sign Up Submitted! (Front-end only demo)');
 });
 
-//Mobile form switching
-function handleMobileView() {
-    if (window.innerWidth <= 600) {
-        // Show only sign-in by default on mobile
-        document.querySelector('.sign-up-container').style.display = 'none';
-    }
-}
-
-window.addEventListener('resize', handleMobileView);
-handleMobileView();
