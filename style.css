@@ -236,3 +236,12 @@ small.visible {
     }
 }
 
+/* Error message for login */
+small#login-error {
+    color: red;
+    visibility: hidden;
+    text-align: left;
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}

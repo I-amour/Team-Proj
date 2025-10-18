@@ -1,5 +1,5 @@
 
-//Your new code for animation toggling
+//code for animation toggling
 let signup = document.querySelector(".signup");
 let login = document.querySelector(".login");
 let slider = document.querySelector(".slider");
@@ -31,10 +31,26 @@ passwordInput.addEventListener('keyup', () => {
 //Prevent forms from submitting (front-end demo)
 const signInForm = document.getElementById('signInForm');
 const signUpForm = document.getElementById('signUpForm');
+const loginEmail = document.getElementById('login-email');
+const loginPassword = document.getElementById('login-password');
+const loginError = document.getElementById('login-error'); 
 
 signInForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert('Log In Submitted! (Front-end only demo)');
+    e.preventDefault(); // Prevent default form submission
+    loginError.classList.remove('visible'); // Hide error on new attempt
+
+    // Hard-coded login check (demo only)
+    const email = loginEmail.value;
+    const password = loginPassword.value;
+
+    if (email === 'user@makeitall.com' && password === 'password123') {
+        // SUCCESS: Redirect to the dashboard
+        alert('Login Successful! Redirecting...');
+        window.location.href = 'user/dashboard.html';
+    } else {
+        // FAILURE: Show login error
+        loginError.classList.add('visible');
+    }
 });
 
 signUpForm.addEventListener('submit', (e) => {
