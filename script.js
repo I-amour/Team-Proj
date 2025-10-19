@@ -14,7 +14,7 @@ login.addEventListener("click", () => {
     formSection.classList.remove("form-section-move");
 });
 
-// --- Other features from my original script ---
+
 //Password validation
 const passwordInput = document.getElementById('signup-password');
 const passwordError = document.getElementById('password-error');
@@ -48,17 +48,17 @@ signInForm.addEventListener('submit', (e) => {
     if (email === 'user@makeitall.com' && password === 'password123') {
         // Team Member
         userEmail = 'user@makeitall.com';
-        redirectUrl = 'projects.html'; // Assuming projects.html is in the same folder
+        redirectUrl = 'user/projects.html'; 
     
     } else if (email === 'specialist@makeitall.com' && password === 'password123') {
         // Technical Specialist
         userEmail = 'specialist@makeitall.com';
-        redirectUrl = 'projects.html'; // All users land on projects first
+        redirectUrl = 'user/projects.html'; // All users land on projects first
     
     } else if (email === 'manager@makeitall.com' && password === 'password123') {
         // Manager
         userEmail = 'manager@makeitall.com';
-        redirectUrl = 'projects.html';
+        redirectUrl = 'user/projects.html';
     
     } else {
         // FAILURE: Show login error

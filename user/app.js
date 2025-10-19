@@ -1,9 +1,9 @@
 /*
-* Make-It-All Knowledge Base App
+* Make-It-All Knowledge Base 
 * This file simulates a backend and user authentication for the prototype.
 */
 
-// --- 1. SIMULATED DATABASE ---
+// Accounts created for the purpose of the prototype.
 // In a real app, this data would come from a server and database.
 // We use 'localStorage' to make new posts and replies persist during the session.
 
@@ -22,7 +22,7 @@ const simUsers = {
     'manager@makeitall.com': {
         name: 'Ben Carter',
         role: 'manager',
-        avatarClass: 'avatar-2' // Added a new avatar class
+        avatarClass: 'avatar-2' 
     }
 };
 
@@ -138,7 +138,7 @@ if (!localStorage.getItem('simPosts')) {
 }
 
 
-// --- 2. GLOBAL HELPER FUNCTIONS ---
+// HELPER FUNCTIONS
 
 /**
  * Gets the current simulated user from the URL query parameter.
@@ -473,6 +473,53 @@ function setupCreateForm(currentUser) {
     });
 }
 
+/**
+ * Runs on the Settings page (settings.html)
+ */
+function loadSettingsPage(currentUser) {
+    // 1. Populate user data
+    document.getElementById('profile-name').value = currentUser.name;
+    document.getElementById('profile-email').value = currentUser.email;
+    
+    // Capitalize the first letter of the role
+    const role = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+    document.getElementById('profile-role').value = role;
+
+    // 2. Add form submit listeners (prototype alerts)
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        // In a real app, you'd save this new name
+        const newName = document.getElementById('profile-name').value;
+        alert(`Profile updated! (Name changed to ${newName})`);
+    });
+
+    document.getElementById('password-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Password updated! (This is a demo)');
+    });
+
+    document.getElementById('notifications-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Notification preferences saved!');
+    });
+
+    // 3. Add Sign Out logic
+    document.getElementById('sign-out-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Clear the simulated session
+        // This clears the posts you created, etc.
+        localStorage.clear(); 
+        sessionStorage.clear();
+
+        alert('Signing out...');
+        
+        // Redirect to the login page (assuming it's index.html)
+        window.location.href = '../index.html'; 
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // Get the "logged in" user
@@ -485,7 +532,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageId = document.body.id;
     
     if (pageId === 'kb-index') {
-        // NEW: Check if we should return to a specific topic
         const returnTopic = sessionStorage.getItem('returnToTopic');
         if (returnTopic) {
             sessionStorage.removeItem('returnToTopic'); // Clear it after use
@@ -498,6 +544,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loadKbPost(currentUser);
     } else if (pageId === 'kb-create') {
         setupCreateForm(currentUser);
+    } else if (pageId === 'settings-page') { 
+        loadSettingsPage(currentUser);
     }
 
     // Finally, activate all Feather icons

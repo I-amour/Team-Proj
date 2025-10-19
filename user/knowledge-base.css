@@ -531,3 +531,83 @@
     margin-top: -10px; /* Pulls it up closer to the header */
     margin-bottom: 10px;
 }
+
+/* --- Settings Page --- */
+
+.settings-card {
+    background: #fff;
+    border: 1px solid #EAECEE;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 25px;
+}
+
+.settings-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 25px 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.settings-card .form-group {
+    max-width: 500px; /* Limit width of form fields */
+}
+
+/* Style for read-only fields */
+.settings-card input:disabled {
+    background: #F8F9FA;
+    color: #8C8C8C;
+    cursor: not-allowed;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #FBC02D;
+}
+
+.checkbox-group label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.settings-card p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-top: 0;
+}
+
+.sign-out-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFEBEB;
+    color: #D93025;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid #D93025;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.sign-out-btn:hover {
+    background: #D93025;
+    color: #fff;
+}
+.sign-out-btn svg {
+    width: 20px;
+    height: 20px;
+}
