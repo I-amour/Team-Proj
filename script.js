@@ -1,4 +1,3 @@
-
 //code for animation toggling
 let signup = document.querySelector(".signup");
 let login = document.querySelector(".login");
@@ -39,17 +38,38 @@ signInForm.addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent default form submission
     loginError.classList.remove('visible'); // Hide error on new attempt
 
-    // Hard-coded login check (demo only)
+    // Hard-coded login check
     const email = loginEmail.value;
     const password = loginPassword.value;
 
+    let userEmail = null;
+    let redirectUrl = null;
+
     if (email === 'user@makeitall.com' && password === 'password123') {
-        // SUCCESS: Redirect to the dashboard
-        alert('Login Successful! Redirecting...');
-        window.location.href = 'user/dashboard.html';
+        // Team Member
+        userEmail = 'user@makeitall.com';
+        redirectUrl = 'projects.html'; // Assuming projects.html is in the same folder
+    
+    } else if (email === 'specialist@makeitall.com' && password === 'password123') {
+        // Technical Specialist
+        userEmail = 'specialist@makeitall.com';
+        redirectUrl = 'projects.html'; // All users land on projects first
+    
+    } else if (email === 'manager@makeitall.com' && password === 'password123') {
+        // Manager
+        userEmail = 'manager@makeitall.com';
+        redirectUrl = 'projects.html';
+    
     } else {
         // FAILURE: Show login error
         loginError.classList.add('visible');
+    }
+
+    if (userEmail && redirectUrl) {
+        // SUCCESS: Redirect to the dashboard WITH the user query parameter
+        alert('Login Successful! Redirecting...');
+        // This query param is what tells app.js who is logged in
+        window.location.href = `${redirectUrl}?user=${userEmail}`;
     }
 });
 
@@ -57,4 +77,3 @@ signUpForm.addEventListener('submit', (e) => {
     e.preventDefault();
     alert('Sign Up Submitted! (Front-end only demo)');
 });
-

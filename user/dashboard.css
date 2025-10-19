@@ -292,3 +292,9 @@ body {
 .avatar-2 { background: #81D4FA; }
 .avatar-3 { background: #A5D6A7; }
 .avatar-4 { background: #CE93D8; }
+
+.kb-layout-wrapper {
+    display: flex;
+    flex-grow: 1;
+    gap: 30px;
+}
