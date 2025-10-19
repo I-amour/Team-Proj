@@ -66,11 +66,13 @@ signInForm.addEventListener('submit', (e) => {
     }
 
     if (userEmail && redirectUrl) {
-        // SUCCESS: Redirect to the dashboard WITH the user query parameter
-        alert('Login Successful! Redirecting...');
-        // This query param is what tells app.js who is logged in
-        window.location.href = `${redirectUrl}?user=${userEmail}`;
-    }
+    //SUCCESS: Store user in session storage as backup
+    sessionStorage.setItem('currentUserEmail', userEmail);
+    
+    //Redirect to the dashboard WITH the user query parameter
+    alert('Login Successful! Redirecting...');
+    window.location.href = `${redirectUrl}?user=${encodeURIComponent(userEmail)}`;
+}
 });
 
 signUpForm.addEventListener('submit', (e) => {

@@ -146,20 +146,33 @@ if (!localStorage.getItem('simPosts')) {
  */
 function getCurrentUser() {
     const urlParams = new URLSearchParams(window.location.search);
-    const userEmail = urlParams.get('user'); // Get email from URL
+    let userEmail = urlParams.get('user'); // Get email from URL
     
-    // Find the user in our simulated DB
+    //If not in URL, check sessionStorage (backup)
+    if (!userEmail) {
+        userEmail = sessionStorage.getItem('currentUserEmail');
+        console.warn('User parameter missing from URL, using session backup:', userEmail);
+    }
+    
+    //Find the user in our simulated DB
     if (userEmail && simUsers[userEmail]) {
+        //Store in session as backup
+        sessionStorage.setItem('currentUserEmail', userEmail);
+        
         return {
             email: userEmail,
             ...simUsers[userEmail]
         };
     }
     
-    // Fallback for testing or if URL param is missing
+    //Fallback if absolutely no user info exists
+    console.error('No valid user found! Defaulting to member account.');
+    const fallbackEmail = 'user@makeitall.com';
+    sessionStorage.setItem('currentUserEmail', fallbackEmail);
+    
     return {
-        email: 'user@makeitall.com',
-        ...simUsers['user@makeitall.com']
+        email: fallbackEmail,
+        ...simUsers[fallbackEmail]
     };
 }
 
