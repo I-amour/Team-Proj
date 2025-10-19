@@ -401,37 +401,64 @@ function loadKbPost(currentUser) {
         repliesListEl.innerHTML = '<p>No replies yet.</p>';
     }
 
-    // --- Handle Role-Based Permissions (Replying) ---
-    // Allow 'specialist' and 'manager' to reply
-    if (currentUser.role === 'specialist' || currentUser.role === 'manager') {
-        const replyForm = document.getElementById('reply-form');
-        replyForm.style.display = 'block';
-        
-        replyForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const replyContent = document.getElementById('reply-content').value;
-            
-            if (!replyContent) return;
+// --- Handle Role-Based Permissions (Replying) ---
+//Define technical vs non-technical topics
+const technicalTopics = ['Printing', 'Software Issues', 'Network', 'Security', 'Database'];
+const isTechnicalTopic = technicalTopics.includes(post.topic);
 
-            // Create the new reply object
-            const newReply = {
-                id: new Date().getTime(), // Unique ID
-                author: currentUser.name,
-                authorRole: currentUser.role,
-                avatarClass: currentUser.avatarClass,
-                date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-                content: replyContent
-            };
-            
-            // Add reply to the post and save
-            post.replies.push(newReply);
-            post.reactions.comments = post.replies.length; // Update comment count
-            savePosts();
-            
-            // Reload the page to show the new reply
-            window.location.reload();
-        });
-    }
+//Determine if current user can reply
+let canReply = false;
+
+if (isTechnicalTopic) {
+    //Technical topics: Only specialists can reply
+    canReply = (currentUser.role === 'specialist');
+} else {
+    //Non-technical topics: Anyone can reply
+    canReply = true;
+}
+
+if (canReply) {
+    const replyForm = document.getElementById('reply-form');
+    replyForm.style.display = 'block';
+    
+    replyForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const replyContent = document.getElementById('reply-content').value;
+        
+        if (!replyContent) return;
+
+        //Create the new reply object
+        const newReply = {
+            id: new Date().getTime(), //Unique ID
+            author: currentUser.name,
+            authorRole: currentUser.role,
+            avatarClass: currentUser.avatarClass,
+            date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+            content: replyContent
+        };
+        
+        //Add reply to the post and save
+        post.replies.push(newReply);
+        post.reactions.comments = post.replies.length; //Update comment count
+        savePosts();
+        
+        //Reload the page to show the new reply
+        window.location.reload();
+    });
+} else {
+    //Show a message explaining why they can't reply
+    const replyForm = document.getElementById('reply-form');
+    replyForm.style.display = 'block';
+    replyForm.innerHTML = `
+        <div style="padding: 20px; background: #FFF3CD; border: 1px solid #FFE69C; border-radius: 8px; text-align: center;">
+            <p style="margin: 0; color: #856404; font-weight: 500;">
+                <i data-feather="alert-circle" style="width: 18px; height: 18px; vertical-align: middle;"></i>
+                Only Technical Specialists can reply to technical posts.
+            </p>
+        </div>
+    `;
+    feather.replace(); //Re-render the icon
+}
 }
 
 /**
