@@ -1,5 +1,5 @@
 /*
-* Make-It-All Knowledge Base 
+* Make-It-All Knowledge Base
 * This file simulates a backend and user authentication for the prototype.
 */
 
@@ -22,7 +22,7 @@ const simUsers = {
     'manager@makeitall.com': {
         name: 'Ben Carter',
         role: 'manager',
-        avatarClass: 'avatar-2' 
+        avatarClass: 'avatar-2'
     }
 };
 
@@ -147,29 +147,29 @@ if (!localStorage.getItem('simPosts')) {
 function getCurrentUser() {
     const urlParams = new URLSearchParams(window.location.search);
     let userEmail = urlParams.get('user'); // Get email from URL
-    
+
     //If not in URL, check sessionStorage (backup)
     if (!userEmail) {
         userEmail = sessionStorage.getItem('currentUserEmail');
         console.warn('User parameter missing from URL, using session backup:', userEmail);
     }
-    
+
     //Find the user in our simulated DB
     if (userEmail && simUsers[userEmail]) {
         //Store in session as backup
         sessionStorage.setItem('currentUserEmail', userEmail);
-        
+
         return {
             email: userEmail,
             ...simUsers[userEmail]
         };
     }
-    
+
     //Fallback if absolutely no user info exists
     console.error('No valid user found! Defaulting to member account.');
     const fallbackEmail = 'user@makeitall.com';
     sessionStorage.setItem('currentUserEmail', fallbackEmail);
-    
+
     return {
         email: fallbackEmail,
         ...simUsers[fallbackEmail]
@@ -205,7 +205,7 @@ function persistUserQueryParam(currentUser) {
 function createPostCardHTML(post, currentUserEmail) {
     const postLink = `knowledge-base-post.html?id=${post.id}&user=${currentUserEmail}`;
     const topicClass = post.topic.toLowerCase().split(' ')[0]; // 'software issues' -> 'software'
-    
+
     // Determine avatar class
     let avatarClass = 'avatar-3'; // Default avatar
     if (post.authorEmail === 'user@makeitall.com') avatarClass = 'avatar-1';
@@ -242,13 +242,28 @@ function savePosts() {
     localStorage.setItem('simPosts', JSON.stringify(simPosts));
 }
 
+/* ===========================
+   TOPICS STORE (persist custom topics)
+   =========================== */
+const MAIN_TOPICS = ["Printing", "Software Issues", "Network", "Security", "Database", "Finance"];
+let customTopics = JSON.parse(localStorage.getItem('customTopics')) || [];
 
-// --- 3. PAGE-SPECIFIC LOGIC ---
+function getAllTopics() {
+    return [...MAIN_TOPICS, ...customTopics];
+}
+function saveCustomTopics() {
+    localStorage.setItem('customTopics', JSON.stringify(customTopics));
+}
+
+
+/* ===========================
+   PAGE-SPECIFIC LOGIC
+   =========================== */
 
 /**
  * Renders a list of posts into the container.
  * @param {Array} posts - An array of post objects to render.
- * @param {string} currentUserEmail - The current user's email.
+ * @param {string} currentUserEmail - The email of the current user.
  */
 function renderPostList(posts, currentUserEmail) {
     const postListContainer = document.getElementById('post-list-container');
@@ -266,7 +281,6 @@ function renderPostList(posts, currentUserEmail) {
 
 /**
  * Switches the main KB page to show a specific topic.
- * This is the new function that handles your request.
  * @param {string} topicName - The name of the topic, e.g., "Software Issues".
  * @param {object} currentUser - The current user object.
  */
@@ -276,7 +290,7 @@ function showTopicView(topicName, currentUser) {
 
     // 2. Hide the main page sidebar (Announcements)
     document.getElementById('announcements-widget').style.display = 'none';
-    
+
     // 3. Show the topic-specific sidebar
     document.getElementById('topic-sidebar-widgets').style.display = 'block';
 
@@ -289,44 +303,125 @@ function showTopicView(topicName, currentUser) {
         <h1>${topicName}</h1>
     `;
 
-    // 5. Show the "Create Post" button and set its link
-    const createBtnContainer = document.getElementById('kb-actions-container');
-    const createBtn = document.getElementById('create-post-btn-topic');
-    createBtnContainer.style.display = 'block';
-    
-    // Pass the topic to the create page via query param
+    // Pass the topic to the create page via query param (FIXED: reference the element directly)
     const createHref = `knowledge-base-create.html?user=${currentUser.email}&topic=${encodeURIComponent(topicName)}`;
-    createBtn.href = createHref;
-    
+    const createBtnEl = document.getElementById('create-post-btn-topic');
+    if (createBtnEl) createBtnEl.href = createHref;
+
     // Also update the "Start new discussion" link in the sidebar
-    document.getElementById('start-discussion-link').href = createHref;
+    const startDiscussionLink = document.getElementById('start-discussion-link');
+    if (startDiscussionLink) startDiscussionLink.href = createHref;
 
     // 6. Update the "Posts" list title and hide tabs
     document.getElementById('posts-list-title').textContent = 'All Posts';
     document.getElementById('post-tabs-container').style.display = 'none';
-    
+
     // 7. Filter and render the posts for this topic
     const topicPosts = simPosts.filter(post => post.topic === topicName);
     renderPostList(topicPosts, currentUser.email);
 }
 
 /**
- * Runs on the Knowledge Base Index page (knowledge-base.html)
+ * Renders the topic cards into the grid for the main page ONLY (main topics + Add New Topic).
+ * @param {boolean} showAll If true, render all topics (unused for main page now). If false, render main topics only.
+ * @param {object} currentUser Current user (for click-through)
  */
-function loadKbIndex(currentUser) {
-    // 1. Render the initial "Popular" posts
-    // For demo, we just show all posts sorted by upvotes
-    const popularPosts = [...simPosts].sort((a, b) => b.reactions.up - a.reactions.up);
-    renderPostList(popularPosts, currentUser.email);
-    
-    // 2. Add click listeners to all topic cards
-    document.querySelectorAll('.topic-card').forEach(card => {
+function renderTopicGrid(showAll, currentUser) {
+    const grid = document.getElementById('topic-grid');
+    if (!grid) return;
+
+    // For main page we always show only MAIN_TOPICS
+    const topics = MAIN_TOPICS;
+
+    // Build cards
+    const topicCardsHtml = topics.map(t => `
+        <a href="#" class="topic-card" data-topic="${t}">
+            <i data-feather="${iconForTopic(t)}"></i>
+            <span>${t}</span>
+        </a>
+    `).join('');
+
+    // “Add New Topic” card
+    const addCardHtml = `
+        <a href="#" class="topic-card add-topic-card" id="add-topic-card">
+            <i data-feather="plus"></i>
+            <span>Add New Topic</span>
+        </a>
+    `;
+
+    grid.innerHTML = topicCardsHtml + addCardHtml;
+
+    // Hook up topic clicks
+    grid.querySelectorAll('.topic-card:not(.add-topic-card)').forEach(card => {
         card.addEventListener('click', (e) => {
-            e.preventDefault(); // Stop the <a> tag from navigating
-            const topicName = card.dataset.topic; // Get topic from data-topic attribute
+            e.preventDefault();
+            const topicName = card.dataset.topic;
             showTopicView(topicName, currentUser);
         });
     });
+
+    // Hook up Add New Topic
+    const addCard = document.getElementById('add-topic-card');
+    if (addCard) {
+        addCard.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = prompt('Enter a new topic name:');
+            if (!name) return;
+            const trimmed = name.trim();
+            if (!trimmed) return;
+
+            // prevent duplicates (case-insensitive)
+            if (getAllTopics().some(t => t.toLowerCase() === trimmed.toLowerCase())) {
+                alert('That topic already exists.');
+                return;
+            }
+            customTopics.push(trimmed);
+            saveCustomTopics();
+
+            // Re-render main grid to refresh icons
+            renderTopicGrid(false, currentUser);
+        });
+    }
+
+    feather.replace();
+}
+
+/** Pick an icon per topic (fallback: tag) */
+function iconForTopic(topic) {
+    const map = {
+        "Printing": "printer",
+        "Software Issues": "alert-triangle",
+        "Network": "wifi",
+        "Security": "shield",
+        "Database": "database",
+        "Finance": "shopping-cart"
+    };
+    return map[topic] || "tag";
+}
+
+/**
+ * Runs on the Knowledge Base Index page (knowledge-base.html)
+ */
+function loadKbIndex(currentUser) {
+    // Show Create Post button and set link
+    const createBtnContainer = document.getElementById('kb-actions-container');
+    const createBtn = document.getElementById('create-post-btn-topic');
+    createBtnContainer.style.display = 'block';
+
+    // Popular posts (existing behavior)
+    const popularPosts = [...simPosts].sort((a, b) => b.reactions.up - a.reactions.up);
+    renderPostList(popularPosts, currentUser.email);
+
+    // Render the topics grid (main topics + Add New Topic)
+    document.body.dataset.topicsView = 'main';
+    renderTopicGrid(false, currentUser);
+
+    // Ensure "View more topics" goes to dedicated page
+    const viewMoreLink = document.getElementById('view-more-topics');
+    if (viewMoreLink) {
+        // Let persistUserQueryParam append ?user=... automatically
+        viewMoreLink.setAttribute('href', 'all-topics.html');
+    }
 }
 
 /**
@@ -342,7 +437,7 @@ function loadKbPost(currentUser) {
         document.getElementById('post-full-content').innerHTML = '<p>Could not find a post with that ID. <a href="knowledge-base.html">Go back to Knowledge Base</a></p>';
         return;
     }
-    
+
     // --- Determine avatar class for post author
     let avatarClass = 'avatar-3'; // Default
     if (post.authorEmail === 'user@makeitall.com') avatarClass = 'avatar-1';
@@ -352,8 +447,8 @@ function loadKbPost(currentUser) {
     // --- Fill in post details ---
     document.getElementById('post-title-placeholder').textContent = post.title;
     document.getElementById('post-breadcrumbs').innerHTML = `
-        <a href="knowledge-base.html?user=${currentUser.email}">Knowledge Base</a> > 
-        <a href="knowledge-base.html?user=${currentUser.email}" onclick="sessionStorage.setItem('returnToTopic', '${post.topic}');">${post.topic}</a> > 
+        <a href="knowledge-base.html?user=${currentUser.email}">Knowledge Base</a> >
+        <a href="knowledge-base.html?user=${currentUser.email}" onclick="sessionStorage.setItem('returnToTopic', '${post.topic}');">${post.topic}</a> >
         Post
     `;
     document.title = `Make-It-All - ${post.title}`; // Update browser tab title
@@ -401,64 +496,64 @@ function loadKbPost(currentUser) {
         repliesListEl.innerHTML = '<p>No replies yet.</p>';
     }
 
-// --- Handle Role-Based Permissions (Replying) ---
-//Define technical vs non-technical topics
-const technicalTopics = ['Printing', 'Software Issues', 'Network', 'Security', 'Database'];
-const isTechnicalTopic = technicalTopics.includes(post.topic);
+    // --- Handle Role-Based Permissions (Replying) ---
+    //Define technical vs non-technical topics
+    const technicalTopics = ['Printing', 'Software Issues', 'Network', 'Security', 'Database'];
+    const isTechnicalTopic = technicalTopics.includes(post.topic);
 
-//Determine if current user can reply
-let canReply = false;
+    //Determine if current user can reply
+    let canReply = false;
 
-if (isTechnicalTopic) {
-    //Technical topics: Only specialists can reply
-    canReply = (currentUser.role === 'specialist');
-} else {
-    //Non-technical topics: Anyone can reply
-    canReply = true;
-}
+    if (isTechnicalTopic) {
+        //Technical topics: Only specialists can reply
+        canReply = (currentUser.role === 'specialist');
+    } else {
+        //Non-technical topics: Anyone can reply
+        canReply = true;
+    }
 
-if (canReply) {
-    const replyForm = document.getElementById('reply-form');
-    replyForm.style.display = 'block';
-    
-    replyForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const replyContent = document.getElementById('reply-content').value;
-        
-        if (!replyContent) return;
+    if (canReply) {
+        const replyForm = document.getElementById('reply-form');
+        replyForm.style.display = 'block';
 
-        //Create the new reply object
-        const newReply = {
-            id: new Date().getTime(), //Unique ID
-            author: currentUser.name,
-            authorRole: currentUser.role,
-            avatarClass: currentUser.avatarClass,
-            date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-            content: replyContent
-        };
-        
-        //Add reply to the post and save
-        post.replies.push(newReply);
-        post.reactions.comments = post.replies.length; //Update comment count
-        savePosts();
-        
-        //Reload the page to show the new reply
-        window.location.reload();
-    });
-} else {
-    //Show a message explaining why they can't reply
-    const replyForm = document.getElementById('reply-form');
-    replyForm.style.display = 'block';
-    replyForm.innerHTML = `
-        <div style="padding: 20px; background: #FFF3CD; border: 1px solid #FFE69C; border-radius: 8px; text-align: center;">
-            <p style="margin: 0; color: #856404; font-weight: 500;">
-                <i data-feather="alert-circle" style="width: 18px; height: 18px; vertical-align: middle;"></i>
-                Only Technical Specialists can reply to technical posts.
-            </p>
-        </div>
-    `;
-    feather.replace(); //Re-render the icon
-}
+        replyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const replyContent = document.getElementById('reply-content').value;
+
+            if (!replyContent) return;
+
+            //Create the new reply object
+            const newReply = {
+                id: new Date().getTime(), //Unique ID
+                author: currentUser.name,
+                authorRole: currentUser.role,
+                avatarClass: currentUser.avatarClass,
+                date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+                content: replyContent
+            };
+
+            //Add reply to the post and save
+            post.replies.push(newReply);
+            post.reactions.comments = post.replies.length; //Update comment count
+            savePosts();
+
+            //Reload the page to show the new reply
+            window.location.reload();
+        });
+    } else {
+        //Show a message explaining why they can't reply
+        const replyForm = document.getElementById('reply-form');
+        replyForm.style.display = 'block';
+        replyForm.innerHTML = `
+            <div style="padding: 20px; background: #FFF3CD; border: 1px solid #FFE69C; border-radius: 8px; text-align: center;">
+                <p style="margin: 0; color: #856404; font-weight: 500;">
+                    <i data-feather="alert-circle" style="width: 18px; height: 18px; vertical-align: middle;"></i>
+                    Only Technical Specialists can reply to technical posts.
+                </p>
+            </div>
+        `;
+        feather.replace(); //Re-render the icon
+    }
 }
 
 /**
@@ -466,7 +561,15 @@ if (canReply) {
  */
 function setupCreateForm(currentUser) {
     const createForm = document.getElementById('create-post-form');
-    
+
+    // --- Populate the topics dropdown dynamically (mains + any custom) ---
+    const topicSelect = document.getElementById('post-topic');
+    if (topicSelect) {
+      const allTopics = getAllTopics();
+      topicSelect.innerHTML = '<option value="">Select a topic...</option>' +
+      allTopics.map(t => `<option value="${t}">${t}</option>`).join('');
+    }
+
     // --- NEW: Pre-select topic from URL ---
     const urlParams = new URLSearchParams(window.location.search);
     const topicFromUrl = urlParams.get('topic');
@@ -477,16 +580,16 @@ function setupCreateForm(currentUser) {
 
     createForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         const title = document.getElementById('post-title').value;
         const topic = document.getElementById('post-topic').value;
         const details = document.getElementById('post-details').value;
-        
+
         if (!title || !topic || !details) {
             alert('Please fill out all fields.');
             return;
         }
-        
+
         // Create new post object
         const newPost = {
             id: new Date().getTime(), // Unique ID
@@ -499,14 +602,14 @@ function setupCreateForm(currentUser) {
             reactions: { up: 0, lightbulb: 0, comments: 0 },
             replies: []
         };
-        
+
         // Add new post to our simulated database
         simPosts.unshift(newPost); // Add to the beginning of the array
         savePosts();
-        
+
         // Alert and redirect
         alert('Post created successfully!');
-        
+
         // Store the topic to return to
         sessionStorage.setItem('returnToTopic', topic);
         window.location.href = `knowledge-base.html?user=${currentUser.email}`;
@@ -520,7 +623,7 @@ function loadSettingsPage(currentUser) {
     // 1. Populate user data
     document.getElementById('profile-name').value = currentUser.name;
     document.getElementById('profile-email').value = currentUser.email;
-    
+
     // Capitalize the first letter of the role
     const role = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
     document.getElementById('profile-role').value = role;
@@ -546,31 +649,68 @@ function loadSettingsPage(currentUser) {
     // 3. Add Sign Out logic
     document.getElementById('sign-out-btn').addEventListener('click', (e) => {
         e.preventDefault();
-        
+
         // Clear the simulated session
         // This clears the posts you created, etc.
-        localStorage.clear(); 
+        localStorage.clear();
         sessionStorage.clear();
 
         alert('Signing out...');
-        
+
         // Redirect to the login page (assuming it's index.html)
-        window.location.href = '../index.html'; 
+        window.location.href = '../index.html';
     });
+}
+
+/* ===========================
+   ALL TOPICS PAGE (all-topics.html)
+   =========================== */
+/**
+ * Runs on All Topics page (all-topics.html)
+ * Shows a plain list (no buttons) of all topics: main + custom.
+ */
+function loadAllTopicsPage(currentUser) {
+    // Title + breadcrumbs
+    const titleContainer = document.getElementById('kb-title-container');
+    if (titleContainer) {
+        titleContainer.innerHTML = `
+            <p class="breadcrumbs">
+                <a href="knowledge-base.html?user=${currentUser.email}">Knowledge Base</a> > All Topics
+            </p>
+            <h1>All Topics</h1>
+        `;
+    }
+
+    // Build list
+    const listEl = document.getElementById('all-topics-list');
+    if (listEl) {
+        const topics = getAllTopics();
+        if (topics.length === 0) {
+            listEl.innerHTML = '<p>No topics yet.</p>';
+        } else {
+            listEl.innerHTML = `
+                <ul class="all-topics-ul">
+                    ${topics.map(t => `<li>${t}</li>`).join('')}
+                </ul>
+            `;
+        }
+    }
+
+    feather.replace();
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // Get the "logged in" user
     const currentUser = getCurrentUser();
-    
+
     // Make all links on the page keep the user "logged in"
     persistUserQueryParam(currentUser);
-    
+
     // Run page-specific logic based on body ID
     const pageId = document.body.id;
-    
+
     if (pageId === 'kb-index') {
         const returnTopic = sessionStorage.getItem('returnToTopic');
         if (returnTopic) {
@@ -584,8 +724,11 @@ document.addEventListener('DOMContentLoaded', () => {
         loadKbPost(currentUser);
     } else if (pageId === 'kb-create') {
         setupCreateForm(currentUser);
-    } else if (pageId === 'settings-page') { 
+    } else if (pageId === 'settings-page') {
         loadSettingsPage(currentUser);
+    } else if (pageId === 'kb-topics-all') {
+        // NEW: dedicated "All Topics" page
+        loadAllTopicsPage(currentUser);
     }
 
     // Finally, activate all Feather icons
