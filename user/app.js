@@ -384,6 +384,47 @@ function renderTopicGrid(showAll, currentUser) {
     }
 
     feather.replace();
+<<<<<<< HEAD
+=======
+}
+
+/** Pick an icon per topic (fallback: tag) */
+function iconForTopic(topic) {
+    const map = {
+        "Printing": "printer",
+        "Software Issues": "alert-triangle",
+        "Network": "wifi",
+        "Security": "shield",
+        "Database": "database",
+        "Finance": "shopping-cart"
+    };
+    return map[topic] || "tag";
+}
+
+/**
+ * Runs on the Knowledge Base Index page (knowledge-base.html)
+ */
+function loadKbIndex(currentUser) {
+    // Show Create Post button and set link
+    const createBtnContainer = document.getElementById('kb-actions-container');
+    const createBtn = document.getElementById('create-post-btn-topic');
+    createBtnContainer.style.display = 'block';
+
+    // Popular posts (existing behavior)
+    const popularPosts = [...simPosts].sort((a, b) => b.reactions.up - a.reactions.up);
+    renderPostList(popularPosts, currentUser.email);
+
+    // Render the topics grid (main topics + Add New Topic)
+    document.body.dataset.topicsView = 'main';
+    renderTopicGrid(false, currentUser);
+
+    // Ensure "View more topics" goes to dedicated page
+    const viewMoreLink = document.getElementById('view-more-topics');
+    if (viewMoreLink) {
+        // Let persistUserQueryParam append ?user=... automatically
+        viewMoreLink.setAttribute('href', 'all-topics.html');
+    }
+>>>>>>> 12d7f09beba4dbdab7db5fa0ccd1ba241b8cc36e
 }
 
 /** Pick an icon per topic (fallback: tag) */
@@ -668,6 +709,7 @@ function loadSettingsPage(currentUser) {
  * Runs on All Topics page (all-topics.html)
  * Shows a plain list (no buttons) of all topics: main + custom.
  */
+<<<<<<< HEAD
  function loadAllTopicsPage(currentUser) {
    // Title + breadcrumbs
    const titleContainer = document.getElementById('kb-title-container');
@@ -711,6 +753,38 @@ function loadSettingsPage(currentUser) {
 
    feather.replace();
  }
+=======
+function loadAllTopicsPage(currentUser) {
+    // Title + breadcrumbs
+    const titleContainer = document.getElementById('kb-title-container');
+    if (titleContainer) {
+        titleContainer.innerHTML = `
+            <p class="breadcrumbs">
+                <a href="knowledge-base.html?user=${currentUser.email}">Knowledge Base</a> > All Topics
+            </p>
+            <h1>All Topics</h1>
+        `;
+    }
+
+    // Build list
+    const listEl = document.getElementById('all-topics-list');
+    if (listEl) {
+        const topics = getAllTopics();
+        if (topics.length === 0) {
+            listEl.innerHTML = '<p>No topics yet.</p>';
+        } else {
+            listEl.innerHTML = `
+                <ul class="all-topics-ul">
+                    ${topics.map(t => `<li>${t}</li>`).join('')}
+                </ul>
+            `;
+        }
+    }
+
+    feather.replace();
+}
+
+>>>>>>> 12d7f09beba4dbdab7db5fa0ccd1ba241b8cc36e
 
 document.addEventListener('DOMContentLoaded', () => {
 

@@ -45,7 +45,11 @@
     border: 1px solid #E0E0E0;
     border-radius: 8px;
     padding: 6px 10px;
+<<<<<<< HEAD
     width: 350px;
+=======
+    width: 260px;
+>>>>>>> 12d7f09beba4dbdab7db5fa0ccd1ba241b8cc36e
     position: relative;
 }
 
@@ -631,6 +635,7 @@ body#kb-create .kb-header {
 body#kb-create .kb-header h1 {
     margin-top: 10px;
 }
+<<<<<<< HEAD
 
 /* --- All Topics Page Styling --- */
 #all-topics-list {
@@ -672,3 +677,5 @@ body#kb-create .kb-header h1 {
 body#kb-topics-all .kb-layout-wrapper {
   margin-top: 25px; /* shifts the whole content down slightly */
 }
+=======
+>>>>>>> 12d7f09beba4dbdab7db5fa0ccd1ba241b8cc36e

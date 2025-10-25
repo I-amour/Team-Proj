@@ -43,8 +43,13 @@ body {
 }
 
 .logo-icon {
+<<<<<<< HEAD
     width: 180px;
     height: 50px;
+=======
+    width: 150px;
+    height: 35px;
+>>>>>>> 12d7f09beba4dbdab7db5fa0ccd1ba241b8cc36e
 }
 
 .sidebar ul {
