@@ -48,6 +48,11 @@ const simUsers = {
         name: 'Ben Carter',
         role: 'manager',
         avatarClass: 'avatar-2'
+    },
+    'leader@makeitall.com': {
+        name: 'Sarah Johnson',
+        role: 'team_leader',
+        avatarClass: 'avatar-3'
     }
 };
 
@@ -160,6 +165,179 @@ const initialPosts = [
 let simPosts = JSON.parse(localStorage.getItem('simPosts')) || initialPosts;
 if (!localStorage.getItem('simPosts')) {
     localStorage.setItem('simPosts', JSON.stringify(simPosts));
+}
+
+// Initial hardcoded tasks
+const initialTasks = [
+    {
+        id: 1,
+        title: 'Write onboarding documentation',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'medium',
+        status: 'todo',
+        deadline: '2025-10-22',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 2,
+        title: 'Fix login bug',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'urgent',
+        status: 'inprogress',
+        deadline: '2025-10-20',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 3,
+        title: 'Prepare client presentation',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'urgent',
+        status: 'todo',
+        deadline: '2025-10-20',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 4,
+        title: 'Code review for API integration',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'medium',
+        status: 'todo',
+        deadline: '2025-10-23',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 5,
+        title: 'Update payment gateway tests',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'high',
+        status: 'todo',
+        deadline: '2025-10-24',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 6,
+        title: 'Schedule team retro',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'low',
+        status: 'completed',
+        deadline: '2025-10-28',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 7,
+        title: 'Design dashboard mockups',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'high',
+        status: 'todo',
+        deadline: '2025-10-30',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 8,
+        title: 'Client demo',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'urgent',
+        status: 'todo',
+        deadline: '2025-10-21',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 9,
+        title: 'Design review',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['specialist@makeitall.com'],
+        priority: 'medium',
+        status: 'todo',
+        deadline: '2025-10-24',
+        createdBy: 'manager@makeitall.com'
+    },
+    {
+        id: 10,
+        title: 'Demo review',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['specialist@makeitall.com'],
+        priority: 'low',
+        status: 'inprogress',
+        deadline: '2025-10-25',
+        createdBy: 'manager@makeitall.com'
+    }
+];
+
+// Load tasks from localStorage or use initial set
+let simTasks = JSON.parse(localStorage.getItem('simTasks')) || initialTasks;
+if (!localStorage.getItem('simTasks')) {
+    localStorage.setItem('simTasks', JSON.stringify(simTasks));
+}
+
+function saveTasks() {
+    localStorage.setItem('simTasks', JSON.stringify(simTasks));
+}
+
+// Notifications data
+const initialNotifications = [
+    {
+        id: 1,
+        type: 'task_completed',
+        title: 'Task Completed',
+        text: 'You finished task for Project Apollo',
+        time: '12 hours ago',
+        read: false
+    },
+    {
+        id: 2,
+        type: 'task_completed',
+        title: 'Task Completed',
+        text: 'You finished tasks for Project Apollo',
+        time: '12 hours ago',
+        read: false
+    },
+    {
+        id: 3,
+        type: 'new_post',
+        title: 'New Post',
+        text: 'New post added to printing',
+        time: '3 minutes ago',
+        read: true
+    },
+    {
+        id: 4,
+        type: 'task_completed',
+        title: 'Task Completed',
+        text: 'You finished task for Project Apollo',
+        time: '12 hours ago',
+        read: false
+    },
+    {
+        id: 5,
+        type: 'task_completed',
+        title: 'Task Completed',
+        text: 'You finished tasks for Project Apollo',
+        time: '12 hours ago',
+        read: false
+    }
+];
+
+let simNotifications = JSON.parse(localStorage.getItem('simNotifications')) || initialNotifications;
+if (!localStorage.getItem('simNotifications')) {
+    localStorage.setItem('simNotifications', JSON.stringify(simNotifications));
 }
 
 
@@ -719,6 +897,400 @@ function loadSettingsPage(currentUser) {
  }
 
 /**
+ * Runs on the Home page (index.html)
+ */
+function loadHomePage(currentUser) {
+    // Render Total Tasks Chart
+    renderTotalTasksChart(currentUser);
+    
+    // Render To-Do List
+    renderToDoList(currentUser);
+    
+    // Render Trending Posts
+    renderTrendingPosts(currentUser);
+    
+    // Render Notifications
+    renderNotifications();
+    
+    feather.replace();
+}
+
+/**
+ * Renders the total tasks donut chart
+ */
+function renderTotalTasksChart(currentUser) {
+    const userTasks = simTasks.filter(task => 
+        task.assignedTo.includes(currentUser.email)
+    );
+    
+    const todoCount = userTasks.filter(t => t.status === 'todo').length;
+    const inProgressCount = userTasks.filter(t => t.status === 'inprogress').length;
+    const reviewCount = userTasks.filter(t => t.status === 'review').length;
+    const completedCount = userTasks.filter(t => t.status === 'completed').length;
+    
+    const totalCount = userTasks.length;
+    document.getElementById('totalTasksCount').textContent = totalCount;
+    
+    const ctx = document.getElementById('totalTasksChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['To Do', 'In Progress', 'In Review', 'Completed'],
+                datasets: [{
+                    data: [todoCount, inProgressCount, reviewCount, completedCount],
+                    backgroundColor: ['#1E3A5F', '#E6A100', '#F4A261', '#FF8C42'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Renders the to-do list with tasks
+ */
+function renderToDoList(currentUser) {
+    const projectSelect = document.getElementById('project-select');
+    const todoItemsList = document.getElementById('todo-items-list');
+    
+    // Populate project filter
+    const projects = [...new Set(simTasks.map(t => t.project))];
+    projects.forEach(project => {
+        const option = document.createElement('option');
+        option.value = project;
+        option.textContent = project;
+        projectSelect.appendChild(option);
+    });
+    
+    // Get user tasks
+    let userTasks = simTasks.filter(task => 
+        task.assignedTo.includes(currentUser.email) && task.status !== 'completed'
+    );
+    
+    // Sort by priority (default)
+    const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
+    userTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    
+    // Render tasks
+    renderTodoItems(userTasks);
+    
+    // Add event listeners
+    projectSelect.addEventListener('change', (e) => {
+        const selectedProject = e.target.value;
+        let filteredTasks = simTasks.filter(task => 
+            task.assignedTo.includes(currentUser.email) && task.status !== 'completed'
+        );
+        if (selectedProject) {
+            filteredTasks = filteredTasks.filter(t => t.project === selectedProject);
+        }
+        renderTodoItems(filteredTasks);
+    });
+    
+    // Sort buttons
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const sortBy = btn.dataset.sort;
+            let sortedTasks = [...userTasks];
+            
+            if (sortBy === 'priority') {
+                sortedTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            } else if (sortBy === 'deadline') {
+                sortedTasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+            }
+            
+            renderTodoItems(sortedTasks);
+        });
+    });
+}
+
+function renderTodoItems(tasks) {
+    const todoItemsList = document.getElementById('todo-items-list');
+    
+    if (tasks.length === 0) {
+        todoItemsList.innerHTML = '<p style="text-align: center; color: #8C8C8C;">No tasks to display</p>';
+        return;
+    }
+    
+    todoItemsList.innerHTML = tasks.map(task => {
+        const deadline = new Date(task.deadline);
+        const formattedDate = deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        
+        return `
+            <div class="todo-item ${task.status === 'completed' ? 'completed' : ''}" data-task-id="${task.id}">
+                <div class="todo-checkbox ${task.status === 'completed' ? 'checked' : ''}">
+                    ${task.status === 'completed' ? '<i data-feather="check"></i>' : ''}
+                </div>
+                <div class="todo-content">
+                    <p class="todo-title">${task.title}</p>
+                    <div class="todo-meta">
+                        <span class="todo-priority">
+                            <span class="priority-dot ${task.priority}"></span>
+                            ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+                        </span>
+                        <span class="todo-date">${formattedDate}</span>
+                        <span class="todo-project">${task.project}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    // Add checkbox click handlers
+    document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const taskId = parseInt(checkbox.closest('.todo-item').dataset.taskId);
+            const task = simTasks.find(t => t.id === taskId);
+            if (task) {
+                task.status = task.status === 'completed' ? 'todo' : 'completed';
+                saveTasks();
+                location.reload();
+            }
+        });
+    });
+    
+    feather.replace();
+}
+
+/**
+ * Renders trending posts
+ */
+function renderTrendingPosts(currentUser) {
+    const trendingPostsList = document.getElementById('trending-posts-list');
+    const topPosts = [...simPosts].sort((a, b) => b.reactions.up - a.reactions.up).slice(0, 3);
+    
+    trendingPostsList.innerHTML = topPosts.map(post => {
+        let avatarClass = 'avatar-3';
+        if (post.authorEmail === 'user@makeitall.com') avatarClass = 'avatar-1';
+        if (post.authorEmail === 'specialist@makeitall.com') avatarClass = 'avatar-4';
+        if (post.authorEmail === 'manager@makeitall.com') avatarClass = 'avatar-2';
+        
+        const topicClass = post.topic.toLowerCase().split(' ')[0];
+        
+        return `
+            <div class="trending-post">
+                <div class="post-header">
+                    <div class="post-avatar ${avatarClass}">${post.author.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="post-author-info">
+                        <p class="post-author-name">${post.author}</p>
+                        <span class="post-date">${post.date.split(' ').slice(0, 2).join(' ')}</span>
+                    </div>
+                    <span class="post-tag ${topicClass}">${post.topic}</span>
+                </div>
+                <h3 class="post-title">${post.title}</h3>
+                <p class="post-excerpt">${post.content.substring(0, 100)}...</p>
+                <div class="post-stats">
+                    <span class="post-stat"><i data-feather="thumbs-up"></i> ${post.reactions.up}</span>
+                    <span class="post-stat"><i data-feather="message-circle"></i> ${post.reactions.comments}</span>
+                    <span class="post-stat"><i data-feather="zap"></i> ${post.reactions.lightbulb}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    feather.replace();
+}
+
+/**
+ * Renders notifications
+ */
+function renderNotifications() {
+    const notificationsList = document.getElementById('notifications-list');
+    
+    notificationsList.innerHTML = simNotifications.map(notif => {
+        return `
+            <div class="notification-item ${!notif.read ? 'unread' : ''}">
+                ${!notif.read ? '<span class="notification-badge"></span>' : ''}
+                <div class="notification-icon ${notif.type === 'task_completed' ? 'completed' : 'post'}">
+                    <i data-feather="${notif.type === 'task_completed' ? 'check-circle' : 'file-text'}"></i>
+                </div>
+                <div class="notification-content">
+                    <p class="notification-title">${notif.title}</p>
+                    <p class="notification-text">${notif.text}</p>
+                    <span class="notification-time">${notif.time}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    // Mark all as read button
+    document.querySelector('.mark-read-btn').addEventListener('click', () => {
+        simNotifications.forEach(n => n.read = true);
+        localStorage.setItem('simNotifications', JSON.stringify(simNotifications));
+        renderNotifications();
+    });
+    
+    feather.replace();
+}
+
+/**
+ * Runs on the Progress page (progress.html)
+ */
+function loadProgressPage(currentUser) {
+    const userTasks = simTasks.filter(task => 
+        task.assignedTo.includes(currentUser.email)
+    );
+    
+    // Calculate task progress
+    const completedTasks = userTasks.filter(t => t.status === 'completed').length;
+    const totalTasks = userTasks.length;
+    const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    
+    document.getElementById('task-progress-fill').style.width = progressPercent + '%';
+    document.getElementById('progress-text').textContent = 
+        `You have completed ${progressPercent}% of your assigned tasks.`;
+    
+    // Render upcoming deadlines
+    renderUpcomingDeadlines(userTasks);
+    
+    // Render workload
+    renderWorkload(currentUser, userTasks);
+    
+    // Render urgent tasks
+    renderUrgentTasks(userTasks, currentUser);
+    
+    // Render task distribution chart
+    renderTaskDistributionChart(userTasks);
+    
+    feather.replace();
+}
+
+function renderUpcomingDeadlines(userTasks) {
+    const deadlinesList = document.getElementById('deadlines-list');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const upcomingTasks = userTasks
+        .filter(t => t.status !== 'completed')
+        .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+        .slice(0, 3);
+    
+    deadlinesList.innerHTML = upcomingTasks.map(task => {
+        const deadline = new Date(task.deadline);
+        const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+        
+        let status = 'on-track';
+        let statusText = 'On track';
+        
+        if (deadline < today) {
+            status = 'overdue';
+            statusText = 'Overdue';
+        } else {
+            const daysUntil = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+            if (daysUntil <= 2) {
+                status = 'at-risk';
+                statusText = 'At risk';
+            }
+        }
+        
+        return `
+            <div class="deadline-item">
+                <p class="deadline-title">${task.title}</p>
+                <div class="deadline-info">
+                    <span class="deadline-date">${formattedDate}</span>
+                    <span class="deadline-status ${status}">${statusText}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderWorkload(currentUser, userTasks) {
+    const userTaskCount = userTasks.filter(t => t.status !== 'completed').length;
+    
+    // Calculate team average (simplified)
+    const allTasks = simTasks.filter(t => t.status !== 'completed');
+    const uniqueUsers = [...new Set(allTasks.flatMap(t => t.assignedTo))];
+    const teamAverage = Math.round(allTasks.length / uniqueUsers.length);
+    
+    const maxTasks = Math.max(userTaskCount, teamAverage, 10);
+    const userPercent = (userTaskCount / maxTasks) * 100;
+    const teamPercent = (teamAverage / maxTasks) * 100;
+    
+    document.getElementById('user-workload').style.width = userPercent + '%';
+    document.getElementById('team-workload').style.width = teamPercent + '%';
+    document.getElementById('user-task-count').textContent = `${userTaskCount} tasks`;
+    document.getElementById('team-task-count').textContent = `${teamAverage} tasks`;
+}
+
+function renderUrgentTasks(userTasks, currentUser) {
+    const urgentTasksList = document.getElementById('urgent-tasks-list');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const urgentTasks = userTasks.filter(task => {
+        if (task.status === 'completed') return false;
+        const deadline = new Date(task.deadline);
+        return task.priority === 'urgent' || deadline < today || 
+               (deadline - today) / (1000 * 60 * 60 * 24) <= 2;
+    }).slice(0, 3);
+    
+    urgentTasksList.innerHTML = urgentTasks.map(task => {
+        const deadline = new Date(task.deadline);
+        const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+        
+        const isOverdue = deadline < today;
+        
+        return `
+            <div class="urgent-task">
+                <p class="urgent-task-title">${task.title}</p>
+                <div class="urgent-task-meta">
+                    <span class="urgent-task-date">${formattedDate}</span>
+                    <span class="urgent-task-status">${isOverdue ? 'Overdue' : 'At risk'}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderTaskDistributionChart(userTasks) {
+    const todoCount = userTasks.filter(t => t.status === 'todo').length;
+    const inProgressCount = userTasks.filter(t => t.status === 'inprogress').length;
+    const reviewCount = userTasks.filter(t => t.status === 'review').length;
+    const completedCount = userTasks.filter(t => t.status === 'completed').length;
+    
+    document.getElementById('todo-count').textContent = `To Do: ${todoCount}`;
+    document.getElementById('inprogress-count').textContent = `In Progress: ${inProgressCount}`;
+    document.getElementById('review-count').textContent = `Review: ${reviewCount}`;
+    document.getElementById('completed-count').textContent = `Completed: ${completedCount}`;
+    
+    const ctx = document.getElementById('taskDistributionChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['To Do', 'In Progress', 'Review', 'Completed'],
+                datasets: [{
+                    data: [todoCount, inProgressCount, reviewCount, completedCount],
+                    backgroundColor: ['#FF8C8C', '#FFD166', '#A8DADC', '#81C5D4'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}
+
+/**
  * Runs on the Create Topic page (knowledge-base-create-topic.html)
  */
 function setupCreateTopicForm(currentUser) {
@@ -800,6 +1372,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pageId === 'kb-create-topic') {
         // NEW: Create Topic form page
         setupCreateTopicForm(currentUser);
+    } else if (pageId === 'home-page') {
+        // NEW: Home page with to-do list
+        loadHomePage(currentUser);
+    } else if (pageId === 'progress-page') {
+        // NEW: Progress page
+        loadProgressPage(currentUser);
     }
 
     // Finally, activate all Feather icons

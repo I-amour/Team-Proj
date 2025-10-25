@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make-It-All - Home</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body id="home-page">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="nav-top">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Make-It-All Logo" class="logo-icon">
+                </div>
+                <ul class="nav-main">
+                    <li class="active-parent"><a href="home.html"><i data-feather="home"></i>Home</a></li>
+                    <li><a href="projects.html"><i data-feather="folder"></i>Projects</a></li>
+                    <li><a href="knowledge-base.html"><i data-feather="book-open"></i>Knowledge Base</a></li>
+                    <li><a href="#"><i data-feather="user"></i>Profile</a></li>
+                </ul>
+            </div>
+            <div class="nav-footer">
+                <ul>
+                    <li><a href="settings.html"><i data-feather="settings"></i>Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="home-header">
+                
+            </header>
+
+            <div class="home-layout">
+                <!-- Left Section -->
+                <div class="home-left">
+                    <!-- Total Tasks Donut Chart -->
+                    <section class="total-tasks-card">
+                        <h2>Total Tasks</h2>
+                        <div class="donut-chart-container">
+                            <canvas id="totalTasksChart"></canvas>
+                            <div class="donut-center">
+                                <span id="totalTasksCount">0</span>
+                            </div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #1E3A5F;"></span>
+                                <span>To Do</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #E6A100;"></span>
+                                <span>In Progress</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #F4A261;"></span>
+                                <span>In Review</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #FF8C42;"></span>
+                                <span>Completed</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- My To-Do List -->
+                    <section class="todo-list-card">
+                        <h2>My To-Do List</h2>
+                        
+                        <div class="todo-controls">
+                            <div class="project-filter">
+                                <select id="project-select">
+                                    <option value="">Select project...</option>
+                                </select>
+                                <i data-feather="chevron-down"></i>
+                            </div>
+                            
+                            <div class="sort-controls">
+                                <span>Sort By:</span>
+                                <button class="sort-btn active" data-sort="priority">Priority</button>
+                                <button class="sort-btn" data-sort="deadline">Deadline</button>
+                            </div>
+                        </div>
+
+                        <div class="todo-items" id="todo-items-list">
+                            <!-- Tasks will be rendered here by JavaScript -->
+                        </div>
+
+                        <button class="new-task-btn" id="new-task-btn" style="display: none;">
+                            <i data-feather="plus"></i> New Task
+                        </button>
+                    </section>
+                </div>
+
+                <!-- Right Section -->
+                <div class="home-right">
+                    <!-- Trending Posts -->
+                    <section class="trending-posts-card">
+                        <h2>Trending Posts</h2>
+                        <div class="trending-posts-list" id="trending-posts-list">
+                            <!-- Posts will be rendered here -->
+                        </div>
+                    </section>
+
+                    <!-- Notifications -->
+                    <section class="notifications-card">
+                        <div class="notifications-header">
+                            <h2>Notifications</h2>
+                            <button class="mark-read-btn">Mark all as read</button>
+                        </div>
+                        <div class="notifications-list" id="notifications-list">
+                            <!-- Notifications will be rendered here -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

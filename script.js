@@ -48,14 +48,19 @@ signInForm.addEventListener('submit', (e) => {
     if (email === 'user@makeitall.com' && password === 'password123') {
         // Team Member
         userEmail = 'user@makeitall.com';
-        redirectUrl = 'user/projects.html'; 
+        redirectUrl = 'user/home.html'; 
     
     } else if (email === 'specialist@makeitall.com' && password === 'password123') {
         // Technical Specialist
         userEmail = 'specialist@makeitall.com';
-        redirectUrl = 'user/projects.html'; // All users land on projects first
+        redirectUrl = 'user/home.html'; // All users land on home first
     
     } else if (email === 'manager@makeitall.com' && password === 'password123') {
+        // Manager
+        userEmail = 'manager@makeitall.com';
+        redirectUrl = 'user/home.html';
+
+    } else if (email === 'leader@makeitall.com' && password === 'password123') {
         // Manager
         userEmail = 'manager@makeitall.com';
         redirectUrl = 'user/projects.html';
