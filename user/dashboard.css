@@ -79,7 +79,7 @@ body {
 .sidebar ul.nav-main > li.active-parent > a {
     background: #FBC02D; 
     color: black;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 /* Sub-navigation */
@@ -94,7 +94,7 @@ body {
 }
 
 .nav-sub li.active a {
-    font-weight: 700;
+    font-weight: 600;
     color: #1E1E1E;
     background: #E6E6E6;         /* light grey highlight */
     border-radius: 6px;
