@@ -43,8 +43,8 @@ body {
 }
 
 .logo-icon {
-    width: 32px;
-    height: 32px;
+    width: 180px;
+    height: 50px;
 }
 
 .sidebar ul {
@@ -94,9 +94,14 @@ body {
 }
 
 .nav-sub li.active a {
-    font-weight: 700;
+    font-weight: 600;
     color: #1E1E1E;
+    background: #FBC02D;         /* yellow highlight */
+    border-radius: 6px;
+    padding: 8px 15px;
+    display: block;
 }
+
 
 /*
 * Main Content
@@ -202,9 +207,9 @@ body {
 .todo-header .task-count { color: #D93025; }
 .todo-header .add-task svg { color: #D93025; }
 
-.inprogress-header { background: #FFFBE5; color: #F9A825; }
-.inprogress-header .task-count { color: #F9A825; }
-.inprogress-header .add-task svg { color: #F9A825; }
+.inprogress-header { background: #FFF4C1; color: #E6A100; }
+.inprogress-header .task-count { color: #E6A100; }
+.inprogress-header .add-task svg { color: #E6A100; }
 
 .review-header { background: #E6F7F0; color: #34A853; }
 .review-header .task-count { color: #34A853; }
@@ -238,7 +243,7 @@ body {
 }
 
 /* Priority Tag Colors */
-.priority.medium { background: #FFFBE5; color: #F9A825; }
+.priority.medium { background: #FFF4C1; color: #E6A100; }
 .priority.urgent { background: #FFEBEB; color: #D93025; }
 .priority.low    { background: #E6F7F0; color: #34A853; }
 

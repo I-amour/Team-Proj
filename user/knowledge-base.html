@@ -11,11 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
-<body id="kb-index"> <div class="dashboard-container">
+<body id="kb-index">
+    <div class="dashboard-container">
         <nav class="sidebar">
             <div class="nav-top">
                 <div class="logo-container">
-                    <img src="logo.png" alt="Make-It-All Logo" class="logo-icon"> <strong>Make-It-All</strong>
+                    <img src="logo.png" alt="Make-It-All Logo" class="logo-icon">
                 </div>
                 <ul class="nav-main">
                     <li><a href="projects.html"><i data-feather="home"></i>Home</a></li>
@@ -27,64 +28,43 @@
                 </ul>
             </div>
             <div class="nav-footer">
-    <ul>
-        <li><a href="settings.html"><i data-feather="settings"></i>Settings</a></li>
-    </ul>
-</div>
+                <ul>
+                    <li><a href="settings.html"><i data-feather="settings"></i>Settings</a></li>
+                </ul>
+            </div>
         </nav>
 
         <main class="main-content">
-            <header class="kb-header">
-                <div id="kb-title-container">
-                    <p class="breadcrumbs" style="display: none;"></p>
-                    <h1>Knowledge Base</h1>
-                </div>
-                <div class="search-bar">
-                    <i data-feather="search"></i>
-                    <input type="text" placeholder="Search posts...">
-                </div>
-            </header>
+          <header class="kb-header">
+            <div id="kb-title-container">
+              <p class="breadcrumbs" style="display: none;"></p>
+              <h1>Knowledge Base</h1>
+            </div>
 
-            <section id="kb-actions-container" class="kb-actions" style="display: none;">
-                <a href="knowledge-base-create.html" class="create-post-btn" id="create-post-btn-topic">
-                    <i data-feather="plus"></i> Create Post
-                </a>
-            </section>
+            <!-- Create Post + Search grouped together -->
+            <div class="kb-header-actions">
+              <a href="knowledge-base-create.html" class="create-post-btn" id="create-post-btn-topic">
+                <i data-feather="plus"></i> Create Post
+              </a>
+              <div class="search-bar">
+                <i data-feather="search"></i>
+                <input type="text" placeholder="Search posts...">
+              </div>
+            </div>
+          </header>
+
 
             <section id="kb-topics-section">
                 <div class="kb-topics">
                     <h2>Topics</h2>
-                    <a href="#" class="view-more">View more topics <i data-feather="arrow-right"></i></a>
-                </div>
-                
-                <div class="topic-grid">
-                    <a href="#" class="topic-card" data-topic="Printing">
-                        <i data-feather="printer"></i>
-                        <span>Printing</span>
-                    </a>
-                    <a href="#" class="topic-card" data-topic="Software Issues">
-                        <i data-feather="alert-triangle"></i>
-                        <span>Software Issues</span>
-                    </a>
-                    <a href="#" class="topic-card" data-topic="Network">
-                        <i data-feather="wifi"></i>
-                        <span>Network</span>
-                    </a>
-                    <a href="#" class="topic-card" data-topic="Security">
-                        <i data-feather="shield"></i>
-                        <span>Security</span>
-                    </a>
-                    <a href="#" class="topic-card" data-topic="Database">
-                        <i data-feather="database"></i>
-                        <span>Database</span>
-                    </a>
-                    <a href="#" class="topic-card" data-topic="Finance">
-                        <i data-feather="shopping-cart"></i>
-                        <span>Finance</span>
+                    <a href="all-topics.html" class="view-more" id="view-more-topics">
+                        View more topics <i data-feather="arrow-right"></i>
                     </a>
                 </div>
-            </section>
 
+                <!-- JS renders main topics + "Add New Topic" here -->
+                <div class="topic-grid" id="topic-grid"></div>
+            </section>
 
             <div class="kb-layout-wrapper">
                 <div class="kb-main-content">
@@ -94,9 +74,8 @@
                             <button class="active">Popular</button>
                             <button>New Posts</button>
                         </div>
-                        
-                        <div class="post-list" id="post-list-container">
-                            </div>
+
+                        <div class="post-list" id="post-list-container"></div>
                     </section>
                 </div>
 
@@ -130,7 +109,7 @@
                         </div>
 
                         <div class="kb-sidebar-widget kb-new-discussion">
-                            <p>Didn't find what your looking for?</p>
+                            <p>Didn't find what you're looking for?</p>
                             <a href="knowledge-base-create.html" id="start-discussion-link">Start a new discussion</a>
                         </div>
                     </div>
