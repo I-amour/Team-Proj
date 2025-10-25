@@ -77,8 +77,8 @@ body {
 
 /* Active Project Parent */
 .sidebar ul.nav-main > li.active-parent > a {
-    background: #4A4A4A; /* Dark grey */
-    color: #FFFFFF;
+    background: #FBC02D; 
+    color: black;
     font-weight: 600;
 }
 
