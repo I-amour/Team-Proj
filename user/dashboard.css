@@ -77,8 +77,8 @@ body {
 
 /* Active Project Parent */
 .sidebar ul.nav-main > li.active-parent > a {
-    background: #FBC02D; /* Yellow */
-    color: #1E1E1E;
+    background: #4A4A4A; /* Dark grey */
+    color: #FFFFFF;
     font-weight: 600;
 }
 
@@ -94,9 +94,9 @@ body {
 }
 
 .nav-sub li.active a {
-    font-weight: 600;
+    font-weight: 700;
     color: #1E1E1E;
-    background: #FBC02D;         /* yellow highlight */
+    background: #E6E6E6;         /* light grey highlight */
     border-radius: 6px;
     padding: 8px 15px;
     display: block;

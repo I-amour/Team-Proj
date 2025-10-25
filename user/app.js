@@ -3,6 +3,31 @@
 * This file simulates a backend and user authentication for the prototype.
 */
 
+/**
+ * Shows a success notification message that auto-dismisses after 3 seconds
+ * @param {string} message - The message to display
+ */
+function showSuccessNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'success-notification';
+    notification.innerHTML = `
+        <i data-feather="check-circle"></i>
+        <span>${message}</span>
+    `;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Replace feather icons
+    feather.replace();
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
 // Accounts created for the purpose of the prototype.
 // In a real app, this data would come from a server and database.
 // We use 'localStorage' to make new posts and replies persist during the session.
@@ -343,7 +368,7 @@ function renderTopicGrid(showAll, currentUser) {
 
     // “Add New Topic” card
     const addCardHtml = `
-        <a href="#" class="topic-card add-topic-card" id="add-topic-card">
+        <a href="knowledge-base-create-topic.html?user=${currentUser.email}" class="topic-card add-topic-card" id="add-topic-card">
             <i data-feather="plus"></i>
             <span>Add New Topic</span>
         </a>
@@ -360,28 +385,7 @@ function renderTopicGrid(showAll, currentUser) {
         });
     });
 
-    // Hook up Add New Topic
-    const addCard = document.getElementById('add-topic-card');
-    if (addCard) {
-        addCard.addEventListener('click', (e) => {
-            e.preventDefault();
-            const name = prompt('Enter a new topic name:');
-            if (!name) return;
-            const trimmed = name.trim();
-            if (!trimmed) return;
-
-            // prevent duplicates (case-insensitive)
-            if (getAllTopics().some(t => t.toLowerCase() === trimmed.toLowerCase())) {
-                alert('That topic already exists.');
-                return;
-            }
-            customTopics.push(trimmed);
-            saveCustomTopics();
-
-            // Re-render main grid to refresh icons
-            renderTopicGrid(false, currentUser);
-        });
-    }
+    // Note: Add New Topic now links to form page instead of prompt
 
     feather.replace();
 }
@@ -606,11 +610,13 @@ function setupCreateForm(currentUser) {
         simPosts.unshift(newPost); // Add to the beginning of the array
         savePosts();
 
-        // Alert and redirect
-        alert('Post created successfully!');
+        // Store success message
+        sessionStorage.setItem('postCreated', 'Post created successfully!');
 
         // Store the topic to return to
         sessionStorage.setItem('returnToTopic', topic);
+        
+        // Redirect
         window.location.href = `knowledge-base.html?user=${currentUser.email}`;
     });
 }
@@ -712,6 +718,43 @@ function loadSettingsPage(currentUser) {
    feather.replace();
  }
 
+/**
+ * Runs on the Create Topic page (knowledge-base-create-topic.html)
+ */
+function setupCreateTopicForm(currentUser) {
+    const createTopicForm = document.getElementById('create-topic-form');
+    
+    if (!createTopicForm) return;
+    
+    createTopicForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const topicName = document.getElementById('topic-name').value.trim();
+        const topicDescription = document.getElementById('topic-description').value.trim();
+        
+        if (!topicName) {
+            alert('Please enter a topic name.');
+            return;
+        }
+        
+        // Check for duplicates (case-insensitive)
+        if (getAllTopics().some(t => t.toLowerCase() === topicName.toLowerCase())) {
+            alert('A topic with that name already exists. Please choose a different name.');
+            return;
+        }
+        
+        // Add the new topic to custom topics
+        customTopics.push(topicName);
+        saveCustomTopics();
+        
+        // Store success message to show on next page
+        sessionStorage.setItem('topicCreated', `Topic "${topicName}" created successfully!`);
+        
+        // Redirect to knowledge base
+        window.location.href = `knowledge-base.html?user=${currentUser.email}`;
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Get the "logged in" user
@@ -725,6 +768,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (pageId === 'kb-index') {
         const returnTopic = sessionStorage.getItem('returnToTopic');
+        const showCreatedNotification = sessionStorage.getItem('topicCreated');
+        const showPostNotification = sessionStorage.getItem('postCreated');
+        
+        // Show any pending notifications
+        if (showCreatedNotification) {
+            showSuccessNotification(showCreatedNotification);
+            sessionStorage.removeItem('topicCreated');
+        }
+        if (showPostNotification) {
+            showSuccessNotification(showPostNotification);
+            sessionStorage.removeItem('postCreated');
+        }
+        
         if (returnTopic) {
             sessionStorage.removeItem('returnToTopic'); // Clear it after use
             loadKbIndex(currentUser); // Load index to attach listeners
@@ -741,6 +797,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pageId === 'kb-topics-all') {
         // NEW: dedicated "All Topics" page
         loadAllTopicsPage(currentUser);
+    } else if (pageId === 'kb-create-topic') {
+        // NEW: Create Topic form page
+        setupCreateTopicForm(currentUser);
     }
 
     // Finally, activate all Feather icons

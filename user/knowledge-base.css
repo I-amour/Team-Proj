@@ -672,3 +672,48 @@ body#kb-create .kb-header h1 {
 body#kb-topics-all .kb-layout-wrapper {
   margin-top: 25px; /* shifts the whole content down slightly */
 }
+
+/* --- Success Notification --- */
+.success-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #34A853;
+    color: #FFFFFF;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    z-index: 1000;
+    animation: slideInRight 0.3s ease-out, fadeOut 0.3s ease-out 2.7s;
+}
+
+.success-notification svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
