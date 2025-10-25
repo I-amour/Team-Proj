@@ -167,7 +167,33 @@ if (!localStorage.getItem('simPosts')) {
     localStorage.setItem('simPosts', JSON.stringify(simPosts));
 }
 
-// Initial hardcoded tasks
+// Projects data
+const initialProjects = [
+    {
+        id: 'project15',
+        name: 'Project 15',
+        createdBy: 'manager@makeitall.com',
+        createdDate: '2025-09-15'
+    },
+    {
+        id: 'apollo',
+        name: 'Project Apollo',
+        createdBy: 'manager@makeitall.com',
+        createdDate: '2025-08-20'
+    }
+];
+
+let simProjects = JSON.parse(localStorage.getItem('simProjects')) || initialProjects;
+if (!localStorage.getItem('simProjects')) {
+    localStorage.setItem('simProjects', JSON.stringify(simProjects));
+}
+
+function saveProjects() {
+    localStorage.setItem('simProjects', JSON.stringify(simProjects));
+}
+
+// *** UPDATED TASKS DATA ***
+// Added description, createdDate, and more realistic tasks
 const initialTasks = [
     {
         id: 1,
@@ -176,108 +202,164 @@ const initialTasks = [
         projectId: 'apollo',
         assignedTo: ['user@makeitall.com'],
         priority: 'medium',
-        status: 'todo',
-        deadline: '2025-10-22',
-        createdBy: 'manager@makeitall.com'
+        status: 'inprogress',
+        deadline: '2025-10-28',
+        createdDate: '2025-10-20',
+        description: 'Create the full onboarding doc for new hires. Cover tooling, contacts, and first-week goals.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 2,
-        title: 'Fix login bug',
+        title: 'Fix login bug (Apollo)',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['specialist@makeitall.com'],
         priority: 'urgent',
         status: 'inprogress',
-        deadline: '2025-10-20',
-        createdBy: 'manager@makeitall.com'
+        deadline: '2025-10-26',
+        createdDate: '2025-10-24',
+        description: 'Users reporting being logged out every 5 minutes. Investigate session token expiry.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 3,
-        title: 'Prepare client presentation',
+        title: 'Prepare client presentation slides',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['user@makeitall.com'],
-        priority: 'urgent',
+        assignedTo: ['user@makeitall.com', 'leader@makeitall.com'],
+        priority: 'high',
         status: 'todo',
-        deadline: '2025-10-20',
-        createdBy: 'manager@makeitall.com'
+        deadline: '2025-10-27',
+        createdDate: '2025-10-22',
+        description: 'Build the deck for the Q4 review. Focus on metrics from slide 5 of the brief.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 4,
         title: 'Code review for API integration',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['leader@makeitall.com'],
         priority: 'medium',
-        status: 'todo',
-        deadline: '2025-10-23',
-        createdBy: 'manager@makeitall.com'
+        status: 'review',
+        deadline: '2025-10-25',
+        createdDate: '2025-10-23',
+        description: 'Review Jane\'s PR #451 for the Stripe API connector.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 5,
         title: 'Update payment gateway tests',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['user@makeitall.com'],
-        priority: 'high',
+        assignedTo: ['specialist@makeitall.com'],
+        priority: 'medium',
         status: 'todo',
-        deadline: '2025-10-24',
-        createdBy: 'manager@makeitall.com'
+        deadline: '2025-10-29',
+        createdDate: '2025-10-24',
+        description: 'Add new test cases for failed payments and 3DS verification.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 6,
         title: 'Schedule team retro',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['leader@makeitall.com'],
         priority: 'low',
         status: 'completed',
-        deadline: '2025-10-28',
-        createdBy: 'manager@makeitall.com'
+        deadline: '2025-10-24',
+        createdDate: '2025-10-20',
+        description: 'Book a 1-hour slot for the end-of-project retrospective.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 7,
-        title: 'Design dashboard mockups',
+        title: 'Design dashboard mockups (v2)',
         project: 'Project Apollo',
         projectId: 'apollo',
         assignedTo: ['user@makeitall.com'],
         priority: 'high',
-        status: 'todo',
-        deadline: '2025-10-30',
-        createdBy: 'manager@makeitall.com'
+        status: 'review',
+        deadline: '2025-10-26',
+        createdDate: '2025-10-21',
+        description: 'Create high-fidelity mockups for the new admin dashboard based on client feedback.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 8,
-        title: 'Client demo',
+        title: 'Client demo script finalization',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['manager@makeitall.com'],
         priority: 'urgent',
         status: 'todo',
-        deadline: '2025-10-21',
-        createdBy: 'manager@makeitall.com'
+        deadline: '2025-10-26',
+        createdDate: '2025-10-25',
+        description: 'Final pass on the demo script. Check all talking points.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 9,
-        title: 'Design review',
+        title: 'Deploy staging build',
         project: 'Project 15',
         projectId: 'project15',
         assignedTo: ['specialist@makeitall.com'],
-        priority: 'medium',
-        status: 'todo',
-        deadline: '2025-10-24',
-        createdBy: 'manager@makeitall.com'
+        priority: 'high',
+        status: 'review',
+        deadline: '2025-10-25',
+        createdDate: '2025-10-24',
+        description: 'Push latest `main` branch to the staging server for client review.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
     },
     {
         id: 10,
-        title: 'Demo review',
+        title: 'Finalize user testing report',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'low',
+        status: 'completed',
+        deadline: '2025-10-22',
+        createdDate: '2025-10-18',
+        description: 'Collate all feedback from the user testing session into a summary document.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
+    }
+];
+
+// Personal to-do items (created by users themselves)
+const initialPersonalTodos = [
+    {
+        id: 101,
+        title: 'Review project documentation',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['specialist@makeitall.com'],
+        owner: 'user@makeitall.com',
+        priority: 'medium',
+        status: 'todo',
+        deadline: '2025-10-26',
+        type: 'personal'
+    },
+    {
+        id: 102,
+        title: 'Prepare weekly report',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        owner: 'user@makeitall.com',
         priority: 'low',
-        status: 'inprogress',
-        deadline: '2025-10-25',
-        createdBy: 'manager@makeitall.com'
+        status: 'todo',
+        deadline: '2025-10-27',
+        type: 'personal'
     }
 ];
 
@@ -287,8 +369,17 @@ if (!localStorage.getItem('simTasks')) {
     localStorage.setItem('simTasks', JSON.stringify(simTasks));
 }
 
+let simPersonalTodos = JSON.parse(localStorage.getItem('simPersonalTodos')) || initialPersonalTodos;
+if (!localStorage.getItem('simPersonalTodos')) {
+    localStorage.setItem('simPersonalTodos', JSON.stringify(simPersonalTodos));
+}
+
 function saveTasks() {
     localStorage.setItem('simTasks', JSON.stringify(simTasks));
+}
+
+function savePersonalTodos() {
+    localStorage.setItem('simPersonalTodos', JSON.stringify(simPersonalTodos));
 }
 
 // Notifications data
@@ -900,6 +991,21 @@ function loadSettingsPage(currentUser) {
  * Runs on the Home page (index.html)
  */
 function loadHomePage(currentUser) {
+    // Update page label based on role
+    const pageLabel = document.getElementById('page-label-text');
+    if (pageLabel) {
+        const roleText = currentUser.role === 'manager' ? 'Manager' : 
+                        currentUser.role === 'team_leader' ? 'Team Leader' : 'User';
+        pageLabel.textContent = `Homepage (${roleText})`;
+    }
+    
+    // Show appropriate action buttons based on role
+    if (currentUser.role === 'manager') {
+        document.getElementById('manager-actions').style.display = 'block';
+    } else if (currentUser.role === 'team_leader') {
+        document.getElementById('leader-actions').style.display = 'block';
+    }
+    
     // Render Total Tasks Chart
     renderTotalTasksChart(currentUser);
     
@@ -916,11 +1022,12 @@ function loadHomePage(currentUser) {
 }
 
 /**
- * Renders the total tasks donut chart
+ * Renders the total tasks donut chart (assigned tasks only)
  */
 function renderTotalTasksChart(currentUser) {
+    // Only count assigned tasks for the chart
     const userTasks = simTasks.filter(task => 
-        task.assignedTo.includes(currentUser.email)
+        task.assignedTo.includes(currentUser.email) && task.type === 'assigned'
     );
     
     const todoCount = userTasks.filter(t => t.status === 'todo').length;
@@ -956,11 +1063,12 @@ function renderTotalTasksChart(currentUser) {
 }
 
 /**
- * Renders the to-do list with tasks
+ * Renders the to-do list with both assigned tasks AND personal todos
  */
 function renderToDoList(currentUser) {
     const projectSelect = document.getElementById('project-select');
     const todoItemsList = document.getElementById('todo-items-list');
+    const newTaskBtn = document.getElementById('new-task-btn');
     
     // Populate project filter
     const projects = [...new Set(simTasks.map(t => t.project))];
@@ -971,28 +1079,39 @@ function renderToDoList(currentUser) {
         projectSelect.appendChild(option);
     });
     
-    // Get user tasks
-    let userTasks = simTasks.filter(task => 
-        task.assignedTo.includes(currentUser.email) && task.status !== 'completed'
+    // Get user's assigned tasks AND personal todos
+    let assignedTasks = simTasks.filter(task => 
+        task.assignedTo && task.assignedTo.includes(currentUser.email) && task.status !== 'completed'
     );
+    
+    let personalTodos = simPersonalTodos.filter(todo =>
+        todo.owner === currentUser.email && todo.status !== 'completed'
+    );
+    
+    // Combine both lists
+    let allTodos = [...assignedTasks, ...personalTodos];
+    
+    // Show "+ New Task" button for all users (to create personal todos)
+    newTaskBtn.style.display = 'flex';
+    newTaskBtn.onclick = () => {
+        window.location.href = `create-todo.html?user=${currentUser.email}`;
+    };
     
     // Sort by priority (default)
     const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
-    userTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    allTodos.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
     
     // Render tasks
-    renderTodoItems(userTasks);
+    renderTodoItems(allTodos, currentUser);
     
     // Add event listeners
     projectSelect.addEventListener('change', (e) => {
         const selectedProject = e.target.value;
-        let filteredTasks = simTasks.filter(task => 
-            task.assignedTo.includes(currentUser.email) && task.status !== 'completed'
-        );
+        let filteredTasks = [...assignedTasks, ...personalTodos];
         if (selectedProject) {
             filteredTasks = filteredTasks.filter(t => t.project === selectedProject);
         }
-        renderTodoItems(filteredTasks);
+        renderTodoItems(filteredTasks, currentUser);
     });
     
     // Sort buttons
@@ -1002,7 +1121,7 @@ function renderToDoList(currentUser) {
             btn.classList.add('active');
             
             const sortBy = btn.dataset.sort;
-            let sortedTasks = [...userTasks];
+            let sortedTasks = [...allTodos];
             
             if (sortBy === 'priority') {
                 sortedTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
@@ -1010,30 +1129,31 @@ function renderToDoList(currentUser) {
                 sortedTasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
             }
             
-            renderTodoItems(sortedTasks);
+            renderTodoItems(sortedTasks, currentUser);
         });
     });
 }
 
-function renderTodoItems(tasks) {
+function renderTodoItems(tasks, currentUser) {
     const todoItemsList = document.getElementById('todo-items-list');
     
     if (tasks.length === 0) {
-        todoItemsList.innerHTML = '<p style="text-align: center; color: #8C8C8C;">No tasks to display</p>';
+        todoItemsList.innerHTML = '<p style="text-align: center; color: #8C8C8C; padding: 20px;">No tasks to display</p>';
         return;
     }
     
     todoItemsList.innerHTML = tasks.map(task => {
         const deadline = new Date(task.deadline);
         const formattedDate = deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const isPersonal = task.type === 'personal';
         
         return `
-            <div class="todo-item ${task.status === 'completed' ? 'completed' : ''}" data-task-id="${task.id}">
+            <div class="todo-item ${task.status === 'completed' ? 'completed' : ''}" data-task-id="${task.id}" data-task-type="${task.type || 'assigned'}">
                 <div class="todo-checkbox ${task.status === 'completed' ? 'checked' : ''}">
                     ${task.status === 'completed' ? '<i data-feather="check"></i>' : ''}
                 </div>
                 <div class="todo-content">
-                    <p class="todo-title">${task.title}</p>
+                    <p class="todo-title">${task.title} ${isPersonal ? '<span class="personal-badge">Personal</span>' : ''}</p>
                     <div class="todo-meta">
                         <span class="todo-priority">
                             <span class="priority-dot ${task.priority}"></span>
@@ -1051,12 +1171,24 @@ function renderTodoItems(tasks) {
     document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
         checkbox.addEventListener('click', (e) => {
             e.stopPropagation();
-            const taskId = parseInt(checkbox.closest('.todo-item').dataset.taskId);
-            const task = simTasks.find(t => t.id === taskId);
-            if (task) {
-                task.status = task.status === 'completed' ? 'todo' : 'completed';
-                saveTasks();
-                location.reload();
+            const taskItem = checkbox.closest('.todo-item');
+            const taskId = parseInt(taskItem.dataset.taskId);
+            const taskType = taskItem.dataset.taskType;
+            
+            if (taskType === 'personal') {
+                const task = simPersonalTodos.find(t => t.id === taskId);
+                if (task) {
+                    task.status = task.status === 'completed' ? 'todo' : 'completed';
+                    savePersonalTodos();
+                    location.reload();
+                }
+            } else {
+                const task = simTasks.find(t => t.id === taskId);
+                if (task) {
+                    task.status = task.status === 'completed' ? 'todo' : 'completed';
+                    saveTasks();
+                    location.reload();
+                }
             }
         });
     });
@@ -1136,11 +1268,12 @@ function renderNotifications() {
 }
 
 /**
- * Runs on the Progress page (progress.html)
+ * Runs on the Progress page (progress.html) - shows only assigned tasks
  */
 function loadProgressPage(currentUser) {
+    // Only use assigned tasks for progress tracking
     const userTasks = simTasks.filter(task => 
-        task.assignedTo.includes(currentUser.email)
+        task.assignedTo && task.assignedTo.includes(currentUser.email) && task.type === 'assigned'
     );
     
     // Calculate task progress
@@ -1327,6 +1460,426 @@ function setupCreateTopicForm(currentUser) {
     });
 }
 
+/**
+ * Runs on the standalone Assign Task page (assign-task.html)
+ */
+function setupAssignTaskForm(currentUser) {
+    const form = document.getElementById('assign-task-form');
+    if (!form) return;
+
+    // Populate projects
+    const projectSelect = document.getElementById('task-project');
+    if (projectSelect) {
+        projectSelect.innerHTML = '<option value="">Select a project...</option>';
+        simProjects.forEach(p => {
+            projectSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+        });
+    }
+
+    // Populate assignees
+    const assigneeSelect = document.getElementById('task-assignee');
+    if (assigneeSelect) {
+        assigneeSelect.innerHTML = '<option value="">Select team member...</option>';
+        for (const email in simUsers) {
+            assigneeSelect.innerHTML += `<option value="${email}">${simUsers[email].name}</option>`;
+        }
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('task-title').value;
+        const projectId = document.getElementById('task-project').value;
+        const assigneeEmail = document.getElementById('task-assignee').value;
+        const priority = document.getElementById('task-priority').value;
+        const deadline = document.getElementById('task-deadline').value;
+        const description = document.getElementById('task-description').value;
+
+        if (!title || !projectId || !assigneeEmail || !priority || !deadline) {
+            alert('Please fill out all required fields.');
+            return;
+        }
+
+        const project = simProjects.find(p => p.id === projectId);
+
+        const newTask = {
+            id: new Date().getTime(),
+            title: title,
+            project: project.name,
+            projectId: project.id,
+            assignedTo: [assigneeEmail],
+            priority: priority,
+            status: 'todo', // Default to 'todo'
+            deadline: deadline,
+            createdDate: new Date().toISOString().split('T')[0],
+            description: description,
+            createdBy: currentUser.email,
+            type: 'assigned'
+        };
+
+        simTasks.push(newTask);
+        saveTasks();
+
+        sessionStorage.setItem('taskCreated', 'Task assigned successfully!');
+        window.location.href = `home.html?user=${currentUser.email}`;
+    });
+}
+
+/**
+ * Runs on the Create Project page (create-project.html)
+ */
+function setupCreateProjectForm(currentUser) {
+    const form = document.getElementById('create-project-form');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const projectName = document.getElementById('project-name').value;
+        const projectDesc = document.getElementById('project-description').value;
+
+        if (!projectName) {
+            alert('Please enter a project name.');
+            return;
+        }
+
+        const newProject = {
+            id: projectName.toLowerCase().replace(/\s+/g, '-') + '-' + new Date().getTime(),
+            name: projectName,
+            description: projectDesc,
+            createdBy: currentUser.email,
+            createdDate: new Date().toISOString().split('T')[0]
+        };
+
+        simProjects.push(newProject);
+        saveProjects();
+
+        sessionStorage.setItem('projectCreated', `Project "${projectName}" created successfully!`);
+        window.location.href = `projects.html?user=${currentUser.email}`;
+    });
+}
+
+/**
+ * Generates HTML for a single task card for the project board
+ */
+function createTaskCardHTML(task, currentUser) {
+    const isDraggable = currentUser.role === 'manager' || currentUser.role === 'team_leader';
+    
+    // Find assignee names
+    const assignees = task.assignedTo.map(email => {
+        const user = simUsers[email];
+        return user ? { name: user.name, avatarClass: user.avatarClass } : null;
+    }).filter(Boolean);
+
+    const assigneesHtml = assignees.map((user, index) => {
+        if (index < 3) { // Show max 3 avatars
+            return `<span class="avatar ${user.avatarClass}" title="${user.name}"></span>`
+        }
+        return ''
+    }).join('');
+    
+    const moreAssignees = assignees.length > 3 ? `<span class="avatar-more">+${assignees.length - 3}</span>` : '';
+
+    // Capitalize priority
+    const priorityText = task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
+
+    return `
+        <div class="task-card" data-task-id="${task.id}" ${isDraggable ? 'draggable="true"' : ''}>
+            <span class="priority ${task.priority}">${priorityText}</span>
+            <h3 class="task-title">${task.title}</h3>
+            ${task.project ? `<p class="task-tag">${task.project}</p>` : ''}
+            <div class="task-assignees">
+                ${assigneesHtml}
+                ${moreAssignees}
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Renders all tasks onto the project board
+ */
+function renderTaskBoard(currentUser) {
+    // Get all task columns
+    const columns = document.querySelectorAll('.task-column');
+    
+    // Create a map of status to column elements
+    const columnMap = {};
+    columns.forEach(column => {
+        const status = column.dataset.status;
+        columnMap[status] = {
+            list: column.querySelector('.task-list'),
+            count: column.querySelector('.task-count')
+        };
+    });
+
+    // Clear existing tasks
+    Object.values(columnMap).forEach(col => {
+        if (col.list) col.list.innerHTML = '';
+    });
+
+    // *** NEW: Filter tasks based on role ***
+    let tasksToRender = [];
+    if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
+        tasksToRender = simTasks; // M/TL see all tasks
+    } else {
+        tasksToRender = simTasks.filter(task => task.assignedTo.includes(currentUser.email)); // Members see only their tasks
+    }
+
+    // Filter tasks by status
+    const tasksByStatus = {
+        todo: tasksToRender.filter(t => t.status === 'todo'),
+        inprogress: tasksToRender.filter(t => t.status === 'inprogress'),
+        review: tasksToRender.filter(t => t.status === 'review'),
+        completed: tasksToRender.filter(t => t.status === 'completed')
+    };
+
+    // Render tasks into their respective columns
+    Object.keys(tasksByStatus).forEach(status => {
+        const tasks = tasksByStatus[status];
+        const column = columnMap[status];
+        
+        if (column && column.list) {
+            tasks.forEach(task => {
+                column.list.innerHTML += createTaskCardHTML(task, currentUser);
+            });
+            
+            // Update count
+            if (column.count) {
+                column.count.textContent = tasks.length;
+            }
+        }
+    });
+
+    // *** NEW: Initialize D&D and Modals ***
+    // Re-initialize drag and drop if user is manager/leader
+    if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
+        initDragAndDrop(currentUser);
+    }
+
+    // Initialize task detail click listeners for everyone
+    initTaskDetailsModal(currentUser);
+
+    feather.replace();
+}
+
+/**
+ * Initializes drag and drop functionality for the board
+ */
+function initDragAndDrop(currentUser) {
+    const taskCards = document.querySelectorAll('.task-card[draggable="true"]');
+    const taskColumns = document.querySelectorAll('.task-column');
+
+    taskCards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', card.dataset.taskId);
+            setTimeout(() => card.classList.add('dragging'), 0);
+        });
+
+        card.addEventListener('dragend', () => {
+            card.classList.remove('dragging');
+        });
+    });
+
+    taskColumns.forEach(column => {
+        column.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const taskList = column.querySelector('.task-list');
+            taskList.classList.add('drag-over');
+        });
+
+        column.addEventListener('dragleave', () => {
+            const taskList = column.querySelector('.task-list');
+            taskList.classList.remove('drag-over');
+        });
+
+        column.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const taskList = column.querySelector('.task-list');
+            taskList.classList.remove('drag-over');
+
+            const taskId = e.dataTransfer.getData('text/plain');
+            const newStatus = column.dataset.status; // This now works!
+
+            const task = simTasks.find(t => t.id == taskId);
+
+            if (task && task.status !== newStatus) {
+                task.status = newStatus;
+                saveTasks();
+                renderTaskBoard(currentUser); // Re-render the whole board
+            }
+        });
+    });
+}
+
+/**
+ * NEW: Initializes click listeners for task cards to show details
+ */
+function initTaskDetailsModal(currentUser) {
+    const detailsModal = document.getElementById('task-details-modal');
+    const detailsCloseBtn = document.getElementById('details-close-modal-btn');
+    
+    if (!detailsModal || !detailsCloseBtn) return;
+
+    const closeModal = () => {
+        detailsModal.style.display = 'none';
+    }
+
+    detailsCloseBtn.addEventListener('click', closeModal);
+    
+    detailsModal.addEventListener('click', (e) => {
+            if (e.target === detailsModal) {
+            closeModal();
+            }
+    });
+
+    document.querySelectorAll('.task-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const taskId = card.dataset.taskId;
+            const task = simTasks.find(t => t.id == taskId);
+
+            if (!task) return;
+            
+            // Find assignees
+            const assignees = task.assignedTo.map(email => simUsers[email] ? simUsers[email].name : 'Unknown').join(', ');
+            
+            // Format dates
+            const createdDate = new Date(task.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const deadlineDate = new Date(task.deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            document.getElementById('details-task-title').textContent = task.title;
+            document.getElementById('details-task-project').textContent = task.project;
+            document.getElementById('details-task-priority').textContent = task.priority;
+            document.getElementById('details-task-priority').className = `priority-badge ${task.priority}`;
+            document.getElementById('details-task-assignees').textContent = assignees;
+            document.getElementById('details-task-created').textContent = createdDate;
+            document.getElementById('details-task-deadline').textContent = deadlineDate;
+            document.getElementById('details-task-description').textContent = task.description || 'No description provided.';
+            
+            detailsModal.style.display = 'flex';
+        });
+    });
+}
+
+
+/**
+ * *** COMPLETELY REVISED FUNCTION ***
+ * Runs on the Projects page (projects.html)
+ */
+function loadProjectsPage(currentUser) {
+    const isManagerOrLeader = currentUser.role === 'manager' || currentUser.role === 'team_leader';
+
+    // Get modal elements
+    const modal = document.getElementById('assign-task-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalForm = document.getElementById('modal-assign-task-form');
+    const modalStatusInput = document.getElementById('modal-task-status');
+    const modalProjectSelect = document.getElementById('modal-task-project');
+    const modalAssigneeSelect = document.getElementById('modal-task-assignee');
+
+    // --- Modal Functions ---
+    const openModal = (status) => {
+        if (!modal) return;
+        modalStatusInput.value = status; // Set the hidden status input
+        modal.style.display = 'flex';
+        feather.replace();
+    };
+    const closeModal = () => {
+        if (!modal) return;
+        modal.style.display = 'none';
+        modalForm.reset();
+    };
+
+    // Populate modal dropdowns
+    if (modalProjectSelect) {
+        modalProjectSelect.innerHTML = '<option value="">Select a project...</option>';
+        simProjects.forEach(p => {
+            modalProjectSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+        });
+    }
+    if (modalAssigneeSelect) {
+        modalAssigneeSelect.innerHTML = '<option value="">Select team member...</option>';
+        for (const email in simUsers) {
+            modalAssigneeSelect.innerHTML += `<option value="${email}">${simUsers[email].name}</option>`;
+        }
+    }
+
+    // --- Role-based UI (Column "+" buttons) ---
+    const addButtons = document.querySelectorAll('.add-task');
+    addButtons.forEach(btn => {
+        if (isManagerOrLeader) {
+            btn.style.display = 'grid'; // Show the button
+            btn.addEventListener('click', (e) => {
+                // Get status from parent column's data-status
+                const status = e.currentTarget.closest('.task-column').dataset.status;
+                openModal(status);
+            });
+        } else {
+            btn.style.display = 'none'; // Hide for team members
+        }
+    });
+
+    // --- Modal Event Listeners ---
+    if (modal) {
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal(); // Close if clicking overlay
+        });
+
+        modalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('modal-task-title').value;
+            const projectId = document.getElementById('modal-task-project').value;
+            const assigneeEmail = document.getElementById('modal-task-assignee').value;
+            const priority = document.getElementById('modal-task-priority').value;
+            const deadline = document.getElementById('modal-task-deadline').value;
+            const description = document.getElementById('modal-task-description').value; // Get description
+            const status = modalStatusInput.value;
+
+            if (!title || !projectId || !assigneeEmail || !priority || !deadline) {
+                alert('Please fill out all required fields.');
+                return;
+            }
+
+            const project = simProjects.find(p => p.id === projectId);
+
+            const newTask = {
+                id: new Date().getTime(),
+                title: title,
+                project: project ? project.name : 'Unknown Project',
+                projectId: projectId,
+                assignedTo: [assigneeEmail],
+                priority: priority,
+                status: status,
+                deadline: deadline,
+                createdDate: new Date().toISOString().split('T')[0], // Set created date
+                description: description, // Set description
+                createdBy: currentUser.email,
+                type: 'assigned'
+            };
+
+            simTasks.push(newTask);
+            saveTasks();
+            
+            renderTaskBoard(currentUser); // Refresh the board with the new task
+            closeModal();
+            showSuccessNotification('Task assigned successfully!');
+        });
+    }
+
+
+    // --- Initial Render ---
+    renderTaskBoard(currentUser);
+
+    // Show notifications from other pages
+    const showProjectNotification = sessionStorage.getItem('projectCreated');
+    if (showProjectNotification) {
+        showSuccessNotification(showProjectNotification);
+        sessionStorage.removeItem('projectCreated');
+    }
+}
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Get the "logged in" user
@@ -1378,6 +1931,15 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pageId === 'progress-page') {
         // NEW: Progress page
         loadProgressPage(currentUser);
+    } else if (pageId === 'assign-task-page') {
+        // NEW: Standalone Assign Task form
+        setupAssignTaskForm(currentUser);
+    } else if (pageId === 'create-project-page') {
+        // NEW: Create Project form
+        setupCreateProjectForm(currentUser);
+    }else if (pageId === 'projects-page') {
+        // *** THIS IS THE UPDATED ONE ***
+        loadProjectsPage(currentUser);
     }
 
     // Finally, activate all Feather icons

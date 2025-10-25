@@ -303,3 +303,197 @@ body {
     flex-grow: 1;
     gap: 30px;
 }
+
+.project-nav a.active {
+    color: #1E1E1E;
+    border-bottom-color: #1E1E1E;
+}
+
+/*
+* Shared Create/Assign Button Styles (from knowledge-base.css)
+*/
+.create-post-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FBC02D;
+    color: #1E1E1E;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.create-post-btn:hover {
+    background: #F9A825;
+}
+
+.create-post-btn i {
+    width: 20px;
+    height: 20px;
+}
+
+/*
+* Modal Styles
+*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #EAECEE;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.modal-header .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 0;
+    color: #555;
+    border-radius: 50%;
+}
+.modal-header .close-btn:hover {
+    background: #f0f0f0;
+}
+.modal-header .close-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.modal-body {
+    padding: 25px;
+    overflow-y: auto;
+}
+
+/* Form styles from knowledge-base.css (copied for modal) */
+.create-post-form .form-group {
+    margin-bottom: 20px;
+}
+.create-post-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #333;
+}
+.create-post-form input[type="text"],
+.create-post-form input[type="date"],
+.create-post-form select,
+.create-post-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #DCDCDC;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    background: #FAFAFA;
+}
+.create-post-form input[type="text"]:focus,
+.create-post-form input[type="date"]:focus,
+.create-post-form select:focus,
+.create-post-form textarea:focus {
+    outline: none;
+    border-color: #FBC02D;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(251, 192, 45, 0.3);
+}
+
+/*
+* Task Details Modal Styles
+*/
+.task-details-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #EAECEE;
+}
+.task-details-meta .meta-item {
+    font-size: 14px;
+}
+.task-details-meta .meta-item strong {
+    display: block;
+    color: #555;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+.task-details-meta .meta-item span {
+    color: #1E1E1E;
+}
+.priority-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: capitalize;
+}
+.priority-badge.medium { background: #FFF4C1; color: #E6A100; }
+.priority-badge.urgent { background: #FFEBEB; color: #D93025; }
+.priority-badge.low    { background: #E6F7F0; color: #34A853; }
+.priority-badge.high   { background: #FFE0B2; color: #E65100; } /* Added high */
+
+
+.task-details-description strong {
+    display: block;
+    color: #555;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.task-details-description p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1E1E1E;
+    white-space: pre-wrap; /* Preserves line breaks from textarea */
+}
+
+/*
+* Dragging Styles
+*/
+.task-card.dragging {
+    opacity: 0.5;
+    transform: rotate(3deg);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.task-list.drag-over {
+    background: #F0F0F0;
+    border: 2px dashed #CCC;
+}
