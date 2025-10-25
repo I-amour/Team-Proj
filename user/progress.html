@@ -22,9 +22,13 @@
                     <li><a href="home.html"><i data-feather="home"></i>Home</a></li>
                     <li class="active-parent">
                         <a href="projects.html"><i data-feather="folder"></i>Projects</a>
-                        <ul class="nav-sub">
-                            <li><a href="projects.html?view=tasks">Project 15</a></li>
-                            <li><a href="#">Project Apollo</a></li>
+                        <!-- 
+                          KEY CHANGE: 
+                          - Sidebar list is now empty, JS will fill it.
+                          - Added id="project-sidebar-list"
+                        -->
+                        <ul class="nav-sub" id="project-sidebar-list">
+                            <!-- JS will populate this -->
                         </ul>
                     </li>
                     <li><a href="knowledge-base.html"><i data-feather="book-open"></i>Knowledge Base</a></li>
@@ -40,10 +44,12 @@
 
         <main class="main-content">
             <header class="project-header">
-                <p class="breadcrumbs">Projects > Project 15</p>
-                <h1>Project 15</h1>
-                <nav class="project-nav">
-                    <a href="projects.html?view=tasks">Tasks</a>
+                <!-- JS will populate breadcrumb and header -->
+                <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">Project</span></p>
+                <h1 id="project-name-header">Project</h1>
+                <!-- JS will populate nav links -->
+                <nav class="project-nav" id="project-nav-links">
+                    <a href="projects.html">Tasks</a>
                     <a href="progress.html" class="active">Progress</a>
                     <a href="#">Resources</a>
                 </nav>

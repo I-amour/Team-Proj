@@ -195,6 +195,7 @@ function saveProjects() {
 // *** UPDATED TASKS DATA ***
 // Added description, createdDate, and more realistic tasks
 const initialTasks = [
+    // --- PROJECT APOLLO (apollo) ---
     {
         id: 1,
         title: 'Write onboarding documentation',
@@ -217,23 +218,9 @@ const initialTasks = [
         assignedTo: ['specialist@makeitall.com'],
         priority: 'urgent',
         status: 'inprogress',
-        deadline: '2025-10-26',
+        deadline: '2025-10-26', // Not overdue
         createdDate: '2025-10-24',
         description: 'Users reporting being logged out every 5 minutes. Investigate session token expiry.',
-        createdBy: 'manager@makeitall.com',
-        type: 'assigned'
-    },
-    {
-        id: 3,
-        title: 'Prepare client presentation slides',
-        project: 'Project 15',
-        projectId: 'project15',
-        assignedTo: ['user@makeitall.com', 'leader@makeitall.com'],
-        priority: 'high',
-        status: 'todo',
-        deadline: '2025-10-27',
-        createdDate: '2025-10-22',
-        description: 'Build the deck for the Q4 review. Focus on metrics from slide 5 of the brief.',
         createdBy: 'manager@makeitall.com',
         type: 'assigned'
     },
@@ -242,12 +229,55 @@ const initialTasks = [
         title: 'Code review for API integration',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['leader@makeitall.com'],
+        assignedTo: ['leader@makeitall.com'], // Assigned to Team Leader
         priority: 'medium',
         status: 'review',
-        deadline: '2025-10-25',
+        deadline: '2025-10-25', // Overdue
         createdDate: '2025-10-23',
         description: 'Review Jane\'s PR #451 for the Stripe API connector.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
+    },
+     {
+        id: 7,
+        title: 'Design dashboard mockups (v2)',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'high',
+        status: 'review',
+        deadline: '2025-10-26', // Not overdue
+        createdDate: '2025-10-21',
+        description: 'Create high-fidelity mockups for the new admin dashboard based on client feedback.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
+    },
+    {
+        id: 10,
+        title: 'Finalize user testing report',
+        project: 'Project Apollo',
+        projectId: 'apollo',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'low',
+        status: 'completed',
+        deadline: '2025-10-22',
+        createdDate: '2025-10-18',
+        description: 'Collate all feedback from the user testing session into a summary document.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
+    },
+    // --- PROJECT 15 (project15) ---
+    {
+        id: 3,
+        title: 'Prepare client presentation slides',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['user@makeitall.com', 'leader@makeitall.com'],
+        priority: 'high',
+        status: 'todo',
+        deadline: '2025-10-27', // Not overdue
+        createdDate: '2025-10-22',
+        description: 'Build the deck for the Q4 review. Focus on metrics from slide 5 of the brief.',
         createdBy: 'manager@makeitall.com',
         type: 'assigned'
     },
@@ -259,7 +289,7 @@ const initialTasks = [
         assignedTo: ['specialist@makeitall.com'],
         priority: 'medium',
         status: 'todo',
-        deadline: '2025-10-29',
+        deadline: '2025-10-29', // Not overdue
         createdDate: '2025-10-24',
         description: 'Add new test cases for failed payments and 3DS verification.',
         createdBy: 'manager@makeitall.com',
@@ -280,20 +310,6 @@ const initialTasks = [
         type: 'assigned'
     },
     {
-        id: 7,
-        title: 'Design dashboard mockups (v2)',
-        project: 'Project Apollo',
-        projectId: 'apollo',
-        assignedTo: ['user@makeitall.com'],
-        priority: 'high',
-        status: 'review',
-        deadline: '2025-10-26',
-        createdDate: '2025-10-21',
-        description: 'Create high-fidelity mockups for the new admin dashboard based on client feedback.',
-        createdBy: 'manager@makeitall.com',
-        type: 'assigned'
-    },
-    {
         id: 8,
         title: 'Client demo script finalization',
         project: 'Project 15',
@@ -301,7 +317,7 @@ const initialTasks = [
         assignedTo: ['manager@makeitall.com'],
         priority: 'urgent',
         status: 'todo',
-        deadline: '2025-10-26',
+        deadline: '2025-10-26', // Not overdue
         createdDate: '2025-10-25',
         description: 'Final pass on the demo script. Check all talking points.',
         createdBy: 'manager@makeitall.com',
@@ -315,23 +331,51 @@ const initialTasks = [
         assignedTo: ['specialist@makeitall.com'],
         priority: 'high',
         status: 'review',
-        deadline: '2025-10-25',
+        deadline: '2025-10-24', // Overdue
         createdDate: '2025-10-24',
         description: 'Push latest `main` branch to the staging server for client review.',
         createdBy: 'manager@makeitall.com',
         type: 'assigned'
     },
     {
-        id: 10,
-        title: 'Finalize user testing report',
-        project: 'Project Apollo',
-        projectId: 'apollo',
+        id: 11,
+        title: 'Fix ARIA labels',
+        project: 'Project 15',
+        projectId: 'project15',
         assignedTo: ['user@makeitall.com'],
         priority: 'low',
-        status: 'completed',
-        deadline: '2025-10-22',
-        createdDate: '2025-10-18',
-        description: 'Collate all feedback from the user testing session into a summary document.',
+        status: 'todo',
+        deadline: '2025-10-23', // Overdue
+        createdDate: '2025-10-20',
+        description: 'Run accessibility check and fix labels.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
+    },
+     {
+        id: 12,
+        title: 'Update E2E tests',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['specialist@makeitall.com'],
+        priority: 'medium',
+        status: 'todo',
+        deadline: '2025-10-22', // Overdue
+        createdDate: '2025-10-20',
+        description: 'E2E tests are failing on CI.',
+        createdBy: 'manager@makeitall.com',
+        type: 'assigned'
+    },
+    {
+        id: 13,
+        title: 'Draft blog post',
+        project: 'Project 15',
+        projectId: 'project15',
+        assignedTo: ['user@makeitall.com'],
+        priority: 'low',
+        status: 'todo',
+        deadline: '2025-10-21', // Overdue
+        createdDate: '2025-10-19',
+        description: 'Draft blog post for project launch.',
         createdBy: 'manager@makeitall.com',
         type: 'assigned'
     }
@@ -471,25 +515,99 @@ function getCurrentUser() {
 }
 
 /**
- * Persists the current user's email in all internal links.
+ * NEW: Gets the current project ID from the URL.
+ * Defaults to 'project15' if none is set.
+ */
+function getCurrentProjectId() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('project');
+    return projectId || 'project15'; // Default to 'project15'
+}
+
+/**
+ * Persists the current user's email AND project in all internal links.
  * This simulates a "logged in" session as you navigate.
  */
 function persistUserQueryParam(currentUser) {
     const userQuery = `user=${currentUser.email}`;
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectQuery = urlParams.get('project') ? `project=${urlParams.get('project')}` : 'project=project15';
+
     document.querySelectorAll('a').forEach(a => {
         // Check if it's an internal link
-        if (a.href && a.hostname === window.location.hostname && !a.href.includes('user=')) {
-            // Check if it already has query params
-            if (a.search) {
-                // Check if it's a mailto link, if so, skip
-                if(a.protocol === "mailto:") return;
-                a.href += `&${userQuery}`;
-            } else {
-                a.href += `?${userQuery}`;
-            }
+        if (a.href && a.hostname === window.location.hostname && !a.href.includes('#')) {
+             // Check if it's a mailto link, if so, skip
+             if (a.protocol === "mailto:") return;
+
+             // Don't modify links that already have params
+             if (a.href.includes('?')) return;
+            
+            // Rebuild href to include both user and project
+             if (a.search) {
+                 if (!a.search.includes('user=')) a.search += `&${userQuery}`;
+                 if (a.pathname.includes('projects') || a.pathname.includes('progress')) {
+                     if (!a.search.includes('project=')) a.search += `&${projectQuery}`;
+                 }
+             } else {
+                 a.href += `?${userQuery}`;
+                 if (a.pathname.includes('projects') || a.pathname.includes('progress')) {
+                     a.href += `&${projectQuery}`;
+                 }
+             }
         }
     });
 }
+
+/**
+ * NEW: Dynamically updates sidebar links and project header/nav
+ */
+function updateSidebarAndNav(currentUser, currentProjectId) {
+    const project = simProjects.find(p => p.id === currentProjectId) || simProjects[0];
+    const userQuery = `user=${currentUser.email}`;
+
+    // 1. Update Sidebar
+    const sidebarList = document.getElementById('project-sidebar-list');
+    if (sidebarList) {
+        sidebarList.innerHTML = simProjects.map(p => `
+            <li class="${p.id === currentProjectId ? 'active' : ''}">
+                <a href="projects.html?project=${p.id}&${userQuery}">${p.name}</a>
+            </li>
+        `).join('');
+    }
+
+    // 2. Update Header
+    const breadcrumb = document.getElementById('project-name-breadcrumb');
+    const header = document.getElementById('project-name-header');
+    if (breadcrumb) breadcrumb.textContent = project.name;
+    if (header) header.textContent = project.name;
+
+    // 3. Update Nav Links (Tasks, Progress, etc.)
+    const navLinks = document.getElementById('project-nav-links');
+    if (navLinks) {
+        // Check for the special "Leader on Apollo" case
+        const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
+        const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+        
+        let progressPage = 'progress.html'; // Default to member view
+        if (isManagerView && !isLeaderOnApollo) {
+            progressPage = 'manager-progress.html'; // Manager/Leader view
+        }
+
+        const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
+        const progressLink = `${progressPage}?project=${currentProjectId}&${userQuery}`;
+        
+        const path = window.location.pathname;
+        const tasksActive = path.includes('projects.html') ? 'active' : '';
+        const progressActive = path.includes('progress.html') ? 'active' : '';
+
+        navLinks.innerHTML = `
+            <a href="${tasksLink}" class="${tasksActive}">Tasks</a>
+            <a href="${progressLink}" class="${progressActive}">Progress</a>
+            <a href="#">Resources</a>
+        `;
+    }
+}
+
 
 /**
  * Generates the HTML for a single post card.
@@ -1003,7 +1121,8 @@ function loadHomePage(currentUser) {
     if (currentUser.role === 'manager') {
         document.getElementById('manager-actions').style.display = 'block';
     } else if (currentUser.role === 'team_leader') {
-        document.getElementById('leader-actions').style.display = 'block';
+        // Team leaders don't have manager actions on home page in this design
+        // document.getElementById('leader-actions').style.display = 'block';
     }
     
     // Render Total Tasks Chart
@@ -1271,9 +1390,30 @@ function renderNotifications() {
  * Runs on the Progress page (progress.html) - shows only assigned tasks
  */
 function loadProgressPage(currentUser) {
-    // Only use assigned tasks for progress tracking
+    const currentProjectId = getCurrentProjectId();
+    
+    // --- NEW: Role-based Redirect ---
+    // Check if user is a manager/leader
+    const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
+    // Check for the special "Leader on Apollo" exception
+    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+
+    if (isManagerView && !isLeaderOnApollo) {
+        // This is a manager/leader, redirect them to the manager progress page
+        window.location.href = `manager-progress.html?project=${currentProjectId}&user=${currentUser.email}`;
+        return; // Stop loading this page
+    }
+    // --- End Redirect ---
+
+    // If we are here, it's a team member (or the special exception)
+    updateSidebarAndNav(currentUser, currentProjectId);
+
+    // Only use assigned tasks for this user AND this project
     const userTasks = simTasks.filter(task => 
-        task.assignedTo && task.assignedTo.includes(currentUser.email) && task.type === 'assigned'
+        task.assignedTo && 
+        task.assignedTo.includes(currentUser.email) && 
+        task.type === 'assigned' &&
+        task.projectId === currentProjectId // <-- NEW FILTER
     );
     
     // Calculate task progress
@@ -1283,18 +1423,18 @@ function loadProgressPage(currentUser) {
     
     document.getElementById('task-progress-fill').style.width = progressPercent + '%';
     document.getElementById('progress-text').textContent = 
-        `You have completed ${progressPercent}% of your assigned tasks.`;
+        `You have completed ${progressPercent}% of your assigned tasks for this project.`;
     
-    // Render upcoming deadlines
+    // Render upcoming deadlines (from this project's tasks)
     renderUpcomingDeadlines(userTasks);
     
-    // Render workload
-    renderWorkload(currentUser, userTasks);
+    // Render workload (pass project ID)
+    renderWorkload(currentUser, currentProjectId);
     
-    // Render urgent tasks
+    // Render urgent tasks (from this project's tasks)
     renderUrgentTasks(userTasks, currentUser);
     
-    // Render task distribution chart
+    // Render task distribution chart (from this project's tasks)
     renderTaskDistributionChart(userTasks);
     
     feather.replace();
@@ -1302,7 +1442,7 @@ function loadProgressPage(currentUser) {
 
 function renderUpcomingDeadlines(userTasks) {
     const deadlinesList = document.getElementById('deadlines-list');
-    const today = new Date();
+    const today = new Date("2025-10-25T12:00:00"); // Hardcode date for demo consistency
     today.setHours(0, 0, 0, 0);
     
     const upcomingTasks = userTasks
@@ -1310,6 +1450,11 @@ function renderUpcomingDeadlines(userTasks) {
         .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
         .slice(0, 3);
     
+    if (upcomingTasks.length === 0) {
+        deadlinesList.innerHTML = '<p class="no-deadlines">No upcoming deadlines. You\'re all caught up!</p>';
+        return;
+    }
+
     deadlinesList.innerHTML = upcomingTasks.map(task => {
         const deadline = new Date(task.deadline);
         const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
@@ -1340,15 +1485,22 @@ function renderUpcomingDeadlines(userTasks) {
     }).join('');
 }
 
-function renderWorkload(currentUser, userTasks) {
-    const userTaskCount = userTasks.filter(t => t.status !== 'completed').length;
+function renderWorkload(currentUser, currentProjectId) {
+    // Get this user's tasks for this project
+     const userTasks = simTasks.filter(task => 
+        task.assignedTo && 
+        task.assignedTo.includes(currentUser.email) && 
+        task.status !== 'completed' &&
+        task.projectId === currentProjectId
+    );
+    const userTaskCount = userTasks.length;
     
-    // Calculate team average (simplified)
-    const allTasks = simTasks.filter(t => t.status !== 'completed');
-    const uniqueUsers = [...new Set(allTasks.flatMap(t => t.assignedTo))];
-    const teamAverage = Math.round(allTasks.length / uniqueUsers.length);
+    // Calculate team average for this project
+    const allTasksInProject = simTasks.filter(t => t.status !== 'completed' && t.projectId === currentProjectId);
+    const uniqueUsersInProject = [...new Set(allTasksInProject.flatMap(t => t.assignedTo))];
+    const teamAverage = uniqueUsersInProject.length > 0 ? Math.round(allTasksInProject.length / uniqueUsersInProject.length) : 0;
     
-    const maxTasks = Math.max(userTaskCount, teamAverage, 10);
+    const maxTasks = Math.max(userTaskCount, teamAverage, 5); // Set a minimum max of 5 for display
     const userPercent = (userTaskCount / maxTasks) * 100;
     const teamPercent = (teamAverage / maxTasks) * 100;
     
@@ -1360,21 +1512,28 @@ function renderWorkload(currentUser, userTasks) {
 
 function renderUrgentTasks(userTasks, currentUser) {
     const urgentTasksList = document.getElementById('urgent-tasks-list');
-    const today = new Date();
+    const today = new Date("2025-10-25T12:00:00"); // Hardcode date
     today.setHours(0, 0, 0, 0);
     
     const urgentTasks = userTasks.filter(task => {
         if (task.status === 'completed') return false;
         const deadline = new Date(task.deadline);
-        return task.priority === 'urgent' || deadline < today || 
-               (deadline - today) / (1000 * 60 * 60 * 24) <= 2;
+        const daysUntil = (deadline - today) / (1000 * 60 * 60 * 24);
+        
+        return task.priority === 'urgent' || daysUntil < 0 || 
+               (daysUntil >= 0 && daysUntil <= 2);
     }).slice(0, 3);
     
+    if (urgentTasks.length === 0) {
+        urgentTasksList.innerHTML = '<p class="no-deadlines">No urgent tasks. Keep it up!</p>';
+        return;
+    }
+
     urgentTasksList.innerHTML = urgentTasks.map(task => {
         const deadline = new Date(task.deadline);
         const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
         
-        const isOverdue = deadline < today;
+        const isOverdue = new Date(task.deadline) < today;
         
         return `
             <div class="urgent-task">
@@ -1401,6 +1560,12 @@ function renderTaskDistributionChart(userTasks) {
     
     const ctx = document.getElementById('taskDistributionChart');
     if (ctx) {
+        // Destroy existing chart if it exists
+        const existingChart = Chart.getChart(ctx);
+        if (existingChart) {
+            existingChart.destroy();
+        }
+
         new Chart(ctx, {
             type: 'pie',
             data: {
@@ -1553,7 +1718,8 @@ function setupCreateProjectForm(currentUser) {
         saveProjects();
 
         sessionStorage.setItem('projectCreated', `Project "${projectName}" created successfully!`);
-        window.location.href = `projects.html?user=${currentUser.email}`;
+        // Redirect to the new project's page
+        window.location.href = `projects.html?project=${newProject.id}&user=${currentUser.email}`;
     });
 }
 
@@ -1561,7 +1727,12 @@ function setupCreateProjectForm(currentUser) {
  * Generates HTML for a single task card for the project board
  */
 function createTaskCardHTML(task, currentUser) {
-    const isDraggable = currentUser.role === 'manager' || currentUser.role === 'team_leader';
+    // Check for the special "Leader on Apollo" case
+    const currentProjectId = getCurrentProjectId();
+    const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
+    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+    
+    const isDraggable = isManagerView && !isLeaderOnApollo;
     
     // Find assignee names
     const assignees = task.assignedTo.map(email => {
@@ -1597,7 +1768,7 @@ function createTaskCardHTML(task, currentUser) {
 /**
  * Renders all tasks onto the project board
  */
-function renderTaskBoard(currentUser) {
+function renderTaskBoard(currentUser, currentProjectId) {
     // Get all task columns
     const columns = document.querySelectorAll('.task-column');
     
@@ -1616,12 +1787,19 @@ function renderTaskBoard(currentUser) {
         if (col.list) col.list.innerHTML = '';
     });
 
-    // *** NEW: Filter tasks based on role ***
+    // Check for the special "Leader on Apollo" case
+    const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
+    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+    
+    // *** NEW: Filter tasks based on role AND project ***
     let tasksToRender = [];
-    if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
-        tasksToRender = simTasks; // M/TL see all tasks
+    if (isManagerView && !isLeaderOnApollo) {
+        tasksToRender = simTasks.filter(task => task.projectId === currentProjectId); // M/TL see all tasks for this project
     } else {
-        tasksToRender = simTasks.filter(task => task.assignedTo.includes(currentUser.email)); // Members see only their tasks
+        tasksToRender = simTasks.filter(task => 
+            task.assignedTo.includes(currentUser.email) && 
+            task.projectId === currentProjectId // Members see only their tasks for this project
+        );
     }
 
     // Filter tasks by status
@@ -1650,9 +1828,9 @@ function renderTaskBoard(currentUser) {
     });
 
     // *** NEW: Initialize D&D and Modals ***
-    // Re-initialize drag and drop if user is manager/leader
-    if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
-        initDragAndDrop(currentUser);
+    // Re-initialize drag and drop if user is manager/leader (and not the exception)
+    if (isManagerView && !isLeaderOnApollo) {
+        initDragAndDrop(currentUser, currentProjectId);
     }
 
     // Initialize task detail click listeners for everyone
@@ -1664,7 +1842,7 @@ function renderTaskBoard(currentUser) {
 /**
  * Initializes drag and drop functionality for the board
  */
-function initDragAndDrop(currentUser) {
+function initDragAndDrop(currentUser, currentProjectId) {
     const taskCards = document.querySelectorAll('.task-card[draggable="true"]');
     const taskColumns = document.querySelectorAll('.task-column');
 
@@ -1704,7 +1882,7 @@ function initDragAndDrop(currentUser) {
             if (task && task.status !== newStatus) {
                 task.status = newStatus;
                 saveTasks();
-                renderTaskBoard(currentUser); // Re-render the whole board
+                renderTaskBoard(currentUser, currentProjectId); // Re-render the whole board
             }
         });
     });
@@ -1765,7 +1943,14 @@ function initTaskDetailsModal(currentUser) {
  * Runs on the Projects page (projects.html)
  */
 function loadProjectsPage(currentUser) {
-    const isManagerOrLeader = currentUser.role === 'manager' || currentUser.role === 'team_leader';
+    const currentProjectId = getCurrentProjectId();
+    updateSidebarAndNav(currentUser, currentProjectId);
+
+    // Check for the special "Leader on Apollo" case
+    const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
+    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+    
+    const showManagerControls = isManagerView && !isLeaderOnApollo;
 
     // Get modal elements
     const modal = document.getElementById('assign-task-modal');
@@ -1779,6 +1964,8 @@ function loadProjectsPage(currentUser) {
     const openModal = (status) => {
         if (!modal) return;
         modalStatusInput.value = status; // Set the hidden status input
+        // Set project dropdown to current project
+        modalProjectSelect.value = currentProjectId;
         modal.style.display = 'flex';
         feather.replace();
     };
@@ -1805,7 +1992,7 @@ function loadProjectsPage(currentUser) {
     // --- Role-based UI (Column "+" buttons) ---
     const addButtons = document.querySelectorAll('.add-task');
     addButtons.forEach(btn => {
-        if (isManagerOrLeader) {
+        if (showManagerControls) {
             btn.style.display = 'grid'; // Show the button
             btn.addEventListener('click', (e) => {
                 // Get status from parent column's data-status
@@ -1860,7 +2047,7 @@ function loadProjectsPage(currentUser) {
             simTasks.push(newTask);
             saveTasks();
             
-            renderTaskBoard(currentUser); // Refresh the board with the new task
+            renderTaskBoard(currentUser, currentProjectId); // Refresh the board with the new task
             closeModal();
             showSuccessNotification('Task assigned successfully!');
         });
@@ -1868,7 +2055,7 @@ function loadProjectsPage(currentUser) {
 
 
     // --- Initial Render ---
-    renderTaskBoard(currentUser);
+    renderTaskBoard(currentUser, currentProjectId);
 
     // Show notifications from other pages
     const showProjectNotification = sessionStorage.getItem('projectCreated');
@@ -1878,7 +2065,240 @@ function loadProjectsPage(currentUser) {
     }
 }
 
+// ===============================================
+// === NEW FUNCTIONS FOR MANAGER PROGRESS PAGE ===
+// ===============================================
 
+/**
+ * Runs on the Manager Progress page (manager-progress-page)
+ */
+function loadManagerProgressPage(currentUser) {
+    const currentProjectId = getCurrentProjectId();
+    updateSidebarAndNav(currentUser, currentProjectId);
+
+    // Get all tasks for this specific project
+    const projectTasks = simTasks.filter(task => task.projectId === currentProjectId);
+    
+    // Render all components
+    renderManagerTaskProgress(projectTasks);
+    renderManagerDeadlines(projectTasks);
+    renderProjectResources(projectTasks);
+    renderTasksPerMemberChart(projectTasks);
+
+    feather.replace();
+}
+
+/**
+ * (Manager) Renders the overall project task progress
+ */
+function renderManagerTaskProgress(projectTasks) {
+    const completedTasks = projectTasks.filter(t => t.status === 'completed').length;
+    const totalTasks = projectTasks.length;
+    const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+    document.getElementById('task-progress-fill').style.width = progressPercent + '%';
+    document.getElementById('progress-text').textContent = 
+        `Your team has completed ${progressPercent}% of tasks assigned for this project.`;
+}
+
+/**
+ * (Manager) Renders upcoming deadlines for the whole team
+ */
+function renderManagerDeadlines(projectTasks) {
+    const deadlinesList = document.getElementById('deadlines-list');
+    const today = new Date("2025-10-25T12:00:00"); // Hardcode date for demo consistency
+    today.setHours(0, 0, 0, 0);
+
+    const upcomingTasks = projectTasks
+        .filter(t => t.status !== 'completed')
+        .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+        .slice(0, 5); // Show top 5 for manager view
+
+    if (upcomingTasks.length === 0) {
+        deadlinesList.innerHTML = '<p class="no-deadlines">No upcoming deadlines for the team!</p>';
+        return;
+    }
+
+    deadlinesList.innerHTML = upcomingTasks.map(task => {
+        const deadline = new Date(task.deadline);
+        const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+        
+        let status = 'on-track';
+        let statusText = 'On track';
+        
+        if (deadline < today) {
+            status = 'overdue';
+            statusText = 'Overdue';
+        } else {
+            const daysUntil = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+            if (daysUntil <= 2) {
+                status = 'at-risk';
+                statusText = 'At risk';
+            }
+        }
+        
+        // Find assignee names
+        const assignees = task.assignedTo.map(email => simUsers[email] ? simUsers[email].name.split(' ')[0] : 'N/A').join(', ');
+        
+        return `
+            <div class="deadline-item">
+                <div class="deadline-item-left">
+                    <p class="deadline-title">${task.title}</p>
+                    <p class="deadline-assignee">Assignee: ${assignees}</p>
+                </div>
+                <div class="deadline-info">
+                    <span class="deadline-date">${formattedDate}</span>
+                    <span class="deadline-status ${status}">${statusText}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+/**
+ * (Manager) Renders the Project Resources card
+ */
+function renderProjectResources(projectTasks) {
+    const today = new Date("2025-10-25T12:00:00"); // Hardcode date
+    today.setHours(0, 0, 0, 0);
+
+    const overdueTasks = projectTasks.filter(t => 
+        t.status !== 'completed' && new Date(t.deadline) < today
+    ).length;
+
+    const card = document.getElementById('project-resource-card');
+    const statusText = document.getElementById('resource-status-text');
+    const statusDesc = document.getElementById('resource-status-desc');
+
+    // Remove old classes
+    card.classList.remove('status-green', 'status-yellow', 'status-red');
+
+    if (overdueTasks === 0) {
+        // Green
+        card.classList.add('status-green');
+        statusText.textContent = 'Sufficiently Resourced';
+        statusDesc.textContent = 'No tasks are overdue. Resources are efficiently allocated.';
+    } else if (overdueTasks >= 1 && overdueTasks <= 3) {
+        // Yellow
+        card.classList.add('status-yellow');
+        statusText.textContent = 'Tightly Resourced';
+        statusDesc.textContent = `One or more tasks are overdue. These tasks may need more resources to be completed.`;
+    } else {
+        // Red
+        card.classList.add('status-red');
+        statusText.textContent = 'Under-Resourced';
+        statusDesc.textContent = `More than three tasks are overdue. This project needs immediate attention and resources.`;
+    }
+}
+
+/**
+ * (Manager) Renders the "Tasks per member" stacked bar chart
+ */
+function renderTasksPerMemberChart(projectTasks) {
+    // 1. Get all unique users in this project
+    const userEmails = [...new Set(projectTasks.flatMap(t => t.assignedTo))];
+    
+    const labels = [];
+    const todoData = [];
+    const inProgressData = [];
+    const completedData = [];
+
+    // 2. Aggregate task counts for each user
+    userEmails.forEach(email => {
+        const user = simUsers[email];
+        if (!user) return;
+        
+        labels.push(user.name);
+        const userTasks = projectTasks.filter(t => t.assignedTo.includes(email));
+
+        todoData.push(userTasks.filter(t => t.status === 'todo' || t.status === 'review').length); // Combine To Do and Review as "Not Started"
+        inProgressData.push(userTasks.filter(t => t.status === 'inprogress').length);
+        completedData.push(userTasks.filter(t => t.status === 'completed').length);
+    });
+
+    // 3. Render the chart
+    const container = document.getElementById('tasks-per-member-chart-container');
+    container.innerHTML = '<canvas id="tasksPerMemberChart"></canvas>'; // Clear and add canvas
+    const ctx = document.getElementById('tasksPerMemberChart');
+
+    if (ctx) {
+         // Destroy existing chart if it exists
+         const existingChart = Chart.getChart(ctx);
+         if (existingChart) {
+             existingChart.destroy();
+         }
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Completed',
+                        data: completedData,
+                        backgroundColor: '#34A853',
+                    },
+                    {
+                        label: 'In Progress',
+                        data: inProgressData,
+                        backgroundColor: '#E6A100',
+                    },
+                    {
+                        label: 'Not Started',
+                        data: todoData,
+                        backgroundColor: '#D93025',
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y', // Makes it a horizontal bar chart
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true, // Stacks the bars
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Poppins', sans-serif"
+                            }
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Poppins', sans-serif"
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // We use the custom HTML legend
+                    },
+                    tooltip: {
+                        font: {
+                            family: "'Poppins', sans-serif"
+                        }
+                    }
+                },
+                // Adjust height dynamically based on number of users
+                aspectRatio: Math.max(0.5, 4 / labels.length),
+            }
+        });
+    }
+}
+
+
+// ===============================================
+// === DOCUMENT LOAD =============================
+// ===============================================
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -1929,8 +2349,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // NEW: Home page with to-do list
         loadHomePage(currentUser);
     } else if (pageId === 'progress-page') {
-        // NEW: Progress page
+        // UPDATED: Team Member Progress page (with redirect)
         loadProgressPage(currentUser);
+    } else if (pageId === 'manager-progress-page') {
+        // NEW: Manager Progress page
+        loadManagerProgressPage(currentUser);
     } else if (pageId === 'assign-task-page') {
         // NEW: Standalone Assign Task form
         setupAssignTaskForm(currentUser);
@@ -1938,7 +2361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // NEW: Create Project form
         setupCreateProjectForm(currentUser);
     }else if (pageId === 'projects-page') {
-        // *** THIS IS THE UPDATED ONE ***
+        // UPDATED: Project Kanban Board
         loadProjectsPage(currentUser);
     }
 

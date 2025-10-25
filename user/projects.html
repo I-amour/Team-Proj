@@ -5,27 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make-It-All - Project 15</title>
     <link rel="stylesheet" href="dashboard.css">
+    <!-- We add new modal styles here -->
     <link rel="stylesheet" href="modal.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
+<!-- IMPORTANT: Set body ID so app.js knows what page this is -->
 <body id="projects-page">
 
     <div class="dashboard-container">
         <nav class="sidebar">
             <div class="nav-top">
                 <div class="logo-container">
+                    <!-- Fixed logo path -->
                     <img src="logo.png" alt="Make-It-All Logo" class="logo-icon"> 
                 </div>
                 <ul class="nav-main">
                     <li><a href="home.html"><i data-feather="home"></i>Home</a></li> 
                     <li class="active-parent">
                         <a href="projects.html"><i data-feather="folder"></i>Projects</a>
-                        <ul class="nav-sub">
-                            <li class="active"><a href="projects.html">Project 15</a></li>
-                            <li><a href="#">Project Apollo</a></li>
+                        <!-- 
+                          KEY CHANGE: 
+                          - Sidebar list is now empty, JS will fill it.
+                          - Added id="project-sidebar-list"
+                        -->
+                        <ul class="nav-sub" id="project-sidebar-list">
+                            <!-- JS will populate this -->
                         </ul>
                     </li>
                     <li><a href="knowledge-base.html"><i data-feather="book-open"></i>Knowledge Base</a></li>
@@ -41,9 +48,11 @@
 
         <main class="main-content">
             <header class="project-header">
-                <p class="breadcrumbs">Projects > Project 15</p>
-                <h1>Project 15</h1>
-                <nav class="project-nav">
+                <!-- JS will populate breadcrumb and header -->
+                <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">Project</span></p>
+                <h1 id="project-name-header">Project</h1>
+                <!-- JS will populate nav links -->
+                <nav class="project-nav" id="project-nav-links">
                     <a href="#" class="active">Tasks</a>
                     <a href="progress.html">Progress</a>
                     <a href="#">Resources</a>
@@ -52,14 +61,22 @@
 
             <section class="task-board">
 
+                <!-- 
+                  KEY CHANGE: Added 'data-status' to each column.
+                  This is required for drag-and-drop and the '+' buttons to work.
+                -->
+
                 <div class="task-column" data-status="todo">
                     <div class="column-header todo-header">
                         <span class="task-count">0</span>
                         <h2>To Do</h2>
+                        <!-- This button is now controlled by app.js (hidden for members) -->
                         <button class="add-task" style="display: none;"><i data-feather="plus"></i></button>
                     </div>
+                    <!-- Task list is now empty, JS will fill it -->
                     <div class="task-list">
-                        </div>
+                        <!-- Tasks rendered by JS -->
+                    </div>
                 </div>
 
                 <div class="task-column" data-status="inprogress">
@@ -69,7 +86,8 @@
                         <button class="add-task" style="display: none;"><i data-feather="plus"></i></button>
                     </div>
                     <div class="task-list">
-                        </div>
+                        <!-- Tasks rendered by JS -->
+                    </div>
                 </div>
 
                 <div class="task-column" data-status="review">
@@ -79,7 +97,8 @@
                         <button class="add-task" style="display: none;"><i data-feather="plus"></i></button>
                     </div>
                     <div class="task-list">
-                        </div>
+                        <!-- Tasks rendered by JS -->
+                    </div>
                 </div>
 
                 <div class="task-column" data-status="completed">
@@ -89,13 +108,18 @@
                         <button class="add-task" style="display: none;"><i data-feather="plus"></i></button>
                     </div>
                     <div class="task-list">
-                        </div>
+                        <!-- Tasks rendered by JS -->
+                    </div>
                 </div>
 
             </section>
         </main>
     </div>
 
+    <!-- 
+      NEW: Assign Task Modal
+      This is the modal that app.js was already looking for.
+    -->
     <div class="modal-overlay" id="assign-task-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -104,6 +128,7 @@
             </div>
             <div class="modal-body">
                 <form id="modal-assign-task-form" class="create-post-form">
+                    <!-- Hidden input to store the status (todo, inprogress, etc.) -->
                     <input type="hidden" id="modal-task-status">
 
                     <div class="form-group">
@@ -113,12 +138,14 @@
                     <div class="form-group">
                         <label for="modal-task-project">Project</label>
                         <select id="modal-task-project" required>
-                            </select>
+                            <!-- JS fills projects -->
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="modal-task-assignee">Assign To</label>
                         <select id="modal-task-assignee" required>
-                            </select>
+                            <!-- JS fills team members -->
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="modal-task-priority">Priority</label>
@@ -143,6 +170,10 @@
         </div>
     </div>
 
+    <!-- 
+      NEW: Task Details Modal
+      This modal is shown to team members when they click a card.
+    -->
     <div class="modal-overlay" id="task-details-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -179,6 +210,8 @@
             </div>
         </div>
     </div>
+    <!-- END NEW MODALS -->
+
     <script src="app.js"></script>
     <script>
         feather.replace();
