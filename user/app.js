@@ -383,9 +383,10 @@ const initialTasks = [
 
 // Personal to-do items (created by users themselves)
 const initialPersonalTodos = [
+    // Steve Adams (user@makeitall.com)
     {
         id: 101,
-        title: 'Review project documentation',
+        title: 'Review project 15 documentation',
         project: 'Project 15',
         projectId: 'project15',
         owner: 'user@makeitall.com',
@@ -401,6 +402,30 @@ const initialPersonalTodos = [
         projectId: 'apollo',
         owner: 'user@makeitall.com',
         priority: 'low',
+        status: 'completed', // One completed task
+        deadline: '2025-10-27',
+        type: 'personal'
+    },
+    // Jane Doe (specialist@makeitall.com)
+    {
+        id: 103,
+        title: 'Research new security patch',
+        project: 'Security',
+        projectId: null,
+        owner: 'specialist@makeitall.com',
+        priority: 'high',
+        status: 'todo',
+        deadline: '2025-10-28',
+        type: 'personal'
+    },
+    // Ben Carter (manager@makeitall.com)
+    {
+        id: 104,
+        title: 'Schedule 1-on-1s',
+        project: 'Management',
+        projectId: null,
+        owner: 'manager@makeitall.com',
+        priority: 'medium',
         status: 'todo',
         deadline: '2025-10-27',
         type: 'personal'
@@ -593,18 +618,20 @@ function updateSidebarAndNav(currentUser, currentProjectId) {
             progressPage = 'manager-progress.html'; // Manager/Leader view
         }
 
-        const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
-        const progressLink = `${progressPage}?project=${currentProjectId}&${userQuery}`;
-        
-        const path = window.location.pathname;
-        const tasksActive = path.includes('projects.html') ? 'active' : '';
-        const progressActive = path.includes('progress.html') ? 'active' : '';
+const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
+    const progressLink = `${progressPage}?project=${currentProjectId}&${userQuery}`;
+    const resourcesLink = `project-resources.html?project=${currentProjectId}&${userQuery}`; // <-- NEW LINK
 
-        navLinks.innerHTML = `
-            <a href="${tasksLink}" class="${tasksActive}">Tasks</a>
-            <a href="${progressLink}" class="${progressActive}">Progress</a>
-            <a href="#">Resources</a>
-        `;
+    const path = window.location.pathname;
+    const tasksActive = path.includes('projects.html') ? 'active' : '';
+    const progressActive = path.includes('progress.html') || path.includes('manager-progress.html') ? 'active' : '';
+    const resourcesActive = path.includes('project-resources.html') ? 'active' : ''; // <-- NEW CHECK
+
+    navLinks.innerHTML = `
+        <a href="${tasksLink}" class="${tasksActive}">Tasks</a>
+        <a href="${progressLink}" class="${progressActive}">Progress</a>
+        <a href="${resourcesLink}" class="${resourcesActive}">Resources</a>
+    `;
     }
 }
 
@@ -698,7 +725,7 @@ function renderPostList(posts, currentUserEmail) {
  */
 function showTopicView(topicName, currentUser) {
     // 1. Hide the topic grid and its parent section
-    document.getElementById('kb-topics-section').style.display = 'block';
+    document.getElementById('kb-topics-section').style.display = 'none';
 
     // 2. Hide the main page sidebar (Announcements)
     document.getElementById('announcements-widget').style.display = 'none';
@@ -1182,90 +1209,93 @@ function renderTotalTasksChart(currentUser) {
 }
 
 /**
- * Renders the to-do list with both assigned tasks AND personal todos
+ * Renders the to-do list with personal todos
  */
 function renderToDoList(currentUser) {
     const projectSelect = document.getElementById('project-select');
     const todoItemsList = document.getElementById('todo-items-list');
     const newTaskBtn = document.getElementById('new-task-btn');
-    
-    // Populate project filter
-    const projects = [...new Set(simTasks.map(t => t.project))];
+
+    // Populate project filter from personal todos
+    const projects = [...new Set(simPersonalTodos.filter(t => t.owner === currentUser.email).map(t => t.project))];
+    projectSelect.innerHTML = '<option value="">All Projects</option>'; // Add 'All' option
     projects.forEach(project => {
-        const option = document.createElement('option');
-        option.value = project;
-        option.textContent = project;
-        projectSelect.appendChild(option);
+        if(project) { // Only add if project is not null
+            const option = document.createElement('option');
+            option.value = project;
+            option.textContent = project;
+            projectSelect.appendChild(option);
+        }
     });
-    
-    // Get user's assigned tasks AND personal todos
-    let assignedTasks = simTasks.filter(task => 
-        task.assignedTo && task.assignedTo.includes(currentUser.email) && task.status !== 'completed'
-    );
-    
+
+    // Get user's personal todos
     let personalTodos = simPersonalTodos.filter(todo =>
-        todo.owner === currentUser.email && todo.status !== 'completed'
+        todo.owner === currentUser.email
     );
-    
-    // Combine both lists
-    let allTodos = [...assignedTasks, ...personalTodos];
-    
+
     // Show "+ New Task" button for all users (to create personal todos)
     newTaskBtn.style.display = 'flex';
     newTaskBtn.onclick = () => {
+        // This link is now correct
         window.location.href = `create-todo.html?user=${currentUser.email}`;
     };
-    
+
     // Sort by priority (default)
     const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
-    allTodos.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-    
+    personalTodos.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+
     // Render tasks
-    renderTodoItems(allTodos, currentUser);
-    
-    // Add event listeners
-    projectSelect.addEventListener('change', (e) => {
-        const selectedProject = e.target.value;
-        let filteredTasks = [...assignedTasks, ...personalTodos];
+    renderTodoItems(personalTodos, currentUser);
+
+    // Add event listeners for sorting and filtering
+    const applyFilters = () => {
+        const selectedProject = projectSelect.value;
+        const sortBy = document.querySelector('.sort-btn.active').dataset.sort;
+
+        let filteredTasks = simPersonalTodos.filter(todo => todo.owner === currentUser.email);
+
         if (selectedProject) {
             filteredTasks = filteredTasks.filter(t => t.project === selectedProject);
         }
+
+        if (sortBy === 'priority') {
+            filteredTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+        } else if (sortBy === 'deadline') {
+            // Handle null/empty deadlines
+            filteredTasks.sort((a, b) => {
+                const dateA = a.deadline ? new Date(a.deadline) : new Date('2999-12-31');
+                const dateB = b.deadline ? new Date(b.deadline) : new Date('2999-12-31');
+                return dateA - dateB;
+            });
+        }
+
         renderTodoItems(filteredTasks, currentUser);
-    });
-    
-    // Sort buttons
+    };
+
+    projectSelect.addEventListener('change', applyFilters);
+
     document.querySelectorAll('.sort-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            const sortBy = btn.dataset.sort;
-            let sortedTasks = [...allTodos];
-            
-            if (sortBy === 'priority') {
-                sortedTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-            } else if (sortBy === 'deadline') {
-                sortedTasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-            }
-            
-            renderTodoItems(sortedTasks, currentUser);
+            applyFilters();
         });
     });
 }
 
 function renderTodoItems(tasks, currentUser) {
     const todoItemsList = document.getElementById('todo-items-list');
-    
+
     if (tasks.length === 0) {
-        todoItemsList.innerHTML = '<p style="text-align: center; color: #8C8C8C; padding: 20px;">No tasks to display</p>';
+        todoItemsList.innerHTML = '<p style="text-align: center; color: #8C8C8C; padding: 20px;">No personal to-dos found.</p>';
         return;
     }
-    
+
     todoItemsList.innerHTML = tasks.map(task => {
-        const deadline = new Date(task.deadline);
-        const formattedDate = deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        const isPersonal = task.type === 'personal';
-        
+        const deadline = task.deadline ? new Date(task.deadline) : null;
+        const formattedDate = deadline ? deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'No date';
+        const isPersonal = task.type === 'personal'; // This will always be true now
+
         return `
             <div class="todo-item ${task.status === 'completed' ? 'completed' : ''}" data-task-id="${task.id}" data-task-type="${task.type || 'assigned'}">
                 <div class="todo-checkbox ${task.status === 'completed' ? 'checked' : ''}">
@@ -1279,13 +1309,13 @@ function renderTodoItems(tasks, currentUser) {
                             ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
                         </span>
                         <span class="todo-date">${formattedDate}</span>
-                        <span class="todo-project">${task.project}</span>
+                        <span class="todo-project">${task.project || 'General'}</span>
                     </div>
                 </div>
             </div>
         `;
     }).join('');
-    
+
     // Add checkbox click handlers
     document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
         checkbox.addEventListener('click', (e) => {
@@ -1293,25 +1323,29 @@ function renderTodoItems(tasks, currentUser) {
             const taskItem = checkbox.closest('.todo-item');
             const taskId = parseInt(taskItem.dataset.taskId);
             const taskType = taskItem.dataset.taskType;
-            
+
             if (taskType === 'personal') {
                 const task = simPersonalTodos.find(t => t.id === taskId);
                 if (task) {
+                    // Toggle status
                     task.status = task.status === 'completed' ? 'todo' : 'completed';
-                    savePersonalTodos();
-                    location.reload();
+                    savePersonalTodos(); // Save the change
+
+                    // --- UI toggle (no reload) ---
+                    taskItem.classList.toggle('completed');
+                    checkbox.classList.toggle('checked');
+                    if (task.status === 'completed') {
+                        checkbox.innerHTML = '<i data-feather="check"></i>';
+                        feather.replace(); // Redraw the new icon
+                    } else {
+                        checkbox.innerHTML = '';
+                    }
                 }
-            } else {
-                const task = simTasks.find(t => t.id === taskId);
-                if (task) {
-                    task.status = task.status === 'completed' ? 'todo' : 'completed';
-                    saveTasks();
-                    location.reload();
-                }
-            }
+            } 
+            // Removed 'else' block for assigned tasks, as they are no longer in this list
         });
     });
-    
+
     feather.replace();
 }
 
@@ -2295,6 +2329,75 @@ function renderTasksPerMemberChart(projectTasks) {
     }
 }
 
+/**
+ * Runs on the Project Resources page (project-resources.html)
+ */
+function loadProjectResourcesPage(currentUser) {
+    const currentProjectId = getCurrentProjectId();
+    updateSidebarAndNav(currentUser, currentProjectId);
+
+    const project = simProjects.find(p => p.id === currentProjectId);
+
+    // Fill in project details
+    if (project) {
+        document.getElementById('project-created-date').textContent = new Date(project.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('project-description').textContent = project.description || 'No description provided for this project.';
+    }
+
+    // Show "Upload" button for managers/leaders
+    if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
+        const uploadBtn = document.getElementById('upload-btn');
+        uploadBtn.style.display = 'inline-flex';
+
+        uploadBtn.addEventListener('click', () => {
+            alert('This is a prototype demo feature. File upload is not functional.');
+        });
+    }
+}
+
+/**
+ * Runs on the Create Personal To-Do page (create-todo.html)
+ */
+function setupCreateTodoForm(currentUser) {
+    const form = document.getElementById('create-todo-form');
+    if (!form) return;
+
+    // Populate projects dropdown
+    const projectSelect = document.getElementById('todo-project');
+    if (projectSelect) {
+        const projects = [...new Set(simTasks.filter(t => t.assignedTo.includes(currentUser.email)).map(t => t.project))];
+        projects.forEach(p => {
+            projectSelect.innerHTML += `<option value="${p}">${p}</option>`;
+        });
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('todo-title').value;
+        const project = document.getElementById('todo-project').value;
+        const priority = document.getElementById('todo-priority').value;
+        const deadline = document.getElementById('todo-deadline').value;
+
+        const newTodo = {
+            id: new Date().getTime(),
+            title: title,
+            project: project || null,
+            projectId: simProjects.find(p => p.name === project)?.id || null,
+            owner: currentUser.email,
+            priority: priority,
+            status: 'todo',
+            deadline: deadline || null,
+            type: 'personal'
+        };
+
+        simPersonalTodos.push(newTodo);
+        savePersonalTodos();
+
+        sessionStorage.setItem('taskCreated', 'Personal to-do added!');
+        window.location.href = `home.html?user=${currentUser.email}`;
+    });
+}
+
 
 // ===============================================
 // === DOCUMENT LOAD =============================
@@ -2354,12 +2457,18 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pageId === 'manager-progress-page') {
         // NEW: Manager Progress page
         loadManagerProgressPage(currentUser);
+     } else if (pageId === 'project-resources-page') { 
+    // NEW: Project Resources page
+    loadProjectResourcesPage(currentUser);
     } else if (pageId === 'assign-task-page') {
         // NEW: Standalone Assign Task form
         setupAssignTaskForm(currentUser);
     } else if (pageId === 'create-project-page') {
         // NEW: Create Project form
         setupCreateProjectForm(currentUser);
+    } else if (pageId === 'create-todo-page') { 
+    // NEW: Create Personal To-Do form
+    setupCreateTodoForm(currentUser);
     }else if (pageId === 'projects-page') {
         // UPDATED: Project Kanban Board
         loadProjectsPage(currentUser);
