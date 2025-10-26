@@ -61,10 +61,8 @@ signInForm.addEventListener('submit', (e) => {
         redirectUrl = 'user/home.html';
 
     } else if (email === 'leader@makeitall.com' && password === 'password123') {
-        // Manager
-        userEmail = 'leader@makeitall.com';
-        redirectUrl = 'user/projects.html';
-    
+        // Leaders
+        userEmail = 'leader@makeitall.com';    
     } else {
         // FAILURE: Show login error
         loginError.classList.add('visible');
