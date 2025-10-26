@@ -62,7 +62,7 @@ signInForm.addEventListener('submit', (e) => {
 
     } else if (email === 'leader@makeitall.com' && password === 'password123') {
         // Manager
-        userEmail = 'manager@makeitall.com';
+        userEmail = 'leader@makeitall.com';
         redirectUrl = 'user/projects.html';
     
     } else {
