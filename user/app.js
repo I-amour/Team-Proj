@@ -451,55 +451,6 @@ function savePersonalTodos() {
     localStorage.setItem('simPersonalTodos', JSON.stringify(simPersonalTodos));
 }
 
-// Notifications data
-const initialNotifications = [
-    {
-        id: 1,
-        type: 'task_completed',
-        title: 'Task Completed',
-        text: 'You finished task for Project Apollo',
-        time: '12 hours ago',
-        read: false
-    },
-    {
-        id: 2,
-        type: 'task_completed',
-        title: 'Task Completed',
-        text: 'You finished tasks for Project Apollo',
-        time: '12 hours ago',
-        read: false
-    },
-    {
-        id: 3,
-        type: 'new_post',
-        title: 'New Post',
-        text: 'New post added to printing',
-        time: '3 minutes ago',
-        read: true
-    },
-    {
-        id: 4,
-        type: 'task_completed',
-        title: 'Task Completed',
-        text: 'You finished task for Project Apollo',
-        time: '12 hours ago',
-        read: false
-    },
-    {
-        id: 5,
-        type: 'task_completed',
-        title: 'Task Completed',
-        text: 'You finished tasks for Project Apollo',
-        time: '12 hours ago',
-        read: false
-    }
-];
-
-let simNotifications = JSON.parse(localStorage.getItem('simNotifications')) || initialNotifications;
-if (!localStorage.getItem('simNotifications')) {
-    localStorage.setItem('simNotifications', JSON.stringify(simNotifications));
-}
-
 
 // HELPER FUNCTIONS
 
