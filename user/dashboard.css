@@ -246,6 +246,7 @@ body {
 .priority.medium { background: #FFF4C1; color: #E6A100; }
 .priority.urgent { background: #FFEBEB; color: #D93025; }
 .priority.low    { background: #E6F7F0; color: #34A853; }
+.priority.high    { background: #ffa6a6; color: #770000; }
 
 .task-title {
     font-size: 16px;
