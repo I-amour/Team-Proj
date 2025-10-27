@@ -16,14 +16,25 @@
                 <div class="logo-container">
                     <img src="logo.png" alt="Make-It-All Logo" class="logo-icon">
                 </div>
-                <ul class="nav-main" id="project-sidebar-list">
-                    </ul>
+                <ul class="nav-main">
+                    <li><a href="home.html"><i data-feather="home"></i>Home</a></li>
+                    <li class="active-parent">
+                        <a href="projects.html"><i data-feather="folder"></i>Projects</a>
+                        <!-- 
+                          KEY CHANGE: 
+                          - Sidebar list is now empty, JS will fill it.
+                          - Added id="project-sidebar-list"
+                        -->
+                        <ul class="nav-sub" id="project-sidebar-list">
+                            <!-- JS will populate this -->
+                        </ul>
+                    </li>
+                    <li><a href="knowledge-base.html"><i data-feather="book-open"></i>Knowledge Base</a></li>
+                </ul>
             </div>
             <div class="nav-footer">
-                <div class="nav-divider"></div>
                 <ul>
-                    <li><a href="home.html"><i data-feather="home"></i>Home</a></li>
-                    <li><a href="knowledge-base.html"><i data-feather="book-open"></i>Knowledge Base</a></li>
+                    <li><a href="settings.html"><i data-feather="settings"></i>Settings</a></li>
                 </ul>
             </div>
         </nav>
