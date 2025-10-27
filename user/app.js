@@ -1192,7 +1192,7 @@ function renderTotalTasksChart(currentUser) {
                 labels: ['To Do', 'In Progress', 'In Review', 'Completed'],
                 datasets: [{
                     data: [todoCount, inProgressCount, reviewCount, completedCount],
-                    backgroundColor: ['#1E3A5F', '#E6A100', '#F4A261', '#FF8C42'],
+                    backgroundColor: ['#1E3A5F', '#00e668ff', '#f46172ff', '#a53f00ff'],
                     borderWidth: 0
                 }]
             },
