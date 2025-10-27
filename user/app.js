@@ -1377,7 +1377,6 @@ function renderTrendingPosts(currentUser) {
                 <div class="post-stats">
                     <span class="post-stat"><i data-feather="thumbs-up"></i> ${post.reactions.up}</span>
                     <span class="post-stat"><i data-feather="message-circle"></i> ${post.reactions.comments}</span>
-                    <span class="post-stat"><i data-feather="zap"></i> ${post.reactions.lightbulb}</span>
                 </div>
             </div>
         `;
