@@ -422,7 +422,7 @@ const initialPersonalTodos = [
     {
         id: 104,
         title: 'Schedule 1-on-1s',
-        project: 'Management',
+        project: 'Project 15',
         projectId: null,
         owner: 'manager@makeitall.com',
         priority: 'medium',
