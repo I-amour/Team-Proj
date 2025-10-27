@@ -32,7 +32,7 @@ label {
 }
 
 img.logo {
-    width: 160px; /*Adjust as needed*/
+    width: 500px; /*Adjust as needed*/
     height: auto;
     margin-bottom: 10px;
 }
@@ -68,7 +68,7 @@ button:focus {
     outline: none;
 }
 button.ghost {
-    background-color: #FBC02D; /*Yellow*/
+    background-color: white; /*Yellow*/
     color: #1E1E1E;
 }
 /*no-space
