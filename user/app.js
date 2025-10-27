@@ -668,7 +668,6 @@ function createPostCardHTML(post, currentUserEmail) {
             <div class="post-card-footer">
                 <span><i data-feather="thumbs-up"></i> ${post.reactions.up}</span>
                 <span><i data-feather="message-circle"></i> ${post.reactions.comments}</span>
-                <span><i data-feather="zap"></i> ${post.reactions.lightbulb}</span>
             </div>
         </div>
     `;
@@ -886,7 +885,6 @@ function loadKbPost(currentUser) {
             <div class="post-card-footer">
                 <span><i data-feather="thumbs-up"></i> ${post.reactions.up}</span>
                 <span><i data-feather="message-circle"></i> ${post.reactions.comments}</span>
-                <span><i data-feather="zap"></i> ${post.reactions.lightbulb}</span>
             </div>
         </div>
     `;
