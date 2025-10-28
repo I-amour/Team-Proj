@@ -2076,8 +2076,22 @@ function initTaskDetailsModal(currentUser) {
             document.getElementById('details-task-created').textContent = createdDate;
             document.getElementById('details-task-deadline').textContent = deadlineDate;
             document.getElementById('details-task-description').textContent = task.description || 'No description provided.';
+            const project_btn = document.getElementById('project-complete-btn');
 
-            
+            if (project_btn) {
+                const new_btn = project_btn.cloneNode(true);
+                project_btn.parentNode.replaceChild(new_btn, project_btn);
+                new_btn.addEventListener('click', ()=> {
+                    if (confirm("Are you sure you want to put this task up for review?")){
+                        alert("This is a prototype, so this functionality is not fully implemented.");
+                        closeModal();
+                    }
+                    closeModal();
+                })
+
+            }
+
+
 
             detailsModal.style.display = 'flex';
         });
