@@ -15,13 +15,13 @@ function showSuccessNotification(message) {
         <i data-feather="check-circle"></i>
         <span>${message}</span>
     `;
-    
+
     // Add to body
     document.body.appendChild(notification);
-    
+
     // Replace feather icons
     feather.replace();
-    
+
     // Remove after 3 seconds
     setTimeout(() => {
         notification.remove();
@@ -125,7 +125,7 @@ const initialPosts = [
         content: "I received an email from 'IT Support' asking me to validate my password by clicking a link. This looks like a phishing attempt. Forwarding to the security team, but wanted to warn others.",
         reactions: { up: 9, lightbulb: 3, comments: 1 },
         replies: [
-             {
+            {
                 id: 102,
                 author: 'Jane Doe',
                 authorRole: 'specialist',
@@ -277,7 +277,7 @@ const initialTasks = [
         createdBy: 'manager@makeitall.com',
         type: 'assigned'
     },
-     {
+    {
         id: 7,
         title: 'Design dashboard mockups (v2)',
         project: 'Project Apollo',
@@ -390,7 +390,7 @@ const initialTasks = [
         createdBy: 'manager@makeitall.com',
         type: 'assigned'
     },
-     {
+    {
         id: 12,
         title: 'Update E2E tests',
         project: 'Project 15',
@@ -551,24 +551,24 @@ function persistUserQueryParam(currentUser) {
     document.querySelectorAll('a').forEach(a => {
         // Check if it's an internal link
         if (a.href && a.hostname === window.location.hostname && !a.href.includes('#')) {
-             // Check if it's a mailto link, if so, skip
-             if (a.protocol === "mailto:") return;
+            // Check if it's a mailto link, if so, skip
+            if (a.protocol === "mailto:") return;
 
-             // Don't modify links that already have params
-             if (a.href.includes('?')) return;
-            
+            // Don't modify links that already have params
+            if (a.href.includes('?')) return;
+
             // Rebuild href to include both user and project
-             if (a.search) {
-                 if (!a.search.includes('user=')) a.search += `&${userQuery}`;
-                 if (a.pathname.includes('projects') || a.pathname.includes('progress') || a.pathname.includes('project-resources')) {
-                     if (!a.search.includes('project=')) a.search += `&${projectQuery}`;
-                 }
-             } else {
-                 a.href += `?${userQuery}`;
-                 if (a.pathname.includes('projects') || a.pathname.includes('progress') || a.pathname.includes('project-resources')) {
-                     a.href += `&${projectQuery}`;
-                 }
-             }
+            if (a.search) {
+                if (!a.search.includes('user=')) a.search += `&${userQuery}`;
+                if (a.pathname.includes('projects') || a.pathname.includes('progress') || a.pathname.includes('project-resources')) {
+                    if (!a.search.includes('project=')) a.search += `&${projectQuery}`;
+                }
+            } else {
+                a.href += `?${userQuery}`;
+                if (a.pathname.includes('projects') || a.pathname.includes('progress') || a.pathname.includes('project-resources')) {
+                    a.href += `&${projectQuery}`;
+                }
+            }
         }
     });
 }
@@ -602,22 +602,22 @@ function updateSidebarAndNav(currentUser, currentProjectId) {
         // Check for the special "Leader on Apollo" case
         const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
         const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
-        
+
         let progressPage = 'progress.html'; // Default to member view
         if (isManagerView && !isLeaderOnApollo) {
             progressPage = 'manager-progress.html'; // Manager/Leader view
         }
 
-    const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
-    const progressLink = `${progressPage}?project=${currentProjectId}&${userQuery}`;
-    const resourcesLink = `project-resources.html?project=${currentProjectId}&${userQuery}`; // <-- NEW LINK
+        const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
+        const progressLink = `${progressPage}?project=${currentProjectId}&${userQuery}`;
+        const resourcesLink = `project-resources.html?project=${currentProjectId}&${userQuery}`; // <-- NEW LINK
 
-    const path = window.location.pathname;
-    const tasksActive = path.includes('projects.html') ? 'active' : '';
-    const progressActive = path.includes('progress.html') || path.includes('manager-progress.html') ? 'active' : '';
-    const resourcesActive = path.includes('project-resources.html') ? 'active' : ''; // <-- NEW CHECK
+        const path = window.location.pathname;
+        const tasksActive = path.includes('projects.html') ? 'active' : '';
+        const progressActive = path.includes('progress.html') || path.includes('manager-progress.html') ? 'active' : '';
+        const resourcesActive = path.includes('project-resources.html') ? 'active' : ''; // <-- NEW CHECK
 
-    navLinks.innerHTML = `
+        navLinks.innerHTML = `
         <a href="${tasksLink}" class="${tasksActive}">Tasks</a>
         <a href="${progressLink}" class="${progressActive}">Progress</a>
         <a href="${resourcesLink}" class="${resourcesActive}">Resources</a>
@@ -823,25 +823,25 @@ function iconForTopic(topic) {
 /**
  * Runs on the Knowledge Base Index page (knowledge-base.html)
  */
- function loadKbIndex(currentUser) {
-     // Make sure the Create Post button is visible
-     const createBtn = document.getElementById('create-post-btn-topic');
-     if (createBtn) createBtn.style.display = 'inline-flex';
+function loadKbIndex(currentUser) {
+    // Make sure the Create Post button is visible
+    const createBtn = document.getElementById('create-post-btn-topic');
+    if (createBtn) createBtn.style.display = 'inline-flex';
 
-     // Load and render popular posts
-     const popularPosts = [...simPosts].sort((a, b) => b.reactions.up - a.reactions.up);
-     renderPostList(popularPosts, currentUser.email);
+    // Load and render popular posts
+    const popularPosts = [...simPosts].sort((a, b) => b.reactions.up - a.reactions.up);
+    renderPostList(popularPosts, currentUser.email);
 
-     // Render the main topics grid (main topics + Add New Topic)
-     document.body.dataset.topicsView = 'main';
-     renderTopicGrid(false, currentUser);
+    // Render the main topics grid (main topics + Add New Topic)
+    document.body.dataset.topicsView = 'main';
+    renderTopicGrid(false, currentUser);
 
-     // Update "View more topics" link to All Topics page
-     const viewMoreLink = document.getElementById('view-more-topics');
-     if (viewMoreLink) {
-         viewMoreLink.setAttribute('href', 'all-topics.html');
-     }
- }
+    // Update "View more topics" link to All Topics page
+    const viewMoreLink = document.getElementById('view-more-topics');
+    if (viewMoreLink) {
+        viewMoreLink.setAttribute('href', 'all-topics.html');
+    }
+}
 
 
 /**
@@ -984,9 +984,9 @@ function setupCreateForm(currentUser) {
     // --- Populate the topics dropdown dynamically (mains + any custom) ---
     const topicSelect = document.getElementById('post-topic');
     if (topicSelect) {
-      const allTopics = getAllTopics();
-      topicSelect.innerHTML = '<option value="">Select a topic...</option>' +
-      allTopics.map(t => `<option value="${t}">${t}</option>`).join('');
+        const allTopics = getAllTopics();
+        topicSelect.innerHTML = '<option value="">Select a topic...</option>' +
+            allTopics.map(t => `<option value="${t}">${t}</option>`).join('');
     }
 
     // --- NEW: Pre-select topic from URL ---
@@ -1031,7 +1031,7 @@ function setupCreateForm(currentUser) {
 
         // Store the topic to return to
         sessionStorage.setItem('returnToTopic', topic);
-        
+
         // Redirect
         window.location.href = `knowledge-base/knowledge-base.html?user=${currentUser.email}`;
     });
@@ -1090,49 +1090,49 @@ function loadSettingsPage(currentUser) {
  * Runs on All Topics page (all-topics.html)
  * Shows a plain list (no buttons) of all topics: main + custom.
  */
- function loadAllTopicsPage(currentUser) {
-   // Title + breadcrumbs
-   const titleContainer = document.getElementById('kb-title-container');
-   if (titleContainer) {
-     titleContainer.innerHTML = `
+function loadAllTopicsPage(currentUser) {
+    // Title + breadcrumbs
+    const titleContainer = document.getElementById('kb-title-container');
+    if (titleContainer) {
+        titleContainer.innerHTML = `
        <p class="breadcrumbs">
          <a href="knowledge-base.html?user=${currentUser.email}">Knowledge Base</a> > All Topics
        </p>
        <h1>All Topics</h1>
      `;
-   }
+    }
 
-   // Build clickable rows
-   const listEl = document.getElementById('all-topics-list');
-   if (listEl) {
-     const topics = getAllTopics();
-     if (topics.length === 0) {
-       listEl.innerHTML = '<p>No topics yet.</p>';
-     } else {
-       listEl.innerHTML = topics
-         .map(
-           (t) => `
+    // Build clickable rows
+    const listEl = document.getElementById('all-topics-list');
+    if (listEl) {
+        const topics = getAllTopics();
+        if (topics.length === 0) {
+            listEl.innerHTML = '<p>No topics yet.</p>';
+        } else {
+            listEl.innerHTML = topics
+                .map(
+                    (t) => `
            <div class="topic-row" data-topic="${t}">
              <span class="topic-name">${t}</span>
              <i data-feather="arrow-right"></i>
            </div>
          `
-         )
-         .join('');
-     }
+                )
+                .join('');
+        }
 
-     // Make each row clickable
-     listEl.querySelectorAll('.topic-row').forEach((row) => {
-       row.addEventListener('click', () => {
-         const topicName = row.dataset.topic;
-         sessionStorage.setItem('returnToTopic', topicName);
-         window.location.href = `knowledge-base.html?user=${currentUser.email}`;
-       });
-     });
-   }
+        // Make each row clickable
+        listEl.querySelectorAll('.topic-row').forEach((row) => {
+            row.addEventListener('click', () => {
+                const topicName = row.dataset.topic;
+                sessionStorage.setItem('returnToTopic', topicName);
+                window.location.href = `knowledge-base.html?user=${currentUser.email}`;
+            });
+        });
+    }
 
-   feather.replace();
- }
+    feather.replace();
+}
 
 /**
  * Runs on the Home page (home/home.html)
@@ -1141,11 +1141,11 @@ function loadHomePage(currentUser) {
     // Update page label based on role
     const pageLabel = document.getElementById('page-label-text');
     if (pageLabel) {
-        const roleText = currentUser.role === 'manager' ? 'Manager' : 
-                        currentUser.role === 'team_leader' ? 'Team Leader' : 'User';
+        const roleText = currentUser.role === 'manager' ? 'Manager' :
+            currentUser.role === 'team_leader' ? 'Team Leader' : 'User';
         pageLabel.textContent = `Homepage (${roleText})`;
     }
-    
+
     // Show appropriate action buttons based on role
     if (currentUser.role === 'manager') {
         document.getElementById('manager-actions').style.display = 'block';
@@ -1153,19 +1153,19 @@ function loadHomePage(currentUser) {
         // Team leaders don't have manager actions on home page in this design
         // document.getElementById('leader-actions').style.display = 'block';
     }
-    
+
     // Render Total Tasks Chart
     renderTotalTasksChart(currentUser);
-    
+
     // Render To-Do List
     renderToDoList(currentUser);
-    
+
     // Render Trending Posts
     renderTrendingPosts(currentUser);
-    
+
     // Render Notifications
     renderNotifications();
-    
+
     feather.replace();
 }
 
@@ -1175,30 +1175,30 @@ function loadHomePage(currentUser) {
 function renderTotalTasksChart(currentUser) {
     const ctx = document.getElementById('totalTasksChart');
     if (!ctx) return;
-    
+
     // Destroy existing chart if it exists
     const existingChart = Chart.getChart(ctx);
     if (existingChart) {
         existingChart.destroy();
     }
-    
+
     // Get donut-specific elements
     const donutCenter = document.querySelector('.donut-center');
     const chartLegend = document.querySelector('.chart-legend');
-    
+
     // For managers, show bar chart with projects
     if (currentUser.role === 'manager') {
         // Hide donut-specific elements
         if (donutCenter) donutCenter.style.display = 'none';
         if (chartLegend) chartLegend.style.display = 'none';
-        
+
         // Get all tasks grouped by project
         const projectData = {};
         simProjects.forEach(project => {
-            const projectTasks = simTasks.filter(task => 
+            const projectTasks = simTasks.filter(task =>
                 task.projectId === project.id && task.type === 'assigned'
             );
-            
+
             projectData[project.name] = {
                 todo: projectTasks.filter(t => t.status === 'todo').length,
                 inprogress: projectTasks.filter(t => t.status === 'inprogress').length,
@@ -1207,11 +1207,11 @@ function renderTotalTasksChart(currentUser) {
                 total: projectTasks.length
             };
         });
-        
+
         const projectNames = Object.keys(projectData);
         const totalTasks = projectNames.reduce((sum, name) => sum + projectData[name].total, 0);
         document.getElementById('totalTasksCount').textContent = totalTasks;
-        
+
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -1220,22 +1220,22 @@ function renderTotalTasksChart(currentUser) {
                     {
                         label: 'To Do',
                         data: projectNames.map(name => projectData[name].todo),
-                        backgroundColor: '#1E3A5F'
+                        backgroundColor: '#ff8ed9ff'
                     },
                     {
                         label: 'In Progress',
                         data: projectNames.map(name => projectData[name].inprogress),
-                        backgroundColor: '#E6A100'
+                        backgroundColor: '#8282ffff'
                     },
                     {
                         label: 'In Review',
                         data: projectNames.map(name => projectData[name].review),
-                        backgroundColor: '#F4A261'
+                        backgroundColor: '#ffcea6ff'
                     },
                     {
                         label: 'Completed',
                         data: projectNames.map(name => projectData[name].completed),
-                        backgroundColor: '#FF8C42'
+                        backgroundColor: '#baa5ffff'
                     }
                 ]
             },
@@ -1253,6 +1253,9 @@ function renderTotalTasksChart(currentUser) {
                         stacked: true,
                         beginAtZero: true,
                         ticks: {
+                            font: {
+                                size: 12
+                            },
                             stepSize: 20
                         }
                     }
@@ -1262,13 +1265,17 @@ function renderTotalTasksChart(currentUser) {
                         display: true,
                         position: 'bottom',
                         labels: {
-                            padding: 15,
                             font: {
-                                size: 12
-                            }
+                                size: 12, 
+                                weight: 400
+                            },
+                            padding: 10,
+                            boxWidth: 60,  // Make legend boxes larger
+                            boxHeight: 30
                         }
                     }
-                }
+                },
+                
             }
         });
     } else {
@@ -1276,19 +1283,19 @@ function renderTotalTasksChart(currentUser) {
         // Show donut-specific elements
         if (donutCenter) donutCenter.style.display = 'block';
         if (chartLegend) chartLegend.style.display = 'flex';
-        
-        const userTasks = simTasks.filter(task => 
+
+        const userTasks = simTasks.filter(task =>
             task.assignedTo.includes(currentUser.email) && task.type === 'assigned'
         );
-        
+
         const todoCount = userTasks.filter(t => t.status === 'todo').length;
         const inProgressCount = userTasks.filter(t => t.status === 'inprogress').length;
         const reviewCount = userTasks.filter(t => t.status === 'review').length;
         const completedCount = userTasks.filter(t => t.status === 'completed').length;
-        
+
         const totalCount = userTasks.length;
         document.getElementById('totalTasksCount').textContent = totalCount;
-        
+
         new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -1325,7 +1332,7 @@ function renderToDoList(currentUser) {
     const projects = [...new Set(simPersonalTodos.filter(t => t.owner === currentUser.email).map(t => t.project))];
     projectSelect.innerHTML = '<option value="">All Projects</option>'; // Add 'All' option
     projects.forEach(project => {
-        if(project) { // Only add if project is not null
+        if (project) { // Only add if project is not null
             const option = document.createElement('option');
             option.value = project;
             option.textContent = project;
@@ -1446,7 +1453,7 @@ function renderTodoItems(tasks, currentUser) {
                         checkbox.innerHTML = '';
                     }
                 }
-            } 
+            }
             // Removed 'else' block for assigned tasks, as they are no longer in this list
         });
     });
@@ -1460,15 +1467,15 @@ function renderTodoItems(tasks, currentUser) {
 function renderTrendingPosts(currentUser) {
     const trendingPostsList = document.getElementById('trending-posts-list');
     const topPosts = [...simPosts].sort((a, b) => b.reactions.up - a.reactions.up).slice(0, 3);
-    
+
     trendingPostsList.innerHTML = topPosts.map(post => {
         let avatarClass = 'avatar-3';
         if (post.authorEmail === 'user@makeitall.com') avatarClass = 'avatar-1';
         if (post.authorEmail === 'specialist@makeitall.com') avatarClass = 'avatar-4';
         if (post.authorEmail === 'manager@makeitall.com') avatarClass = 'avatar-2';
-        
+
         const topicClass = post.topic.toLowerCase().split(' ')[0];
-        
+
         return `
             <div class="trending-post">
                 <div class="post-header">
@@ -1488,7 +1495,7 @@ function renderTrendingPosts(currentUser) {
             </div>
         `;
     }).join('');
-    
+
     feather.replace();
 }
 
@@ -1497,7 +1504,7 @@ function renderTrendingPosts(currentUser) {
  */
 function renderNotifications() {
     const notificationsList = document.getElementById('notifications-list');
-    
+
     notificationsList.innerHTML = simNotifications.map(notif => {
         return `
             <div class="notification-item ${!notif.read ? 'unread' : ''}">
@@ -1513,14 +1520,14 @@ function renderNotifications() {
             </div>
         `;
     }).join('');
-    
+
     // Mark all as read button
     document.querySelector('.mark-read-btn').addEventListener('click', () => {
         simNotifications.forEach(n => n.read = true);
         localStorage.setItem('simNotifications', JSON.stringify(simNotifications));
         renderNotifications();
     });
-    
+
     feather.replace();
 }
 
@@ -1529,7 +1536,7 @@ function renderNotifications() {
  */
 function loadProgressPage(currentUser) {
     const currentProjectId = getCurrentProjectId();
-    
+
     // --- NEW: Role-based Redirect ---
     // Check if user is a manager/leader
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
@@ -1547,34 +1554,34 @@ function loadProgressPage(currentUser) {
     updateSidebarAndNav(currentUser, currentProjectId);
 
     // Only use assigned tasks for this user AND this project
-    const userTasks = simTasks.filter(task => 
-        task.assignedTo && 
-        task.assignedTo.includes(currentUser.email) && 
+    const userTasks = simTasks.filter(task =>
+        task.assignedTo &&
+        task.assignedTo.includes(currentUser.email) &&
         task.type === 'assigned' &&
         task.projectId === currentProjectId // <-- NEW FILTER
     );
-    
+
     // Calculate task progress
     const completedTasks = userTasks.filter(t => t.status === 'completed').length;
     const totalTasks = userTasks.length;
     const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-    
+
     document.getElementById('task-progress-fill').style.width = progressPercent + '%';
-    document.getElementById('progress-text').textContent = 
+    document.getElementById('progress-text').textContent =
         `You have completed ${progressPercent}% of your assigned tasks for this project.`;
-    
+
     // Render upcoming deadlines (from this project's tasks)
     renderUpcomingDeadlines(userTasks);
-    
+
     // Render workload (pass project ID)
     renderWorkload(currentUser, currentProjectId);
-    
+
     // Render urgent tasks (from this project's tasks)
     renderUrgentTasks(userTasks, currentUser);
-    
+
     // Render task distribution chart (from this project's tasks)
     renderTaskDistributionChart(userTasks);
-    
+
     feather.replace();
 }
 
@@ -1582,12 +1589,12 @@ function renderUpcomingDeadlines(userTasks) {
     const deadlinesList = document.getElementById('deadlines-list');
     const today = new Date("2025-10-25T12:00:00"); // Hardcode date for demo consistency
     today.setHours(0, 0, 0, 0);
-    
+
     const upcomingTasks = userTasks
         .filter(t => t.status !== 'completed')
         .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
         .slice(0, 3);
-    
+
     if (upcomingTasks.length === 0) {
         deadlinesList.innerHTML = '<p class="no-deadlines">No upcoming deadlines. You\'re all caught up!</p>';
         return;
@@ -1596,10 +1603,10 @@ function renderUpcomingDeadlines(userTasks) {
     deadlinesList.innerHTML = upcomingTasks.map(task => {
         const deadline = new Date(task.deadline);
         const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
-        
+
         let status = 'on-track';
         let statusText = 'On track';
-        
+
         if (deadline < today) {
             status = 'overdue';
             statusText = 'Overdue';
@@ -1610,7 +1617,7 @@ function renderUpcomingDeadlines(userTasks) {
                 statusText = 'At risk';
             }
         }
-        
+
         return `
             <div class="deadline-item">
                 <p class="deadline-title">${task.title}</p>
@@ -1625,23 +1632,23 @@ function renderUpcomingDeadlines(userTasks) {
 
 function renderWorkload(currentUser, currentProjectId) {
     // Get this user's tasks for this project
-     const userTasks = simTasks.filter(task => 
-        task.assignedTo && 
-        task.assignedTo.includes(currentUser.email) && 
+    const userTasks = simTasks.filter(task =>
+        task.assignedTo &&
+        task.assignedTo.includes(currentUser.email) &&
         task.status !== 'completed' &&
         task.projectId === currentProjectId
     );
     const userTaskCount = userTasks.length;
-    
+
     // Calculate team average for this project
     const allTasksInProject = simTasks.filter(t => t.status !== 'completed' && t.projectId === currentProjectId);
     const uniqueUsersInProject = [...new Set(allTasksInProject.flatMap(t => t.assignedTo))];
     const teamAverage = uniqueUsersInProject.length > 0 ? Math.round(allTasksInProject.length / uniqueUsersInProject.length) : 0;
-    
+
     const maxTasks = Math.max(userTaskCount, teamAverage, 5); // Set a minimum max of 5 for display
     const userPercent = (userTaskCount / maxTasks) * 100;
     const teamPercent = (teamAverage / maxTasks) * 100;
-    
+
     document.getElementById('user-workload').style.width = userPercent + '%';
     document.getElementById('team-workload').style.width = teamPercent + '%';
     document.getElementById('user-task-count').textContent = `${userTaskCount} tasks`;
@@ -1652,16 +1659,16 @@ function renderUrgentTasks(userTasks, currentUser) {
     const urgentTasksList = document.getElementById('urgent-tasks-list');
     const today = new Date("2025-10-25T12:00:00"); // Hardcode date
     today.setHours(0, 0, 0, 0);
-    
+
     const urgentTasks = userTasks.filter(task => {
         if (task.status === 'completed') return false;
         const deadline = new Date(task.deadline);
         const daysUntil = (deadline - today) / (1000 * 60 * 60 * 24);
-        
-        return task.priority === 'urgent' || daysUntil < 0 || 
-               (daysUntil >= 0 && daysUntil <= 2);
+
+        return task.priority === 'urgent' || daysUntil < 0 ||
+            (daysUntil >= 0 && daysUntil <= 2);
     }).slice(0, 3);
-    
+
     if (urgentTasks.length === 0) {
         urgentTasksList.innerHTML = '<p class="no-deadlines">No urgent tasks. Keep it up!</p>';
         return;
@@ -1670,9 +1677,9 @@ function renderUrgentTasks(userTasks, currentUser) {
     urgentTasksList.innerHTML = urgentTasks.map(task => {
         const deadline = new Date(task.deadline);
         const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
-        
+
         const isOverdue = new Date(task.deadline) < today;
-        
+
         return `
             <div class="urgent-task">
                 <p class="urgent-task-title">${task.title}</p>
@@ -1690,12 +1697,12 @@ function renderTaskDistributionChart(userTasks) {
     const inProgressCount = userTasks.filter(t => t.status === 'inprogress').length;
     const reviewCount = userTasks.filter(t => t.status === 'review').length;
     const completedCount = userTasks.filter(t => t.status === 'completed').length;
-    
+
     document.getElementById('todo-count').textContent = `To Do: ${todoCount}`;
     document.getElementById('inprogress-count').textContent = `In Progress: ${inProgressCount}`;
     document.getElementById('review-count').textContent = `Review: ${reviewCount}`;
     document.getElementById('completed-count').textContent = `Completed: ${completedCount}`;
-    
+
     const ctx = document.getElementById('taskDistributionChart');
     if (ctx) {
         // Destroy existing chart if it exists
@@ -1731,33 +1738,33 @@ function renderTaskDistributionChart(userTasks) {
  */
 function setupCreateTopicForm(currentUser) {
     const createTopicForm = document.getElementById('create-topic-form');
-    
+
     if (!createTopicForm) return;
-    
+
     createTopicForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         const topicName = document.getElementById('topic-name').value.trim();
         const topicDescription = document.getElementById('topic-description').value.trim();
-        
+
         if (!topicName) {
             alert('Please enter a topic name.');
             return;
         }
-        
+
         // Check for duplicates (case-insensitive)
         if (getAllTopics().some(t => t.toLowerCase() === topicName.toLowerCase())) {
             alert('A topic with that name already exists. Please choose a different name.');
             return;
         }
-        
+
         // Add the new topic to custom topics
         customTopics.push(topicName);
         saveCustomTopics();
-        
+
         // Store success message to show on next page
         sessionStorage.setItem('topicCreated', `Topic "${topicName}" created successfully!`);
-        
+
         // Redirect to knowledge base
         window.location.href = `knowledge-base.html?user=${currentUser.email}`;
     });
@@ -1869,9 +1876,9 @@ function createTaskCardHTML(task, currentUser) {
     const currentProjectId = getCurrentProjectId();
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
     const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
-    
+
     const isDraggable = isManagerView && !isLeaderOnApollo;
-    
+
     // Find assignee names
     const assignees = task.assignedTo.map(email => {
         const user = simUsers[email];
@@ -1884,7 +1891,7 @@ function createTaskCardHTML(task, currentUser) {
         }
         return ''
     }).join('');
-    
+
     const moreAssignees = assignees.length > 3 ? `<span class="avatar-more">+${assignees.length - 3}</span>` : '';
 
     // Capitalize priority
@@ -1909,7 +1916,7 @@ function createTaskCardHTML(task, currentUser) {
 function renderTaskBoard(currentUser, currentProjectId) {
     // Get all task columns
     const columns = document.querySelectorAll('.task-column');
-    
+
     // Create a map of status to column elements
     const columnMap = {};
     columns.forEach(column => {
@@ -1928,14 +1935,14 @@ function renderTaskBoard(currentUser, currentProjectId) {
     // Check for the special "Leader on Apollo" case
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
     const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
-    
+
     // *** NEW: Filter tasks based on role AND project ***
     let tasksToRender = [];
     if (isManagerView && !isLeaderOnApollo) {
         tasksToRender = simTasks.filter(task => task.projectId === currentProjectId); // M/TL see all tasks for this project
     } else {
-        tasksToRender = simTasks.filter(task => 
-            task.assignedTo.includes(currentUser.email) && 
+        tasksToRender = simTasks.filter(task =>
+            task.assignedTo.includes(currentUser.email) &&
             task.projectId === currentProjectId // Members see only their tasks for this project
         );
     }
@@ -1952,12 +1959,12 @@ function renderTaskBoard(currentUser, currentProjectId) {
     Object.keys(tasksByStatus).forEach(status => {
         const tasks = tasksByStatus[status];
         const column = columnMap[status];
-        
+
         if (column && column.list) {
             tasks.forEach(task => {
                 column.list.innerHTML += createTaskCardHTML(task, currentUser);
             });
-            
+
             // Update count
             if (column.count) {
                 column.count.textContent = tasks.length;
@@ -2032,7 +2039,7 @@ function initDragAndDrop(currentUser, currentProjectId) {
 function initTaskDetailsModal(currentUser) {
     const detailsModal = document.getElementById('task-details-modal');
     const detailsCloseBtn = document.getElementById('details-close-modal-btn');
-    
+
     if (!detailsModal || !detailsCloseBtn) return;
 
     const closeModal = () => {
@@ -2040,11 +2047,11 @@ function initTaskDetailsModal(currentUser) {
     }
 
     detailsCloseBtn.addEventListener('click', closeModal);
-    
+
     detailsModal.addEventListener('click', (e) => {
-            if (e.target === detailsModal) {
+        if (e.target === detailsModal) {
             closeModal();
-            }
+        }
     });
 
     document.querySelectorAll('.task-card').forEach(card => {
@@ -2053,10 +2060,10 @@ function initTaskDetailsModal(currentUser) {
             const task = simTasks.find(t => t.id == taskId);
 
             if (!task) return;
-            
+
             // Find assignees
             const assignees = task.assignedTo.map(email => simUsers[email] ? simUsers[email].name : 'Unknown').join(', ');
-            
+
             // Format dates
             const createdDate = new Date(task.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             const deadlineDate = new Date(task.deadline).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -2069,7 +2076,7 @@ function initTaskDetailsModal(currentUser) {
             document.getElementById('details-task-created').textContent = createdDate;
             document.getElementById('details-task-deadline').textContent = deadlineDate;
             document.getElementById('details-task-description').textContent = task.description || 'No description provided.';
-            
+
             detailsModal.style.display = 'flex';
         });
     });
@@ -2087,7 +2094,7 @@ function loadProjectsPage(currentUser) {
     // Check for the special "Leader on Apollo" case
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
     const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
-    
+
     const showManagerControls = isManagerView && !isLeaderOnApollo;
 
     // Get modal elements
@@ -2119,7 +2126,7 @@ function loadProjectsPage(currentUser) {
             modalProjectSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
         });
     }
-    
+
     // Populate assignee checklist
     const modalAssigneeList = document.getElementById('modal-task-assignees');
     if (modalAssigneeList) {
@@ -2160,14 +2167,14 @@ function loadProjectsPage(currentUser) {
 
         modalForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             const title = document.getElementById('modal-task-title').value;
             const projectId = document.getElementById('modal-task-project').value;
-            
+
             // Get all checked assignees
             const assigneeCheckboxes = document.querySelectorAll('#modal-task-assignees input[type="checkbox"]:checked');
             const assigneeEmails = Array.from(assigneeCheckboxes).map(cb => cb.value);
-            
+
             const priority = document.getElementById('modal-task-priority').value;
             const deadline = document.getElementById('modal-task-deadline').value;
             const description = document.getElementById('modal-task-description').value; // Get description
@@ -2197,7 +2204,7 @@ function loadProjectsPage(currentUser) {
 
             simTasks.push(newTask);
             saveTasks();
-            
+
             renderTaskBoard(currentUser, currentProjectId); // Refresh the board with the new task
             closeModal();
             showSuccessNotification('Task assigned successfully!');
@@ -2229,7 +2236,7 @@ function loadManagerProgressPage(currentUser) {
 
     // Get all tasks for this specific project
     const projectTasks = simTasks.filter(task => task.projectId === currentProjectId);
-    
+
     // Render all components
     renderManagerTaskProgress(projectTasks);
     renderManagerDeadlines(projectTasks);
@@ -2248,7 +2255,7 @@ function renderManagerTaskProgress(projectTasks) {
     const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
     document.getElementById('task-progress-fill').style.width = progressPercent + '%';
-    document.getElementById('progress-text').textContent = 
+    document.getElementById('progress-text').textContent =
         `Your team has completed ${progressPercent}% of tasks assigned for this project.`;
 }
 
@@ -2273,10 +2280,10 @@ function renderManagerDeadlines(projectTasks) {
     deadlinesList.innerHTML = upcomingTasks.map(task => {
         const deadline = new Date(task.deadline);
         const formattedDate = deadline.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
-        
+
         let status = 'on-track';
         let statusText = 'On track';
-        
+
         if (deadline < today) {
             status = 'overdue';
             statusText = 'Overdue';
@@ -2287,10 +2294,10 @@ function renderManagerDeadlines(projectTasks) {
                 statusText = 'At risk';
             }
         }
-        
+
         // Find assignee names
         const assignees = task.assignedTo.map(email => simUsers[email] ? simUsers[email].name.split(' ')[0] : 'N/A').join(', ');
-        
+
         return `
             <div class="deadline-item">
                 <div class="deadline-item-left">
@@ -2313,7 +2320,7 @@ function renderProjectResources(projectTasks) {
     const today = new Date("2025-10-25T12:00:00"); // Hardcode date
     today.setHours(0, 0, 0, 0);
 
-    const overdueTasks = projectTasks.filter(t => 
+    const overdueTasks = projectTasks.filter(t =>
         t.status !== 'completed' && new Date(t.deadline) < today
     ).length;
 
@@ -2348,7 +2355,7 @@ function renderProjectResources(projectTasks) {
 function renderTasksPerMemberChart(projectTasks) {
     // Get all unique users in this project
     const userEmails = [...new Set(projectTasks.flatMap(t => t.assignedTo))];
-    
+
     const labels = [];
     const todoData = [];
     const inProgressData = [];
@@ -2358,7 +2365,7 @@ function renderTasksPerMemberChart(projectTasks) {
     userEmails.forEach(email => {
         const user = simUsers[email];
         if (!user) return;
-        
+
         labels.push(user.name);
         const userTasks = projectTasks.filter(t => t.assignedTo.includes(email));
 
@@ -2373,11 +2380,11 @@ function renderTasksPerMemberChart(projectTasks) {
     const ctx = document.getElementById('tasksPerMemberChart');
 
     if (ctx) {
-         //Destroy existing chart if it exists
-         const existingChart = Chart.getChart(ctx);
-         if (existingChart) {
-             existingChart.destroy();
-         }
+        //Destroy existing chart if it exists
+        const existingChart = Chart.getChart(ctx);
+        if (existingChart) {
+            existingChart.destroy();
+        }
 
         new Chart(ctx, {
             type: 'bar',
@@ -2431,7 +2438,7 @@ function renderTasksPerMemberChart(projectTasks) {
                 },
                 plugins: {
                     legend: {
-                        display: false 
+                        display: false
                     },
                     tooltip: {
                         font: {
@@ -2459,7 +2466,7 @@ function loadProjectResourcesPage(currentUser) {
     if (project) {
         document.getElementById('project-created-date').textContent = new Date(project.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         document.getElementById('project-description').textContent = project.description || 'No description provided for this project.';
-        
+
         // Add team leader to project contacts if they exist
         const contactsList = document.getElementById('project-contacts-list');
         if (contactsList && project.teamLeader) {
@@ -2600,7 +2607,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const returnTopic = sessionStorage.getItem('returnToTopic');
         const showCreatedNotification = sessionStorage.getItem('topicCreated');
         const showPostNotification = sessionStorage.getItem('postCreated');
-        
+
         // Show any pending notifications
         if (showCreatedNotification) {
             showSuccessNotification(showCreatedNotification);
@@ -2610,7 +2617,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showSuccessNotification(showPostNotification);
             sessionStorage.removeItem('postCreated');
         }
-        
+
         if (returnTopic) {
             sessionStorage.removeItem('returnToTopic'); // Clear it after use
             loadKbIndex(currentUser); // Load index to attach listeners
@@ -2639,7 +2646,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pageId === 'manager-progress-page') {
         // Manager Progress page
         loadManagerProgressPage(currentUser);
-     } else if (pageId === 'project-resources-page') { 
+    } else if (pageId === 'project-resources-page') {
         // Project Resources page
         loadProjectResourcesPage(currentUser);
     } else if (pageId === 'assign-task-page') {
@@ -2648,13 +2655,13 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pageId === 'create-project-page') {
         // Create Project form
         setupCreateProjectForm(currentUser);
-    } else if (pageId === 'create-todo-page') { 
+    } else if (pageId === 'create-todo-page') {
         // Create Personal To-Do form
         setupCreateTodoForm(currentUser);
     } else if (pageId === 'projects-page') {
         // Project Kanban Board
         loadProjectsPage(currentUser);
-    } else if (pageId === 'project-archive-page') { 
+    } else if (pageId === 'project-archive-page') {
         // *** ADDED: Load logic for new archive page ***
         loadProjectArchivePage(currentUser);
     }

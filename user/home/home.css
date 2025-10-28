@@ -42,18 +42,24 @@
 .donut-chart-container {
     position: relative;
     width: 100%;
-    max-width: 600px; /* Max width for bar chart */
-    height: 280px;
+    max-width: 900px; /* Max width for bar chart */
+    height: 400px; /* INCREASED from 280px to 400px for larger charts */
     margin: 0 auto 25px auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Canvas wrapper for proper centering */
+/* Canvas wrapper - bar charts fill container, donuts stay centered */
 .donut-chart-container canvas {
-    max-width: 280px;
-    max-height: 280px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Specific styling for donut chart (when center text is present) */
+.donut-chart-container:has(.donut-center) canvas {
+    max-width: 400px; /* INCREASED from 280px to 400px */
+    max-height: 400px; /* INCREASED from 280px to 400px */
 }
 
 .donut-center {
@@ -76,6 +82,7 @@
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+    
 }
 
 .legend-item {
