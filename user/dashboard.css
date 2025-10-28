@@ -177,7 +177,7 @@ body {
     cursor: pointer;
     transition: background 0.2s ease;
     height: fit-content;
-    margin-left: auto; /* Pushes it to the right */
+    margin-right: 100px; /* Pushes it to the right */
 }
 .close-project-btn:hover {
     background: #F9A825;
@@ -185,7 +185,7 @@ body {
 
 .project-complete-btn {
     background: #FBC02D;
-    color: #fff;
+    color: #1E1E1E;
     border: none;
     padding: 12px 24px;
     border-radius: 8px;
