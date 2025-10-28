@@ -2077,6 +2077,8 @@ function initTaskDetailsModal(currentUser) {
             document.getElementById('details-task-deadline').textContent = deadlineDate;
             document.getElementById('details-task-description').textContent = task.description || 'No description provided.';
 
+            
+
             detailsModal.style.display = 'flex';
         });
     });

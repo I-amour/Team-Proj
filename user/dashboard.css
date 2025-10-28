@@ -183,6 +183,28 @@ body {
     background: #F9A825;
 }
 
+.project-complete-btn {
+    background: #FBC02D;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+    margin-top: 20px;
+}
+
+.project-complete-btn:hover {
+    background: #F9A825;
+}
+
+
 
 /*
 * Task Board
