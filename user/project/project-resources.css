@@ -4,6 +4,9 @@
 
 .resource-content {
     padding: 30px 40px;
+    /* ADDED for new full-height layout */
+    overflow-y: auto;
+    flex-grow: 1;
 }
 
 .resource-header {

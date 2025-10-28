@@ -4,6 +4,7 @@
 
 #home-page .main-content {
     padding: 30px 40px;
+    /* overflow-y removed - main-content handles scrolling */
 }
 
 .home-header {
@@ -37,11 +38,22 @@
     margin: 0 0 25px 0;
 }
 
+/* UPDATED: Make chart container flexible for both donut and bar charts */
 .donut-chart-container {
     position: relative;
-    width: 280px;
+    width: 100%;
+    max-width: 600px; /* Max width for bar chart */
     height: 280px;
     margin: 0 auto 25px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Canvas wrapper for proper centering */
+.donut-chart-container canvas {
+    max-width: 280px;
+    max-height: 280px;
 }
 
 .donut-center {
@@ -50,6 +62,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    pointer-events: none; /* Allow clicks to pass through to canvas */
 }
 
 .donut-center span {
@@ -171,6 +184,9 @@
     flex-direction: column;
     gap: 12px;
     margin-bottom: 20px;
+    max-height: 500px; /* ADDED: Max height for overflow */
+    overflow-y: auto; /* ADDED: Enable scrolling */
+    padding-right: 5px; /* ADDED: Space for scrollbar */
 }
 
 .todo-item {

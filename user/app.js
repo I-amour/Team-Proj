@@ -173,13 +173,15 @@ const initialProjects = [
         id: 'project15',
         name: 'Project 15',
         createdBy: 'manager@makeitall.com',
-        createdDate: '2025-09-15'
+        createdDate: '2025-09-15',
+        teamLeader: 'leader@makeitall.com'
     },
     {
         id: 'apollo',
         name: 'Project Apollo',
         createdBy: 'manager@makeitall.com',
-        createdDate: '2025-08-20'
+        createdDate: '2025-08-20',
+        teamLeader: null
     }
 ];
 
@@ -191,6 +193,43 @@ if (!localStorage.getItem('simProjects')) {
 function saveProjects() {
     localStorage.setItem('simProjects', JSON.stringify(simProjects));
 }
+
+// *** ADDED: MOCK ARCHIVED PROJECTS DATA ***
+const simArchivedProjects = [
+    {
+        name: 'Project Alpha',
+        teamLeader: 'Alice Brown',
+        avatarClass: 'avatar-brown',
+        description: 'UI Design',
+        createdDate: '20 Jun 2025',
+        closedDate: '15 Oct 2025'
+    },
+    {
+        name: 'Project Beta',
+        teamLeader: 'Levi Jones',
+        avatarClass: 'avatar-orange',
+        description: 'Testing',
+        createdDate: '5 March 2025',
+        closedDate: '1 May 2025'
+    },
+    {
+        name: 'Project 12',
+        teamLeader: 'Bill Smith',
+        avatarClass: 'avatar-green',
+        description: 'Requirements',
+        createdDate: '6 March 2025',
+        closedDate: '29 April 2025'
+    },
+    {
+        name: 'Project 12',
+        teamLeader: 'Bill Smith',
+        avatarClass: 'avatar-green',
+        description: 'Requirements',
+        createdDate: '6 March 2025',
+        closedDate: '29 April 2025'
+    }
+];
+// *** END ADDED DATA ***
 
 // *** UPDATED TASKS DATA ***
 // Added description, createdDate, and more realistic tasks
@@ -521,12 +560,12 @@ function persistUserQueryParam(currentUser) {
             // Rebuild href to include both user and project
              if (a.search) {
                  if (!a.search.includes('user=')) a.search += `&${userQuery}`;
-                 if (a.pathname.includes('projects') || a.pathname.includes('progress')) {
+                 if (a.pathname.includes('projects') || a.pathname.includes('progress') || a.pathname.includes('project-resources')) {
                      if (!a.search.includes('project=')) a.search += `&${projectQuery}`;
                  }
              } else {
                  a.href += `?${userQuery}`;
-                 if (a.pathname.includes('projects') || a.pathname.includes('progress')) {
+                 if (a.pathname.includes('projects') || a.pathname.includes('progress') || a.pathname.includes('project-resources')) {
                      a.href += `&${projectQuery}`;
                  }
              }
@@ -569,7 +608,7 @@ function updateSidebarAndNav(currentUser, currentProjectId) {
             progressPage = 'manager-progress.html'; // Manager/Leader view
         }
 
-const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
+    const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
     const progressLink = `${progressPage}?project=${currentProjectId}&${userQuery}`;
     const resourcesLink = `project-resources.html?project=${currentProjectId}&${userQuery}`; // <-- NEW LINK
 
@@ -584,6 +623,20 @@ const tasksLink = `projects.html?project=${currentProjectId}&${userQuery}`;
         <a href="${resourcesLink}" class="${resourcesActive}">Resources</a>
     `;
     }
+
+    // *** ADDED: Show/Hide "Close Project" button and add listener ***
+    const closeProjectBtn = document.getElementById('close-project-btn');
+    if (closeProjectBtn) {
+        if (currentUser.role === 'manager') {
+            closeProjectBtn.style.display = 'block';
+            closeProjectBtn.addEventListener('click', () => {
+                showSuccessNotification('This is a prototype feature. Project closing will be implemented later.');
+            });
+        } else {
+            closeProjectBtn.style.display = 'none';
+        }
+    }
+    // *** END ADDED CODE ***
 }
 
 
@@ -801,7 +854,7 @@ function loadKbPost(currentUser) {
 
     if (!post) {
         document.getElementById('post-title-placeholder').textContent = 'Post not found';
-        document.getElementById('post-full-content').innerHTML = '<p>Could not find a post with that ID. <a href="knowledge-base.html">Go back to Knowledge Base</a></p>';
+        document.getElementById('post-full-content').innerHTML = '<p>Could not find a post with that ID. <a href="knowledge-base/knowledge-base.html">Go back to Knowledge Base</a></p>';
         return;
     }
 
@@ -980,7 +1033,7 @@ function setupCreateForm(currentUser) {
         sessionStorage.setItem('returnToTopic', topic);
         
         // Redirect
-        window.location.href = `knowledge-base.html?user=${currentUser.email}`;
+        window.location.href = `knowledge-base/knowledge-base.html?user=${currentUser.email}`;
     });
 }
 
@@ -1082,7 +1135,7 @@ function loadSettingsPage(currentUser) {
  }
 
 /**
- * Runs on the Home page (index.html)
+ * Runs on the Home page (home/home.html)
  */
 function loadHomePage(currentUser) {
     // Update page label based on role
@@ -1117,36 +1170,139 @@ function loadHomePage(currentUser) {
 }
 
 /**
- * Renders the total tasks donut chart (assigned tasks only)
+ * Renders the total tasks donut chart (assigned tasks only) or bar chart for managers
  */
 function renderTotalTasksChart(currentUser) {
-    // Only count assigned tasks for the chart
-    const userTasks = simTasks.filter(task => 
-        task.assignedTo.includes(currentUser.email) && task.type === 'assigned'
-    );
-    
-    const todoCount = userTasks.filter(t => t.status === 'todo').length;
-    const inProgressCount = userTasks.filter(t => t.status === 'inprogress').length;
-    const reviewCount = userTasks.filter(t => t.status === 'review').length;
-    const completedCount = userTasks.filter(t => t.status === 'completed').length;
-    
-    const totalCount = userTasks.length;
-    document.getElementById('totalTasksCount').textContent = totalCount;
-    
     const ctx = document.getElementById('totalTasksChart');
-    if (ctx) {
+    if (!ctx) return;
+    
+    // Destroy existing chart if it exists
+    const existingChart = Chart.getChart(ctx);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+    
+    // Get donut-specific elements
+    const donutCenter = document.querySelector('.donut-center');
+    const chartLegend = document.querySelector('.chart-legend');
+    
+    // For managers, show bar chart with projects
+    if (currentUser.role === 'manager') {
+        // Hide donut-specific elements
+        if (donutCenter) donutCenter.style.display = 'none';
+        if (chartLegend) chartLegend.style.display = 'none';
+        
+        // Get all tasks grouped by project
+        const projectData = {};
+        simProjects.forEach(project => {
+            const projectTasks = simTasks.filter(task => 
+                task.projectId === project.id && task.type === 'assigned'
+            );
+            
+            projectData[project.name] = {
+                todo: projectTasks.filter(t => t.status === 'todo').length,
+                inprogress: projectTasks.filter(t => t.status === 'inprogress').length,
+                review: projectTasks.filter(t => t.status === 'review').length,
+                completed: projectTasks.filter(t => t.status === 'completed').length,
+                total: projectTasks.length
+            };
+        });
+        
+        const projectNames = Object.keys(projectData);
+        const totalTasks = projectNames.reduce((sum, name) => sum + projectData[name].total, 0);
+        document.getElementById('totalTasksCount').textContent = totalTasks;
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: projectNames,
+                datasets: [
+                    {
+                        label: 'To Do',
+                        data: projectNames.map(name => projectData[name].todo),
+                        backgroundColor: '#1E3A5F'
+                    },
+                    {
+                        label: 'In Progress',
+                        data: projectNames.map(name => projectData[name].inprogress),
+                        backgroundColor: '#E6A100'
+                    },
+                    {
+                        label: 'In Review',
+                        data: projectNames.map(name => projectData[name].review),
+                        backgroundColor: '#F4A261'
+                    },
+                    {
+                        label: 'Completed',
+                        data: projectNames.map(name => projectData[name].completed),
+                        backgroundColor: '#FF8C42'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 20
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        // For non-managers, show donut chart
+        // Show donut-specific elements
+        if (donutCenter) donutCenter.style.display = 'block';
+        if (chartLegend) chartLegend.style.display = 'flex';
+        
+        const userTasks = simTasks.filter(task => 
+            task.assignedTo.includes(currentUser.email) && task.type === 'assigned'
+        );
+        
+        const todoCount = userTasks.filter(t => t.status === 'todo').length;
+        const inProgressCount = userTasks.filter(t => t.status === 'inprogress').length;
+        const reviewCount = userTasks.filter(t => t.status === 'review').length;
+        const completedCount = userTasks.filter(t => t.status === 'completed').length;
+        
+        const totalCount = userTasks.length;
+        document.getElementById('totalTasksCount').textContent = totalCount;
+        
         new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['To Do', 'In Progress', 'In Review', 'Completed'],
                 datasets: [{
                     data: [todoCount, inProgressCount, reviewCount, completedCount],
-                    backgroundColor: ['#1E3A5F', '#00e668ff', '#f46172ff', '#a53f00ff'],
+                    backgroundColor: ['#1E3A5F', '#E6A100', '#F4A261', '#FF8C42'],
                     borderWidth: 0
                 }]
             },
             options: {
                 cutout: '70%',
+                responsive: true,
+                maintainAspectRatio: true,
                 plugins: {
                     legend: {
                         display: false
@@ -1382,7 +1538,7 @@ function loadProgressPage(currentUser) {
 
     if (isManagerView && !isLeaderOnApollo) {
         // This is a manager/leader, redirect them to the manager progress page
-        window.location.href = `manager-progress.html?project=${currentProjectId}&user=${currentUser.email}`;
+        window.location.href = `project/manager-progress.html?project=${currentProjectId}&user=${currentUser.email}`;
         return; // Stop loading this page
     }
     // --- End Redirect ---
@@ -1667,7 +1823,7 @@ function setupAssignTaskForm(currentUser) {
         saveTasks();
 
         sessionStorage.setItem('taskCreated', 'Task assigned successfully!');
-        window.location.href = `home.html?user=${currentUser.email}`;
+        window.location.href = `home/home.html?user=${currentUser.email}`;
     });
 }
 
@@ -1701,7 +1857,7 @@ function setupCreateProjectForm(currentUser) {
 
         sessionStorage.setItem('projectCreated', `Project "${projectName}" created successfully!`);
         // Redirect to the new project's page
-        window.location.href = `projects.html?project=${newProject.id}&user=${currentUser.email}`;
+        window.location.href = `project/projects.html?project=${newProject.id}&user=${currentUser.email}`;
     });
 }
 
@@ -1940,7 +2096,6 @@ function loadProjectsPage(currentUser) {
     const modalForm = document.getElementById('modal-assign-task-form');
     const modalStatusInput = document.getElementById('modal-task-status');
     const modalProjectSelect = document.getElementById('modal-task-project');
-    const modalAssigneeSelect = document.getElementById('modal-task-assignee');
 
     // --- Modal Functions ---
     const openModal = (status) => {
@@ -1964,10 +2119,20 @@ function loadProjectsPage(currentUser) {
             modalProjectSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
         });
     }
-    if (modalAssigneeSelect) {
-        modalAssigneeSelect.innerHTML = '<option value="">Select team member...</option>';
+    
+    // Populate assignee checklist
+    const modalAssigneeList = document.getElementById('modal-task-assignees');
+    if (modalAssigneeList) {
+        modalAssigneeList.innerHTML = '';
         for (const email in simUsers) {
-            modalAssigneeSelect.innerHTML += `<option value="${email}">${simUsers[email].name}</option>`;
+            const user = simUsers[email];
+            const checkboxItem = document.createElement('div');
+            checkboxItem.className = 'assignee-checkbox-item';
+            checkboxItem.innerHTML = `
+                <input type="checkbox" id="assignee-${email}" value="${email}">
+                <label for="assignee-${email}">${user.name} (${user.role})</label>
+            `;
+            modalAssigneeList.appendChild(checkboxItem);
         }
     }
 
@@ -1998,14 +2163,18 @@ function loadProjectsPage(currentUser) {
             
             const title = document.getElementById('modal-task-title').value;
             const projectId = document.getElementById('modal-task-project').value;
-            const assigneeEmail = document.getElementById('modal-task-assignee').value;
+            
+            // Get all checked assignees
+            const assigneeCheckboxes = document.querySelectorAll('#modal-task-assignees input[type="checkbox"]:checked');
+            const assigneeEmails = Array.from(assigneeCheckboxes).map(cb => cb.value);
+            
             const priority = document.getElementById('modal-task-priority').value;
             const deadline = document.getElementById('modal-task-deadline').value;
             const description = document.getElementById('modal-task-description').value; // Get description
             const status = modalStatusInput.value;
 
-            if (!title || !projectId || !assigneeEmail || !priority || !deadline) {
-                alert('Please fill out all required fields.');
+            if (!title || !projectId || assigneeEmails.length === 0 || !priority || !deadline) {
+                alert('Please fill out all required fields and select at least one assignee.');
                 return;
             }
 
@@ -2016,7 +2185,7 @@ function loadProjectsPage(currentUser) {
                 title: title,
                 project: project ? project.name : 'Unknown Project',
                 projectId: projectId,
-                assignedTo: [assigneeEmail],
+                assignedTo: assigneeEmails,
                 priority: priority,
                 status: status,
                 deadline: deadline,
@@ -2177,7 +2346,7 @@ function renderProjectResources(projectTasks) {
  * (Manager) Renders the "Tasks per member" stacked bar chart
  */
 function renderTasksPerMemberChart(projectTasks) {
-    // 1. Get all unique users in this project
+    // Get all unique users in this project
     const userEmails = [...new Set(projectTasks.flatMap(t => t.assignedTo))];
     
     const labels = [];
@@ -2185,7 +2354,7 @@ function renderTasksPerMemberChart(projectTasks) {
     const inProgressData = [];
     const completedData = [];
 
-    // 2. Aggregate task counts for each user
+    //Aggregate task counts for each user
     userEmails.forEach(email => {
         const user = simUsers[email];
         if (!user) return;
@@ -2198,13 +2367,13 @@ function renderTasksPerMemberChart(projectTasks) {
         completedData.push(userTasks.filter(t => t.status === 'completed').length);
     });
 
-    // 3. Render the chart
+    //Render the chart
     const container = document.getElementById('tasks-per-member-chart-container');
     container.innerHTML = '<canvas id="tasksPerMemberChart"></canvas>'; // Clear and add canvas
     const ctx = document.getElementById('tasksPerMemberChart');
 
     if (ctx) {
-         // Destroy existing chart if it exists
+         //Destroy existing chart if it exists
          const existingChart = Chart.getChart(ctx);
          if (existingChart) {
              existingChart.destroy();
@@ -2262,7 +2431,7 @@ function renderTasksPerMemberChart(projectTasks) {
                 },
                 plugins: {
                     legend: {
-                        display: false // We use the custom HTML legend
+                        display: false 
                     },
                     tooltip: {
                         font: {
@@ -2290,6 +2459,25 @@ function loadProjectResourcesPage(currentUser) {
     if (project) {
         document.getElementById('project-created-date').textContent = new Date(project.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         document.getElementById('project-description').textContent = project.description || 'No description provided for this project.';
+        
+        // Add team leader to project contacts if they exist
+        const contactsList = document.getElementById('project-contacts-list');
+        if (contactsList && project.teamLeader) {
+            const teamLeader = simUsers[project.teamLeader];
+            if (teamLeader) {
+                const leaderHTML = `
+                    <div class="contact-item">
+                        <span class="avatar ${teamLeader.avatarClass}">${teamLeader.name.split(' ').map(n => n[0]).join('')}</span>
+                        <div class="contact-info">
+                            <span class="contact-name">${teamLeader.name}</span>
+                            <span class="contact-role">Team Leader</span>
+                            <a href="mailto:${project.teamLeader}">${project.teamLeader}</a>
+                        </div>
+                    </div>
+                `;
+                contactsList.insertAdjacentHTML('beforeend', leaderHTML);
+            }
+        }
     }
 
     // Show "Upload" button for managers/leaders
@@ -2342,9 +2530,47 @@ function setupCreateTodoForm(currentUser) {
         savePersonalTodos();
 
         sessionStorage.setItem('taskCreated', 'Personal to-do added!');
-        window.location.href = `home.html?user=${currentUser.email}`;
+        window.location.href = `home/home.html?user=${currentUser.email}`;
     });
 }
+
+
+// *** ADDED: New function to load Project Archive page ***
+function loadProjectArchivePage(currentUser) {
+    const gridContainer = document.getElementById('archive-grid-container');
+    if (!gridContainer) return;
+
+    // Generate HTML for each card from mock data
+    gridContainer.innerHTML = simArchivedProjects.map(project => {
+        return `
+            <div class="archive-card">
+                <h2>${project.name}</h2>
+                <ul>
+                    <li>
+                        <strong>Team Leader:</strong>
+                        <span>${project.teamLeader}</span>
+                        <span class="team-leader-avatar ${project.avatarClass}">
+                            ${project.teamLeader.split(' ').map(n => n[0]).join('')}
+                        </span>
+                    </li>
+                    <li>
+                        <strong>Description:</strong>
+                        <span>${project.description}</span>
+                    </li>
+                    <li>
+                        <strong>Date Created:</strong>
+                        <span>${project.createdDate}</span>
+                    </li>
+                    <li>
+                        <strong>Date Closed:</strong>
+                        <span>${project.closedDate}</span>
+                    </li>
+                </ul>
+            </div>
+        `;
+    }).join('');
+}
+// *** END ADDED FUNCTION ***
 
 
 // ===============================================
@@ -2358,6 +2584,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make all links on the page keep the user "logged in"
     persistUserQueryParam(currentUser);
+
+    // *** ADDED: Show "Project Archive" in sidebar for managers ***
+    const navArchive = document.getElementById('nav-archive');
+    if (navArchive && currentUser.role === 'manager') {
+        navArchive.style.display = 'block';
+    }
+    // *** END ADDED CODE ***
+
 
     // Run page-specific logic based on body ID
     const pageId = document.body.id;
@@ -2391,35 +2625,38 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pageId === 'settings-page') {
         loadSettingsPage(currentUser);
     } else if (pageId === 'kb-topics-all') {
-        // NEW: dedicated "All Topics" page
+        // dedicated "All Topics" page
         loadAllTopicsPage(currentUser);
     } else if (pageId === 'kb-create-topic') {
-        // NEW: Create Topic form page
+        // Create Topic form page
         setupCreateTopicForm(currentUser);
     } else if (pageId === 'home-page') {
-        // NEW: Home page with to-do list
+        // Home page with to-do list
         loadHomePage(currentUser);
     } else if (pageId === 'progress-page') {
-        // UPDATED: Team Member Progress page (with redirect)
+        // Team Member Progress page (with redirect)
         loadProgressPage(currentUser);
     } else if (pageId === 'manager-progress-page') {
-        // NEW: Manager Progress page
+        // Manager Progress page
         loadManagerProgressPage(currentUser);
      } else if (pageId === 'project-resources-page') { 
-    // NEW: Project Resources page
-    loadProjectResourcesPage(currentUser);
+        // Project Resources page
+        loadProjectResourcesPage(currentUser);
     } else if (pageId === 'assign-task-page') {
-        // NEW: Standalone Assign Task form
+        // Standalone Assign Task form
         setupAssignTaskForm(currentUser);
     } else if (pageId === 'create-project-page') {
-        // NEW: Create Project form
+        // Create Project form
         setupCreateProjectForm(currentUser);
     } else if (pageId === 'create-todo-page') { 
-    // NEW: Create Personal To-Do form
-    setupCreateTodoForm(currentUser);
-    }else if (pageId === 'projects-page') {
-        // UPDATED: Project Kanban Board
+        // Create Personal To-Do form
+        setupCreateTodoForm(currentUser);
+    } else if (pageId === 'projects-page') {
+        // Project Kanban Board
         loadProjectsPage(currentUser);
+    } else if (pageId === 'project-archive-page') { 
+        // *** ADDED: Load logic for new archive page ***
+        loadProjectArchivePage(currentUser);
     }
 
     // Finally, activate all Feather icons

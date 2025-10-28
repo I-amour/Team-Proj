@@ -2,14 +2,14 @@
 * Progress Page Styles
 */
 
-#progress-page .main-content {
-    padding: 30px 40px;
-}
 
 .progress-layout {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     gap: 30px;
+    padding: 30px 40px; /* ADDED padding here instead */
+    overflow-y: auto;
+    flex-grow: 1;
 }
 
 /* === PROGRESS CARD === */

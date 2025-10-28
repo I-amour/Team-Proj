@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make-It-All - Progress</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="../dashboard.css">
     <link rel="stylesheet" href="progress.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +16,10 @@
         <nav class="sidebar">
             <div class="nav-top">
                 <div class="logo-container">
-                    <img src="logo.png" alt="Make-It-All Logo" class="logo-icon">
+                    <img src="../logo.png" alt="Make-It-All Logo" class="logo-icon"> 
                 </div>
                 <ul class="nav-main">
-                    <li><a href="home.html"><i data-feather="home"></i>Home</a></li>
+                    <li><a href="../home/home.html"><i data-feather="home"></i>Home</a></li>
                     <li class="active-parent">
                         <a href="projects.html"><i data-feather="folder"></i>Projects</a>
                         <!-- 
@@ -31,27 +31,29 @@
                             <!-- JS will populate this -->
                         </ul>
                     </li>
-                    <li><a href="knowledge-base.html"><i data-feather="book-open"></i>Knowledge Base</a></li>
+                    <li><a href="../knowledge-base/knowledge-base.html"><i data-feather="book-open"></i>Knowledge Base</a></li>
                 </ul>
             </div>
             <div class="nav-footer">
                 <ul>
-                    <li><a href="settings.html"><i data-feather="settings"></i>Settings</a></li>
+                    <li><a href="../settings.html"><i data-feather="settings"></i>Settings</a></li>
                 </ul>
             </div>
         </nav>
 
         <main class="main-content">
             <header class="project-header">
-                <!-- JS will populate breadcrumb and header -->
-                <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">Project</span></p>
-                <h1 id="project-name-header">Project</h1>
-                <!-- JS will populate nav links -->
+                <div>
+                    <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">Project</span></p>
+                    <h1 id="project-name-header">Project</h1>
+                </div>
                 <nav class="project-nav" id="project-nav-links">
+                    <!-- JS will populate these links -->
                     <a href="projects.html">Tasks</a>
-                    <a href="progress.html" class="active">Progress</a>
+                    <a href="manager-progress.html" class="active">Progress</a>
                     <a href="#">Resources</a>
                 </nav>
+                <button class="close-project-btn" id="close-project-btn" style="display: none;">Close Project</button>
             </header>
 
             <div class="progress-layout">
@@ -143,6 +145,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="app.js"></script>
+    <script src="../app.js"></script>
 </body>
 </html>
