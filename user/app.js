@@ -221,12 +221,12 @@ const simArchivedProjects = [
         closedDate: '29 April 2025'
     },
     {
-        name: 'Project 12',
-        teamLeader: 'Bill Smith',
+        name: 'Project 13',
+        teamLeader: 'Eva Smith',
         avatarClass: 'avatar-green',
-        description: 'Requirements',
-        createdDate: '6 March 2025',
-        closedDate: '29 April 2025'
+        description: 'Stakeholder Engagement',
+        createdDate: '27 November 2024',
+        closedDate: '10 April 2025'
     }
 ];
 // *** END ADDED DATA ***
