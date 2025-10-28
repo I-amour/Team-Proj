@@ -2345,7 +2345,7 @@ function renderProjectResources(projectTasks) {
         // Red
         card.classList.add('status-red');
         statusText.textContent = 'Under-Resourced';
-        statusDesc.textContent = `More than three tasks are overdue. This project needs more resources and your team members may require additional training.`;
+        statusDesc.textContent = `More than three tasks are overdue. This project needs more resources, and your team members may require additional training.`;
     }
 }
 
