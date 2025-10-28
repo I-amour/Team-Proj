@@ -12,7 +12,7 @@ signup.addEventListener("click", () => {
 login.addEventListener("click", () => {
     slider.classList.remove("moveslider");
     formSection.classList.remove("form-section-move");
-});
+}); 
 
 
 //Password validation
@@ -45,23 +45,23 @@ signInForm.addEventListener('submit', (e) => {
     let userEmail = null;
     let redirectUrl = null;
 
-    if (email === 'user@makeitall.com' && password === 'password123') {
+    if (email === 'user@makeitall.com' && password === 'Password123!') {
         // Team Member
         userEmail = 'user@makeitall.com';
         redirectUrl = 'user/home/home.html'; 
     
-    } else if (email === 'specialist@makeitall.com' && password === 'password123') {
+    } else if (email === 'specialist@makeitall.com' && password === 'Password123!') {
         // Technical Specialist
         userEmail = 'specialist@makeitall.com';
         redirectUrl = 'user/home/home.html'; // All users land on home first
     
-    } else if (email === 'manager@makeitall.com' && password === 'password123') {
+    } else if (email === 'manager@makeitall.com' && password === 'Password123!') {
         // Manager
         userEmail = 'manager@makeitall.com';
         redirectUrl = 'user/home/home.html';
 
-    } else if (email === 'leader@makeitall.com' && password === 'password123') {
-        // Leaders
+    } else if (email === 'leader@makeitall.com' && password === 'Password123!') {
+        // Team Leaders
         userEmail = 'leader@makeitall.com';    
     } else {
         // FAILURE: Show login error

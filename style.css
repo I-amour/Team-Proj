@@ -40,11 +40,10 @@ img.logo {
 /*
 * This placeholder style is just for the illustration now btw
 */
-.logo-placeholder {
-    font-size: 12px;
-    color: #8C8C8C;
-    margin: 10px 0;
-    display: block;
+.illustration {
+    width: 500px; /*Adjust as needed*/
+    height: auto;
+    margin-bottom: 10px;
 }
 /*
 * Buttons (Unchanged)
