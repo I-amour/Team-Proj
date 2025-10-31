@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make-It-All - Project 15</title>
     <link rel="stylesheet" href="../dashboard.css">
-    <link rel="stylesheet" href="modal.css"> 
+    <link rel="stylesheet" href="modal.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,10 +17,10 @@
         <nav class="sidebar">
             <div class="nav-top">
                 <div class="logo-container">
-                    <img src="../logo.png" alt="Make-It-All Logo" class="logo-icon"> 
+                    <img src="../logo.png" alt="Make-It-All Logo" class="logo-icon">
                 </div>
                 <ul class="nav-main">
-                    <li><a href="../home/home.html"><i data-feather="home"></i>Home</a></li> 
+                    <li><a href="../home/home.html"><i data-feather="home"></i>Home</a></li>
                     <li class="active-parent">
                         <a href="projects.html"><i data-feather="folder"></i>Projects</a>
                         <ul class="nav-sub" id="project-sidebar-list">
@@ -38,18 +38,22 @@
         </nav>
 
         <main class="main-content">
-            <header class="project-header">
-                <div>
-                    <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">Project</span></p>
-                    <h1 id="project-name-header">Project</h1>
-                </div>
-                <nav class="project-nav" id="project-nav-links">
-                    <a href="#" class="active">Tasks</a>
-                    <a href="progress.html">Progress</a>
-                    <a href="#">Resources</a>
-                </nav>
-                <button class="close-project-btn" id="close-project-btn" style="display: none;">Close Project</button>
-            </header>
+          <header class="project-header">
+            <div class="project-header-top">
+              <div class="breadcrumbs-title">
+                <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">Project</span></p>
+                <h1 id="project-name-header">Project</h1>
+              </div>
+              <button class="close-project-btn" id="close-project-btn" style="display: none;">Close Project</button>
+            </div>
+
+            <nav class="project-nav" id="project-nav-links">
+              <a href="#" class="active">Tasks</a>
+              <a href="progress.html">Progress</a>
+              <a href="#">Resources</a>
+            </nav>
+          </header>
+
 
             <section class="task-board">
 
@@ -178,9 +182,12 @@
                     <strong>Manager Notes:</strong>
                     <p id="details-task-description"></p>
                 </div>
-                <div style="display: flex; justify-content: flex-end;">
-    <button id="project-complete-btn" class="project-complete-btn"> Mark Complete </button>
-</div>
+                <div class="task-details-actions">
+                  <button id="delete-task-btn" class="delete-task-btn">Delete Task</button>
+                  <button id="project-complete-btn" class="project-complete-btn">Mark Complete</button>
+                </div>
+
+
             </div>
         </div>
     </div>

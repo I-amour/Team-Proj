@@ -181,9 +181,10 @@ const initialProjects = [
         name: 'Project Apollo',
         createdBy: 'manager@makeitall.com',
         createdDate: '2025-08-20',
-        teamLeader: null
+        teamLeader: 'leader@makeitall.com'
     }
 ];
+
 
 let simProjects = JSON.parse(localStorage.getItem('simProjects')) || initialProjects;
 if (!localStorage.getItem('simProjects')) {
@@ -1220,22 +1221,22 @@ function renderTotalTasksChart(currentUser) {
                     {
                         label: 'To Do',
                         data: projectNames.map(name => projectData[name].todo),
-                        backgroundColor: '#ff8ed9ff'
+                        backgroundColor: '#D93025'
                     },
                     {
                         label: 'In Progress',
                         data: projectNames.map(name => projectData[name].inprogress),
-                        backgroundColor: '#8282ffff'
+                        backgroundColor: '#E6A100'
                     },
                     {
                         label: 'In Review',
                         data: projectNames.map(name => projectData[name].review),
-                        backgroundColor: '#ffcea6ff'
+                        backgroundColor: '#34A853'
                     },
                     {
                         label: 'Completed',
                         data: projectNames.map(name => projectData[name].completed),
-                        backgroundColor: '#baa5ffff'
+                        backgroundColor: '#4285F4'
                     }
                 ]
             },
@@ -1266,7 +1267,7 @@ function renderTotalTasksChart(currentUser) {
                         position: 'bottom',
                         labels: {
                             font: {
-                                size: 12, 
+                                size: 12,
                                 weight: 400
                             },
                             padding: 10,
@@ -1275,7 +1276,7 @@ function renderTotalTasksChart(currentUser) {
                         }
                     }
                 },
-                
+
             }
         });
     } else {
@@ -1302,7 +1303,7 @@ function renderTotalTasksChart(currentUser) {
                 labels: ['To Do', 'In Progress', 'In Review', 'Completed'],
                 datasets: [{
                     data: [todoCount, inProgressCount, reviewCount, completedCount],
-                    backgroundColor: ['#1E3A5F', '#E6A100', '#F4A261', '#FF8C42'],
+                    backgroundColor: ['#D93025', '#E6A100', '#34A853', '#4285F4'],
                     borderWidth: 0
                 }]
             },
@@ -2090,9 +2091,6 @@ function initTaskDetailsModal(currentUser) {
                 })
 
             }
-
-
-
             detailsModal.style.display = 'flex';
         });
     });
@@ -2237,6 +2235,35 @@ function loadProjectsPage(currentUser) {
         showSuccessNotification(showProjectNotification);
         sessionStorage.removeItem('projectCreated');
     }
+    // --- DELETE TASK BUTTON LOGIC (Manager only) ---
+    const deleteBtn = document.getElementById('delete-task-btn');
+
+    if (deleteBtn) {
+        if (currentUser.role === 'manager') {
+            deleteBtn.style.display = 'inline-block';
+
+            deleteBtn.onclick = () => {
+                const confirmDelete = confirm("Are you sure you want to delete this task?");
+                if (!confirmDelete) return;
+
+                const taskTitle = document.getElementById("details-task-title").textContent.trim();
+                const taskIndex = simTasks.findIndex(t => t.title === taskTitle);
+
+                if (taskIndex !== -1) {
+                    simTasks.splice(taskIndex, 1);
+                    saveTasks();
+                    renderTaskBoard(currentUser, getCurrentProjectId());
+                    showSuccessNotification("Task deleted successfully!");
+                    document.getElementById("task-details-modal").style.display = "none";
+                } else {
+                    alert("Error: Task not found.");
+                }
+            };
+        } else {
+            deleteBtn.style.display = "none"; // Hide for everyone else
+        }
+    }
+
 }
 
 // ===============================================
@@ -2472,47 +2499,76 @@ function renderTasksPerMemberChart(projectTasks) {
 /**
  * Runs on the Project Resources page (project-resources.html)
  */
-function loadProjectResourcesPage(currentUser) {
-    const currentProjectId = getCurrentProjectId();
-    updateSidebarAndNav(currentUser, currentProjectId);
+ function loadProjectResourcesPage(currentUser) {
+     const currentProjectId = getCurrentProjectId();
+     updateSidebarAndNav(currentUser, currentProjectId);
 
-    const project = simProjects.find(p => p.id === currentProjectId);
+     const project = simProjects.find(p => p.id === currentProjectId);
 
-    // Fill in project details
-    if (project) {
-        document.getElementById('project-created-date').textContent = new Date(project.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        document.getElementById('project-description').textContent = project.description || 'No description provided for this project.';
+     if (project) {
+         // --- Fill in basic project details ---
+         document.getElementById('project-created-date').textContent =
+             new Date(project.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+         document.getElementById('project-description').textContent =
+             project.description || 'No description provided for this project.';
 
-        // Add team leader to project contacts if they exist
-        const contactsList = document.getElementById('project-contacts-list');
-        if (contactsList && project.teamLeader) {
-            const teamLeader = simUsers[project.teamLeader];
-            if (teamLeader) {
-                const leaderHTML = `
-                    <div class="contact-item">
-                        <span class="avatar ${teamLeader.avatarClass}">${teamLeader.name.split(' ').map(n => n[0]).join('')}</span>
-                        <div class="contact-info">
-                            <span class="contact-name">${teamLeader.name}</span>
-                            <span class="contact-role">Team Leader</span>
-                            <a href="mailto:${project.teamLeader}">${project.teamLeader}</a>
-                        </div>
-                    </div>
-                `;
-                contactsList.insertAdjacentHTML('beforeend', leaderHTML);
-            }
-        }
-    }
+         // --- Build project contacts dynamically ---
+         const contactsList = document.getElementById('project-contacts-list');
+         if (contactsList) {
+             contactsList.innerHTML = ''; // clear any old content
 
-    // Show "Upload" button for managers/leaders
-    if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
-        const uploadBtn = document.getElementById('upload-btn');
-        uploadBtn.style.display = 'inline-flex';
+             const contacts = [];
 
-        uploadBtn.addEventListener('click', () => {
-            alert('This is a prototype demo feature. File upload is not functional.');
-        });
-    }
-}
+             // Always include the project manager (creator)
+             if (project.createdBy && simUsers[project.createdBy]) {
+                 const manager = simUsers[project.createdBy];
+                 contacts.push({
+                     name: manager.name,
+                     role: 'Project Manager',
+                     email: project.createdBy,
+                     avatarClass: manager.avatarClass
+                 });
+             }
+
+             // Add team leader if exists
+             if (project.teamLeader && simUsers[project.teamLeader]) {
+                 const leader = simUsers[project.teamLeader];
+                 contacts.push({
+                     name: leader.name,
+                     role: 'Team Leader',
+                     email: project.teamLeader,
+                     avatarClass: leader.avatarClass
+                 });
+             }
+
+             // Render both contacts
+             contactsList.innerHTML = contacts.map(c => `
+                 <div class="contact-item">
+                     <span class="avatar ${c.avatarClass}">
+                         ${c.name.split(' ').map(n => n[0]).join('')}
+                     </span>
+                     <div class="contact-info">
+                         <span class="contact-name">${c.name}</span>
+                         <span class="contact-role">${c.role}</span>
+                         <a href="mailto:${c.email}">${c.email}</a>
+                     </div>
+                 </div>
+             `).join('');
+         }
+     }
+
+     // --- Show upload button for managers or leaders ---
+     if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
+         const uploadBtn = document.getElementById('upload-btn');
+         if (uploadBtn) {
+             uploadBtn.style.display = 'inline-flex';
+             uploadBtn.addEventListener('click', () => {
+                 alert('This is a prototype demo feature. File upload is not functional.');
+             });
+         }
+     }
+ }
+
 
 /**
  * Runs on the Create Personal To-Do page (create-todo.html)
@@ -2685,3 +2741,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Finally, activate all Feather icons
     feather.replace();
 });
+
+// I've put this for testing, just type resetAllData(); to refresh the web page after testing
+function resetAllData() {
+    if (confirm("This will erase all current data and reload the defaults. Continue?")) {
+        localStorage.clear();
+        sessionStorage.clear();
+        location.reload();
+    }
+}

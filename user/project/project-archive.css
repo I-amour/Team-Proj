@@ -20,24 +20,30 @@
     margin: 0;
 }
 
+/* === TOP BAR CONTROLS === */
 .archive-controls {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
+/* --- Search Bar --- */
 .search-bar {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .search-bar input {
     width: 250px;
-    padding: 10px 15px 10px 40px;
+    height: 42px;
+    padding: 10px 15px 10px 40px; /* space for icon inside */
     border: 1px solid #E0E0E0;
     border-radius: 8px;
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     background: #fff;
+    outline: none;
 }
 
 .search-bar i {
@@ -46,17 +52,22 @@
     top: 50%;
     transform: translateY(-50%);
     color: #8C8C8C;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
 }
 
+/* --- Filter Dropdown --- */
 .filter-dropdown {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .filter-dropdown select {
     width: 150px;
-    padding: 10px 35px 10px 15px;
+    height: 42px;
+    padding: 10px 35px 10px 15px; /* space for icon */
     border: 1px solid #E0E0E0;
     border-radius: 8px;
     font-family: 'Poppins', sans-serif;
@@ -64,6 +75,7 @@
     color: #555;
     background: #fff;
     appearance: none;
+    outline: none;
     cursor: pointer;
 }
 
@@ -72,14 +84,16 @@
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    pointer-events: none;
     color: #8C8C8C;
     width: 18px;
     height: 18px;
+    pointer-events: none;
 }
 
+/* --- Clear Button --- */
 .clear-btn {
-    padding: 10px 20px;
+    height: 42px;
+    padding: 0 20px;
     border: none;
     border-radius: 8px;
     background: #FBC02D;
@@ -88,7 +102,15 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.clear-btn:hover {
+    background: #F9A825;
+}
+
 
 .archive-content {
     width: 100%;
@@ -154,3 +176,37 @@
 .avatar-brown { background: #8D6E63; }
 .avatar-orange { background: #FFB74D; }
 .avatar-green { background: #81C784; }
+
+.search-bar,
+.filter-dropdown {
+    position: relative;
+}
+
+.search-bar .icon,
+.filter-dropdown .icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.search-bar .icon {
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.filter-dropdown .icon {
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-bar input {
+    padding-left: 40px; /* ensures text doesn’t overlap icon */
+}
+
+.filter-dropdown select {
+    padding-right: 35px; /* ensures space for dropdown arrow */
+}

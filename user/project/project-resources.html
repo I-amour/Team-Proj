@@ -14,7 +14,7 @@
         <nav class="sidebar">
             <div class="nav-top">
                 <div class="logo-container">
-                    <img src="../logo.png" alt="Make-It-All Logo" class="logo-icon"> 
+                    <img src="../logo.png" alt="Make-It-All Logo" class="logo-icon">
                 </div>
                 <ul class="nav-main">
                     <li><a href="../home/home.html"><i data-feather="home"></i>Home</a></li>
@@ -35,16 +35,23 @@
         </nav>
 
         <main class="main-content">
-            <header class="project-header">
-                <div>
-                    <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">...</span></p>
-                    <h1 id="project-name-header">...</h1>
-                </div>
-                <nav class="project-nav" id="project-nav-links">
-                    </nav>
-                <button class="close-project-btn" id="close-project-btn" style="display: none;">Close Project</button>
-            </header>
-            
+          <header class="project-header">
+            <div class="project-header-top">
+              <div class="breadcrumbs-title">
+                <p class="breadcrumbs">Projects > <span id="project-name-breadcrumb">Project</span></p>
+                <h1 id="project-name-header">Project</h1>
+              </div>
+              <button class="close-project-btn" id="close-project-btn" style="display: none;">Close Project</button>
+            </div>
+
+            <nav class="project-nav" id="project-nav-links">
+              <a href="#" class="active">Tasks</a>
+              <a href="progress.html">Progress</a>
+              <a href="#">Resources</a>
+            </nav>
+          </header>
+
+
             <div class="resource-content">
                 <div class="resource-header">
                     <h2>Project Resources</h2>
@@ -57,15 +64,10 @@
                     <div class="resource-card">
                         <h3>Project Contacts</h3>
                         <div class="contact-list" id="project-contacts-list">
-                            <div class="contact-item">
-                                <span class="avatar avatar-2">BC</span>
-                                <div class="contact-info">
-                                    <span class="contact-name">Ben Carter</span>
-                                    <span class="contact-role">Project Manager</span>
-                                    <a href="mailto:manager@makeitall.com">manager@makeitall.com</a>
-                                </div>
-                            </div>
-                            </div>
+                            <!-- Contacts are added automatically for Project 15 -->
+                        </div>
+
+
                     </div>
 
                     <div class="resource-card">

@@ -78,7 +78,7 @@ body {
 
 /* Active Project Parent */
 .sidebar ul.nav-main > li.active-parent > a {
-    background: #FBC02D; 
+    background: #FBC02D;
     color: black;
     font-weight: 700;
 }
@@ -116,17 +116,23 @@ body {
     height: 100vh;
 }
 
-/* Project Header */
-/* UPDATED for new layout and Close Project button */
+/* Project Header (Updated for proper top-right button alignment) */
 .project-header {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 30px 40px 0 40px; /* Added padding */
-    flex-shrink: 0; /* Prevent header from shrinking */
+    flex-direction: column;
+    padding: 30px 40px 0 40px;
 }
-.project-header > div:first-child { /* Wrapper for breadcrumbs/h1 */
-    flex-basis: 100%;
+
+.project-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.breadcrumbs-title {
+    display: flex;
+    flex-direction: column;
 }
 
 .project-header .breadcrumbs {
@@ -138,15 +144,13 @@ body {
 .project-header h1 {
     font-size: 36px;
     font-weight: 700;
-    margin: 5px 0 20px 0;
+    margin: 5px 0 10px 0;
 }
 
 .project-nav {
     display: flex;
     border-bottom: 2px solid #EAECEE;
-    /* UPDATED for new layout */
-    margin-bottom: 0; /* Removed margin */
-    flex-grow: 1;
+    margin-top: 15px;
 }
 
 .project-nav a {
@@ -155,7 +159,7 @@ body {
     color: #8C8C8C;
     font-weight: 600;
     font-size: 16px;
-    margin-bottom: -2px; /* Pulls text down to sit on the border */
+    margin-bottom: -2px;
     border-bottom: 3px solid transparent;
 }
 
@@ -164,7 +168,7 @@ body {
     border-bottom-color: #1E1E1E;
 }
 
-/* ADDED: Close Project Button Style */
+/* Close Project Button */
 .close-project-btn {
     background: #FBC02D;
     color: #1E1E1E;
@@ -177,12 +181,14 @@ body {
     cursor: pointer;
     transition: background 0.2s ease;
     height: fit-content;
-    margin-right: 100px; /* Pushes it to the right */
+    margin: 0;
 }
+
 .close-project-btn:hover {
     background: #F9A825;
 }
 
+/* Project Complete Button */
 .project-complete-btn {
     background: #FBC02D;
     color: #1E1E1E;
@@ -203,7 +209,6 @@ body {
 .project-complete-btn:hover {
     background: #F9A825;
 }
-
 
 
 /*
@@ -612,4 +617,55 @@ body {
     font-size: 14px;
     font-weight: 500;
     flex-grow: 1;
+}
+
+/* === DELETE + MARK COMPLETE BUTTONS (TASK DETAILS MODAL) === */
+
+.task-details-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* Delete Task button */
+.delete-task-btn {
+  background-color: #D93025;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 160px;
+  height: 48px;
+  font-size: 15px;
+}
+
+.delete-task-btn:hover {
+  background-color: #B71C1C;
+}
+
+/* Mark Complete button */
+.task-details-actions .project-complete-btn {
+  background: #FBC02D;
+  color: #1E1E1E;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  min-width: 160px;
+  height: 48px;
+  margin-top: 0;
+}
+
+.task-details-actions .project-complete-btn:hover {
+  background: #F9A825;
 }
