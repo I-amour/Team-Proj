@@ -53,6 +53,21 @@ const simUsers = {
         name: 'Sarah Johnson',
         role: 'team_leader',
         avatarClass: 'avatar-3'
+    },
+    'member1@makeitall.com': {
+        name: 'David Lee',
+        role: 'member',
+        avatarClass: 'avatar-4'
+    },
+    'member2@makeitall.com': {
+        name: 'Emily Chen',
+        role: 'member',
+        avatarClass: 'avatar-2'
+    },
+    'member3@makeitall.com': {
+        name: 'Michael Brown',
+        role: 'member',
+        avatarClass: 'avatar-1'
     }
 };
 
@@ -181,7 +196,7 @@ const initialProjects = [
         name: 'Project Apollo',
         createdBy: 'manager@makeitall.com',
         createdDate: '2025-08-20',
-        teamLeader: 'leader@makeitall.com'
+        teamLeader: 'member2@makeitall.com'
     }
 ];
 
@@ -977,66 +992,66 @@ function loadKbPost(currentUser) {
 }
 
 /**
- * Runs on the Create Post page (knowledge-base-create.html)
+ * Runs on the Create Project page (create-project.html)
  */
-function setupCreateForm(currentUser) {
-    const createForm = document.getElementById('create-post-form');
+function setupCreateProjectPage(currentUser) {
+    const form = document.getElementById('create-project-form');
+    if (!form) return;
 
-    // --- Populate the topics dropdown dynamically (mains + any custom) ---
-    const topicSelect = document.getElementById('post-topic');
-    if (topicSelect) {
-        const allTopics = getAllTopics();
-        topicSelect.innerHTML = '<option value="">Select a topic...</option>' +
-            allTopics.map(t => `<option value="${t}">${t}</option>`).join('');
+    // --- Get and populate new form fields ---
+    const leaderSelect = document.getElementById('project-leader');
+
+    // Populate Leader Dropdown (Anyone can be a leader)
+    if (leaderSelect) {
+        leaderSelect.innerHTML = '<option value="">Select a leader...</option>';
+        for (const email in simUsers) {
+            const user = simUsers[email];
+
+            // FIX: The role filter is removed. Every user is now available.
+            leaderSelect.innerHTML += `<option value="${email}">${user.name} (${user.role})</option>`;
+        }
     }
 
-    // --- NEW: Pre-select topic from URL ---
-    const urlParams = new URLSearchParams(window.location.search);
-    const topicFromUrl = urlParams.get('topic');
-    if (topicFromUrl) {
-        document.getElementById('post-topic').value = topicFromUrl;
-    }
-    // --- End of new code ---
+    // NOTE: Team Member Checklist population logic remains removed.
 
-    createForm.addEventListener('submit', (e) => {
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
+        const projectName = document.getElementById('project-name').value;
+        const projectDesc = document.getElementById('project-description').value;
 
-        const title = document.getElementById('post-title').value;
-        const topic = document.getElementById('post-topic').value;
-        const details = document.getElementById('post-details').value;
+        // --- Get values from new fields ---
+        const teamLeaderEmail = document.getElementById('project-leader').value;
 
-        if (!title || !topic || !details) {
-            alert('Please fill out all fields.');
+        // Team Member collection logic remains removed, saving an empty array.
+        const teamMemberEmails = [];
+
+        // Updated validation
+        if (!projectName || !teamLeaderEmail) {
+            alert('Please enter a project name and select a team leader.');
             return;
         }
 
-        // Create new post object
-        const newPost = {
-            id: new Date().getTime(), // Unique ID
-            topic: topic,
-            title: title,
-            author: currentUser.name, // This now works thanks to the fixed login
-            authorEmail: currentUser.email,
-            date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-            content: details,
-            reactions: { up: 0, lightbulb: 0, comments: 0 },
-            replies: []
+        const newProject = {
+            id: projectName.toLowerCase().replace(/\s+/g, '-') + '-' + new Date().getTime(),
+            name: projectName,
+            description: projectDesc,
+            createdBy: currentUser.email,
+            createdDate: new Date().toISOString().split('T')[0],
+            // --- Save new data to the project object ---
+            teamLeader: teamLeaderEmail,
+            teamMembers: teamMemberEmails // Saved as empty array
+            // --- END NEW CODE ---
         };
 
-        // Add new post to our simulated database
-        simPosts.unshift(newPost); // Add to the beginning of the array
-        savePosts();
+        simProjects.push(newProject);
+        saveProjects();
 
-        // Store success message
-        sessionStorage.setItem('postCreated', 'Post created successfully!');
-
-        // Store the topic to return to
-        sessionStorage.setItem('returnToTopic', topic);
-
-        // Redirect
-        window.location.href = `knowledge-base/knowledge-base.html?user=${currentUser.email}`;
+        sessionStorage.setItem('projectCreated', `Project "${projectName}" created successfully!`);
+        // Redirect to the new project's page
+        window.location.href = `../project/projects.html?project=${newProject.id}&user=${currentUser.email}`;
     });
 }
+
 
 /**
  * Runs on the Settings page (settings.html)
@@ -2082,8 +2097,8 @@ function initTaskDetailsModal(currentUser) {
             if (project_btn) {
                 const new_btn = project_btn.cloneNode(true);
                 project_btn.parentNode.replaceChild(new_btn, project_btn);
-                new_btn.addEventListener('click', ()=> {
-                    if (confirm("Are you sure you want to put this task up for review?")){
+                new_btn.addEventListener('click', () => {
+                    if (confirm("Are you sure you want to put this task up for review?")) {
                         alert("This is a prototype, so this functionality is not fully implemented.");
                         closeModal();
                     }
@@ -2499,50 +2514,50 @@ function renderTasksPerMemberChart(projectTasks) {
 /**
  * Runs on the Project Resources page (project-resources.html)
  */
- function loadProjectResourcesPage(currentUser) {
-     const currentProjectId = getCurrentProjectId();
-     updateSidebarAndNav(currentUser, currentProjectId);
+function loadProjectResourcesPage(currentUser) {
+    const currentProjectId = getCurrentProjectId();
+    updateSidebarAndNav(currentUser, currentProjectId);
 
-     const project = simProjects.find(p => p.id === currentProjectId);
+    const project = simProjects.find(p => p.id === currentProjectId);
 
-     if (project) {
-         // --- Fill in basic project details ---
-         document.getElementById('project-created-date').textContent =
-             new Date(project.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-         document.getElementById('project-description').textContent =
-             project.description || 'No description provided for this project.';
+    if (project) {
+        // --- Fill in basic project details ---
+        document.getElementById('project-created-date').textContent =
+            new Date(project.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('project-description').textContent =
+            project.description || 'No description provided for this project.';
 
-         // --- Build project contacts dynamically ---
-         const contactsList = document.getElementById('project-contacts-list');
-         if (contactsList) {
-             contactsList.innerHTML = ''; // clear any old content
+        // --- Build project contacts dynamically ---
+        const contactsList = document.getElementById('project-contacts-list');
+        if (contactsList) {
+            contactsList.innerHTML = ''; // clear any old content
 
-             const contacts = [];
+            const contacts = [];
 
-             // Always include the project manager (creator)
-             if (project.createdBy && simUsers[project.createdBy]) {
-                 const manager = simUsers[project.createdBy];
-                 contacts.push({
-                     name: manager.name,
-                     role: 'Project Manager',
-                     email: project.createdBy,
-                     avatarClass: manager.avatarClass
-                 });
-             }
+            // Always include the project manager (creator)
+            if (project.createdBy && simUsers[project.createdBy]) {
+                const manager = simUsers[project.createdBy];
+                contacts.push({
+                    name: manager.name,
+                    role: 'Project Manager',
+                    email: project.createdBy,
+                    avatarClass: manager.avatarClass
+                });
+            }
 
-             // Add team leader if exists
-             if (project.teamLeader && simUsers[project.teamLeader]) {
-                 const leader = simUsers[project.teamLeader];
-                 contacts.push({
-                     name: leader.name,
-                     role: 'Team Leader',
-                     email: project.teamLeader,
-                     avatarClass: leader.avatarClass
-                 });
-             }
+            // Add team leader if exists
+            if (project.teamLeader && simUsers[project.teamLeader]) {
+                const leader = simUsers[project.teamLeader];
+                contacts.push({
+                    name: leader.name,
+                    role: 'Team Leader',
+                    email: project.teamLeader,
+                    avatarClass: leader.avatarClass
+                });
+            }
 
-             // Render both contacts
-             contactsList.innerHTML = contacts.map(c => `
+            // Render both contacts
+            contactsList.innerHTML = contacts.map(c => `
                  <div class="contact-item">
                      <span class="avatar ${c.avatarClass}">
                          ${c.name.split(' ').map(n => n[0]).join('')}
@@ -2554,20 +2569,20 @@ function renderTasksPerMemberChart(projectTasks) {
                      </div>
                  </div>
              `).join('');
-         }
-     }
+        }
+    }
 
-     // --- Show upload button for managers or leaders ---
-     if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
-         const uploadBtn = document.getElementById('upload-btn');
-         if (uploadBtn) {
-             uploadBtn.style.display = 'inline-flex';
-             uploadBtn.addEventListener('click', () => {
-                 alert('This is a prototype demo feature. File upload is not functional.');
-             });
-         }
-     }
- }
+    // --- Show upload button for managers or leaders ---
+    if (currentUser.role === 'manager' || currentUser.role === 'team_leader') {
+        const uploadBtn = document.getElementById('upload-btn');
+        if (uploadBtn) {
+            uploadBtn.style.display = 'inline-flex';
+            uploadBtn.addEventListener('click', () => {
+                alert('This is a prototype demo feature. File upload is not functional.');
+            });
+        }
+    }
+}
 
 
 /**
@@ -2725,8 +2740,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Standalone Assign Task form
         setupAssignTaskForm(currentUser);
     } else if (pageId === 'create-project-page') {
-        // Create Project form
-        setupCreateProjectForm(currentUser);
+        setupCreateProjectPage(currentUser);
     } else if (pageId === 'create-todo-page') {
         // Create Personal To-Do form
         setupCreateTodoForm(currentUser);
