@@ -2206,8 +2206,24 @@ function loadProjectsPage(currentUser) {
 
             const priority = document.getElementById('modal-task-priority').value;
             const deadline = document.getElementById('modal-task-deadline').value;
-            const description = document.getElementById('modal-task-description').value; // Get description
+            const description = document.getElementById('modal-task-description').value;
             const status = modalStatusInput.value;
+
+            // Deadline validation
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Reset time for clean comparison
+            const selectedDate = new Date(deadline);
+
+            if (selectedDate < today) {
+                alert('Deadline cannot be before today’s date. Please choose a valid date.');
+                return;
+            }
+
+            if (!title || !projectId || assigneeEmails.length === 0 || !priority || !deadline) {
+                alert('Please fill out all required fields and select at least one assignee.');
+                return;
+            }
+
 
             if (!title || !projectId || assigneeEmails.length === 0 || !priority || !deadline) {
                 alert('Please fill out all required fields and select at least one assignee.');
@@ -2607,6 +2623,16 @@ function setupCreateTodoForm(currentUser) {
         const project = document.getElementById('todo-project').value;
         const priority = document.getElementById('todo-priority').value;
         const deadline = document.getElementById('todo-deadline').value;
+
+        //Deadline validation
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const selectedDate = new Date(deadline);
+
+        if (selectedDate < today) {
+          alert('Deadline cannot be before today’s date. Please choose a valid date.');
+          return; }
+
 
         const newTodo = {
             id: new Date().getTime(),
