@@ -34,37 +34,37 @@ function showSuccessNotification(message) {
 
 // Simulated User Accounts
 const simUsers = {
-    'user@makeitall.com': {
+    'user@make-it-all.co.uk': {
         name: 'Steve Adams',
         role: 'member',
         avatarClass: 'avatar-1'
     },
-    'specialist@makeitall.com': {
+    'specialist@make-it-all.co.uk': {
         name: 'Jane Doe',
         role: 'specialist',
         avatarClass: 'avatar-4'
     },
-    'manager@makeitall.com': {
+    'manager@make-it-all.co.uk': {
         name: 'Ben Carter',
         role: 'manager',
         avatarClass: 'avatar-2'
     },
-    'leader@makeitall.com': {
+    'leader@make-it-all.co.uk': {
         name: 'Sarah Johnson',
         role: 'team_leader',
         avatarClass: 'avatar-3'
     },
-    'member1@makeitall.com': {
+    'member1@make-it-all.co.uk': {
         name: 'David Lee',
         role: 'member',
         avatarClass: 'avatar-4'
     },
-    'member2@makeitall.com': {
+    'member2@make-it-all.co.uk': {
         name: 'Emily Chen',
         role: 'member',
         avatarClass: 'avatar-2'
     },
-    'member3@makeitall.com': {
+    'member3@make-it-all.co.uk': {
         name: 'Michael Brown',
         role: 'member',
         avatarClass: 'avatar-1'
@@ -79,7 +79,7 @@ const initialPosts = [
         topic: 'Software Issues',
         title: 'Jasmine software crashing on startup',
         author: 'Steve Adams',
-        authorEmail: 'user@makeitall.com',
+        authorEmail: 'user@make-it-all.co.uk',
         date: '3 October 2025',
         content: "Every time I try to open the Jasmine client on my machine, it shows the splash screen and then immediately closes. \n\nI've tried: \n- Restarting my computer \n- Reinstalling the software \n\nNothing seems to work. Any ideas?",
         reactions: { up: 4, lightbulb: 1, comments: 1 },
@@ -99,7 +99,7 @@ const initialPosts = [
         topic: 'Software Issues',
         title: 'Cannot access shared drive',
         author: 'Maria Garcia',
-        authorEmail: 'maria@makeitall.com',
+        authorEmail: 'maria@make-it-all.co.uk',
         date: '1 October 2025',
         content: 'I keep getting a "Permission Denied" error when trying to access the //PROJECTS/ shared drive. I had access yesterday. Did something change?',
         reactions: { up: 7, lightbulb: 0, comments: 0 },
@@ -111,7 +111,7 @@ const initialPosts = [
         topic: 'Printing',
         title: 'Printer not connecting to WiFi',
         author: 'Steve Adams',
-        authorEmail: 'user@makeitall.com',
+        authorEmail: 'user@make-it-all.co.uk',
         date: '2 October 2025',
         content: 'I have tried to connect my printer (HP LaserJet M404) to WiFi numerous times, even tried restarting it and the router. My laptop can see the WiFi, but the printer cannot. \n\nAny suggestions to fix it?',
         reactions: { up: 2, lightbulb: 0, comments: 0 },
@@ -123,7 +123,7 @@ const initialPosts = [
         topic: 'Network',
         title: 'Company VPN is extremely slow today',
         author: 'Ben Carter',
-        authorEmail: 'manager@makeitall.com',
+        authorEmail: 'manager@make-it-all.co.uk',
         date: '4 October 2025',
         content: 'Is anyone else experiencing very slow speeds on the company VPN? My file transfers are timing out and video calls are impossible.',
         reactions: { up: 12, lightbulb: 0, comments: 0 },
@@ -135,7 +135,7 @@ const initialPosts = [
         topic: 'Security',
         title: 'Suspicious Phishing Email Received',
         author: 'Steve Adams',
-        authorEmail: 'user@makeitall.com',
+        authorEmail: 'user@make-it-all.co.uk',
         date: '4 October 2025',
         content: "I received an email from 'IT Support' asking me to validate my password by clicking a link. This looks like a phishing attempt. Forwarding to the security team, but wanted to warn others.",
         reactions: { up: 9, lightbulb: 3, comments: 1 },
@@ -156,7 +156,7 @@ const initialPosts = [
         topic: 'Database',
         title: 'Query timeout on customer_report table',
         author: 'Jane Doe',
-        authorEmail: 'specialist@makeitall.com',
+        authorEmail: 'specialist@make-it-all.co.uk',
         date: '1 October 2025',
         content: 'Running a standard SELECT query on the `customer_report` view is timing out after 30 seconds. This report is critical for month-end. Investigating now.',
         reactions: { up: 1, lightbulb: 1, comments: 0 },
@@ -168,7 +168,7 @@ const initialPosts = [
         topic: 'Finance',
         title: 'Question about new expense reporting tool',
         author: 'Maria Garcia',
-        authorEmail: 'maria@makeitall.com',
+        authorEmail: 'maria@make-it-all.co.uk',
         date: '29 September 2025',
         content: "Where can I find the training guide for the new 'Expensify' tool? The old Concur portal is now read-only.",
         reactions: { up: 3, lightbulb: 0, comments: 0 },
@@ -187,16 +187,16 @@ const initialProjects = [
     {
         id: 'project15',
         name: 'Project 15',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         createdDate: '2025-09-15',
-        teamLeader: 'leader@makeitall.com'
+        teamLeader: 'leader@make-it-all.co.uk'
     },
     {
         id: 'apollo',
         name: 'Project Apollo',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         createdDate: '2025-08-20',
-        teamLeader: 'member2@makeitall.com'
+        teamLeader: 'member2@make-it-all.co.uk'
     }
 ];
 
@@ -256,13 +256,13 @@ const initialTasks = [
         title: 'Write onboarding documentation',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['user@make-it-all.co.uk'],
         priority: 'medium',
         status: 'inprogress',
         deadline: '2025-10-28',
         createdDate: '2025-10-20',
         description: 'Create the full onboarding doc for new hires. Cover tooling, contacts, and first-week goals.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -270,13 +270,13 @@ const initialTasks = [
         title: 'Fix login bug (Apollo)',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['specialist@makeitall.com'],
+        assignedTo: ['specialist@make-it-all.co.uk'],
         priority: 'urgent',
         status: 'inprogress',
         deadline: '2025-10-26', // Not overdue
         createdDate: '2025-10-24',
         description: 'Users reporting being logged out every 5 minutes. Investigate session token expiry.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -284,13 +284,13 @@ const initialTasks = [
         title: 'Code review for API integration',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['leader@makeitall.com'], // Assigned to Team Leader
+        assignedTo: ['leader@make-it-all.co.uk'], // Assigned to Team Leader
         priority: 'medium',
         status: 'review',
         deadline: '2025-10-25', // Overdue
         createdDate: '2025-10-23',
         description: 'Review Jane\'s PR #451 for the Stripe API connector.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -298,13 +298,13 @@ const initialTasks = [
         title: 'Design dashboard mockups (v2)',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['user@make-it-all.co.uk'],
         priority: 'high',
         status: 'review',
         deadline: '2025-10-26', // Not overdue
         createdDate: '2025-10-21',
         description: 'Create high-fidelity mockups for the new admin dashboard based on client feedback.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -312,13 +312,13 @@ const initialTasks = [
         title: 'Finalize user testing report',
         project: 'Project Apollo',
         projectId: 'apollo',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['user@make-it-all.co.uk'],
         priority: 'low',
         status: 'completed',
         deadline: '2025-10-22',
         createdDate: '2025-10-18',
         description: 'Collate all feedback from the user testing session into a summary document.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     // --- PROJECT 15 (project15) ---
@@ -327,13 +327,13 @@ const initialTasks = [
         title: 'Prepare client presentation slides',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['user@makeitall.com', 'leader@makeitall.com'],
+        assignedTo: ['user@make-it-all.co.uk', 'leader@make-it-all.co.uk'],
         priority: 'high',
         status: 'todo',
         deadline: '2025-10-27', // Not overdue
         createdDate: '2025-10-22',
         description: 'Build the deck for the Q4 review. Focus on metrics from slide 5 of the brief.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -341,13 +341,13 @@ const initialTasks = [
         title: 'Update payment gateway tests',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['specialist@makeitall.com'],
+        assignedTo: ['specialist@make-it-all.co.uk'],
         priority: 'medium',
         status: 'todo',
         deadline: '2025-10-29', // Not overdue
         createdDate: '2025-10-24',
         description: 'Add new test cases for failed payments and 3DS verification.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -355,13 +355,13 @@ const initialTasks = [
         title: 'Schedule team retro',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['leader@makeitall.com'],
+        assignedTo: ['leader@make-it-all.co.uk'],
         priority: 'low',
         status: 'completed',
         deadline: '2025-10-24',
         createdDate: '2025-10-20',
         description: 'Book a 1-hour slot for the end-of-project retrospective.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -369,13 +369,13 @@ const initialTasks = [
         title: 'Client demo script finalization',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['manager@makeitall.com'],
+        assignedTo: ['manager@make-it-all.co.uk'],
         priority: 'urgent',
         status: 'todo',
         deadline: '2025-10-26', // Not overdue
         createdDate: '2025-10-25',
         description: 'Final pass on the demo script. Check all talking points.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -383,13 +383,13 @@ const initialTasks = [
         title: 'Deploy staging build',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['specialist@makeitall.com'],
+        assignedTo: ['specialist@make-it-all.co.uk'],
         priority: 'high',
         status: 'review',
         deadline: '2025-10-24', // Overdue
         createdDate: '2025-10-24',
         description: 'Push latest `main` branch to the staging server for client review.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -397,13 +397,13 @@ const initialTasks = [
         title: 'Fix ARIA labels',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['user@make-it-all.co.uk'],
         priority: 'low',
         status: 'todo',
         deadline: '2025-10-23', // Overdue
         createdDate: '2025-10-20',
         description: 'Run accessibility check and fix labels.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -411,13 +411,13 @@ const initialTasks = [
         title: 'Update E2E tests',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['specialist@makeitall.com'],
+        assignedTo: ['specialist@make-it-all.co.uk'],
         priority: 'medium',
         status: 'todo',
         deadline: '2025-10-22', // Overdue
         createdDate: '2025-10-20',
         description: 'E2E tests are failing on CI.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     },
     {
@@ -425,26 +425,26 @@ const initialTasks = [
         title: 'Draft blog post',
         project: 'Project 15',
         projectId: 'project15',
-        assignedTo: ['user@makeitall.com'],
+        assignedTo: ['user@make-it-all.co.uk'],
         priority: 'low',
         status: 'todo',
         deadline: '2025-10-21', // Overdue
         createdDate: '2025-10-19',
         description: 'Draft blog post for project launch.',
-        createdBy: 'manager@makeitall.com',
+        createdBy: 'manager@make-it-all.co.uk',
         type: 'assigned'
     }
 ];
 
 // Personal to-do items (created by users themselves)
 const initialPersonalTodos = [
-    // Steve Adams (user@makeitall.com)
+    // Steve Adams (user@make-it-all.co.uk)
     {
         id: 101,
         title: 'Review project 15 documentation',
         project: 'Project 15',
         projectId: 'project15',
-        owner: 'user@makeitall.com',
+        owner: 'user@make-it-all.co.uk',
         priority: 'medium',
         status: 'todo',
         deadline: '2025-10-26',
@@ -455,31 +455,31 @@ const initialPersonalTodos = [
         title: 'Prepare weekly report',
         project: 'Project Apollo',
         projectId: 'apollo',
-        owner: 'user@makeitall.com',
+        owner: 'user@make-it-all.co.uk',
         priority: 'low',
         status: 'completed', // One completed task
         deadline: '2025-10-27',
         type: 'personal'
     },
-    // Jane Doe (specialist@makeitall.com)
+    // Jane Doe (specialist@make-it-all.co.uk)
     {
         id: 103,
         title: 'Research new security patch',
         project: 'Security',
         projectId: null,
-        owner: 'specialist@makeitall.com',
+        owner: 'specialist@make-it-all.co.uk',
         priority: 'high',
         status: 'todo',
         deadline: '2025-10-28',
         type: 'personal'
     },
-    // Ben Carter (manager@makeitall.com)
+    // Ben Carter (manager@make-it-all.co.uk)
     {
         id: 104,
         title: 'Schedule 1-on-1s',
         project: 'Project 15',
         projectId: null,
-        owner: 'manager@makeitall.com',
+        owner: 'manager@make-it-all.co.uk',
         priority: 'medium',
         status: 'todo',
         deadline: '2025-10-27',
@@ -536,7 +536,7 @@ function getCurrentUser() {
 
     //Fallback if absolutely no user info exists
     console.error('No valid user found! Defaulting to member account.');
-    const fallbackEmail = 'user@makeitall.com';
+    const fallbackEmail = 'user@make-it-all.co.uk';
     sessionStorage.setItem('currentUserEmail', fallbackEmail);
 
     return {
@@ -617,7 +617,7 @@ function updateSidebarAndNav(currentUser, currentProjectId) {
     if (navLinks) {
         // Check for the special "Leader on Apollo" case
         const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
-        const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+        const isLeaderOnApollo = (currentUser.email === 'leader@make-it-all.co.uk' && currentProjectId === 'apollo');
 
         let progressPage = 'progress.html'; // Default to member view
         if (isManagerView && !isLeaderOnApollo) {
@@ -667,9 +667,9 @@ function createPostCardHTML(post, currentUserEmail) {
 
     // Determine avatar class
     let avatarClass = 'avatar-3'; // Default avatar
-    if (post.authorEmail === 'user@makeitall.com') avatarClass = 'avatar-1';
-    if (post.authorEmail === 'specialist@makeitall.com') avatarClass = 'avatar-4';
-    if (post.authorEmail === 'manager@makeitall.com') avatarClass = 'avatar-2';
+    if (post.authorEmail === 'user@make-it-all.co.uk') avatarClass = 'avatar-1';
+    if (post.authorEmail === 'specialist@make-it-all.co.uk') avatarClass = 'avatar-4';
+    if (post.authorEmail === 'manager@make-it-all.co.uk') avatarClass = 'avatar-2';
 
     return `
         <div class="post-card">
@@ -876,9 +876,9 @@ function loadKbPost(currentUser) {
 
     // --- Determine avatar class for post author
     let avatarClass = 'avatar-3'; // Default
-    if (post.authorEmail === 'user@makeitall.com') avatarClass = 'avatar-1';
-    if (post.authorEmail === 'specialist@makeitall.com') avatarClass = 'avatar-4';
-    if (post.authorEmail === 'manager@makeitall.com') avatarClass = 'avatar-2';
+    if (post.authorEmail === 'user@make-it-all.co.uk') avatarClass = 'avatar-1';
+    if (post.authorEmail === 'specialist@make-it-all.co.uk') avatarClass = 'avatar-4';
+    if (post.authorEmail === 'manager@make-it-all.co.uk') avatarClass = 'avatar-2';
 
     // --- Fill in post details ---
     document.getElementById('post-title-placeholder').textContent = post.title;
@@ -1486,9 +1486,9 @@ function renderTrendingPosts(currentUser) {
 
     trendingPostsList.innerHTML = topPosts.map(post => {
         let avatarClass = 'avatar-3';
-        if (post.authorEmail === 'user@makeitall.com') avatarClass = 'avatar-1';
-        if (post.authorEmail === 'specialist@makeitall.com') avatarClass = 'avatar-4';
-        if (post.authorEmail === 'manager@makeitall.com') avatarClass = 'avatar-2';
+        if (post.authorEmail === 'user@make-it-all.co.uk') avatarClass = 'avatar-1';
+        if (post.authorEmail === 'specialist@make-it-all.co.uk') avatarClass = 'avatar-4';
+        if (post.authorEmail === 'manager@make-it-all.co.uk') avatarClass = 'avatar-2';
 
         const topicClass = post.topic.toLowerCase().split(' ')[0];
 
@@ -1557,7 +1557,7 @@ function loadProgressPage(currentUser) {
     // Check if user is a manager/leader
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
     // Check for the special "Leader on Apollo" exception
-    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+    const isLeaderOnApollo = (currentUser.email === 'leader@make-it-all.co.uk' && currentProjectId === 'apollo');
 
     if (isManagerView && !isLeaderOnApollo) {
         // This is a manager/leader, redirect them to the manager progress page
@@ -1891,7 +1891,7 @@ function createTaskCardHTML(task, currentUser) {
     // Check for the special "Leader on Apollo" case
     const currentProjectId = getCurrentProjectId();
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
-    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+    const isLeaderOnApollo = (currentUser.email === 'leader@make-it-all.co.uk' && currentProjectId === 'apollo');
 
     const isDraggable = isManagerView && !isLeaderOnApollo;
 
@@ -1950,7 +1950,7 @@ function renderTaskBoard(currentUser, currentProjectId) {
 
     // Check for the special "Leader on Apollo" case
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
-    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+    const isLeaderOnApollo = (currentUser.email === 'leader@make-it-all.co.uk' && currentProjectId === 'apollo');
 
     // *** NEW: Filter tasks based on role AND project ***
     let tasksToRender = [];
@@ -2122,7 +2122,7 @@ function loadProjectsPage(currentUser) {
 
     // Check for the special "Leader on Apollo" case
     const isManagerView = (currentUser.role === 'manager' || currentUser.role === 'team_leader');
-    const isLeaderOnApollo = (currentUser.email === 'leader@makeitall.com' && currentProjectId === 'apollo');
+    const isLeaderOnApollo = (currentUser.email === 'leader@make-it-all.co.uk' && currentProjectId === 'apollo');
 
     const showManagerControls = isManagerView && !isLeaderOnApollo;
 

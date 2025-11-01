@@ -45,24 +45,24 @@ signInForm.addEventListener('submit', (e) => {
     let userEmail = null;
     let redirectUrl = null;
 
-    if (email === 'user@makeitall.com' && password === 'Password123!') {
+    if (email === 'user@make-it-all.co.uk' && password === 'Password123!') {
         // Team Member
-        userEmail = 'user@makeitall.com';
+        userEmail = 'user@make-it-all.co.uk';
         redirectUrl = 'user/home/home.html';
 
-    } else if (email === 'specialist@makeitall.com' && password === 'Password123!') {
+    } else if (email === 'specialist@make-it-all.co.uk' && password === 'Password123!') {
         // Technical Specialist
-        userEmail = 'specialist@makeitall.com';
+        userEmail = 'specialist@make-it-all.co.uk';
         redirectUrl = 'user/home/home.html'; // All users land on home first
 
-    } else if (email === 'manager@makeitall.com' && password === 'Password123!') {
+    } else if (email === 'manager@make-it-all.co.uk' && password === 'Password123!') {
         // Manager
-        userEmail = 'manager@makeitall.com';
+        userEmail = 'manager@make-it-all.co.uk';
         redirectUrl = 'user/home/home.html';
 
-    } else if (email === 'leader@makeitall.com' && password === 'Password123!') {
+    } else if (email === 'leader@make-it-all.co.uk' && password === 'Password123!') {
         // Team Leaders
-        userEmail = 'leader@makeitall.com';
+        userEmail = 'leader@make-it-all.co.uk';
         redirectUrl = 'user/home/home.html';
     } else {
         // FAILURE: Show login error
@@ -86,18 +86,18 @@ signUpForm.addEventListener('submit', (e) => {
     const password = document.getElementById('signup-password').value.trim();
 
     // --- Check email format ---
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@makeitall\.com$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@make-it-all\.co.uk$/;
     if (!emailPattern.test(email)) {
-        alert("Email must end with '@makeitall.com'");
+        alert("Email must end with '@make-it-all.co.uk'");
         return;
     }
 
     // --- Check if email already exists (prevent duplicates of hardcoded ones) ---
     const existingEmails = [
-        'user@makeitall.com',
-        'specialist@makeitall.com',
-        'manager@makeitall.com',
-        'leader@makeitall.com'
+        'user@make-it-all.co.uk',
+        'specialist@make-it-all.co.uk',
+        'manager@make-it-all.co.uk',
+        'leader@make-it-all.co.uk'
     ];
 
     if (existingEmails.includes(email.toLowerCase())) {
